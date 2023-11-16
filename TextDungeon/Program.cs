@@ -450,7 +450,7 @@ namespace TextDungeon
                 Console.WriteLine("게임이 시작됩니다!");
                 Console.WriteLine(" 1단계 스테이지 (vs 고블린)\n");
                 Console.WriteLine(" 플레이어 ");
-                Console.WriteLine($"이름 : {_player.Name} "); //직업을 표시해줘야 될까? 
+                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
                 Console.WriteLine(" 고블린 ");
                 Console.WriteLine($"이름 : {_goblin.Name} ");
