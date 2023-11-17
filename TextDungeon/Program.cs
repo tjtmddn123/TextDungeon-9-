@@ -15,7 +15,7 @@ namespace TextDungeon
         public int Atk { get; }
         public int Def { get; }
         public int Hp { get; set; }
-        public int Gold { get; }
+        public int Gold { get; set; }
         public bool IsDead { get; set; }
 
         public Character(string name, string job, int level, int atk, int def, int hp, int gold)
@@ -65,13 +65,19 @@ namespace TextDungeon
         }
     }
 
+    public enum ItemType
+    {
+        Weapon,
+        Armor,
+        Potion
+    }
+
+
     public class Item
-    { //아이템을 웨폰,아머(부위별로),소모품 등 만들려면 List 써서 만드는게 편한데 Array 형식으로 만들어져 있음.
-        //결국 담기는건 List로 해야 될거 같긴함(유동적이게 할 수 있음, 크기 조절이라던지..)
-        //type을 만들어놔서 부위별 아머 장착은 간단할지도?
+    { 
         public string Name { get; }
         public string Description { get; }
-        public int Type { get; }
+        public ItemType Type { get; }
         public int Atk { get; }
         public int Def { get; }
         public int Hp { get; }
@@ -79,9 +85,7 @@ namespace TextDungeon
 
         public bool IsEquiped { get; set; }
 
-        public static int ItemCnt = 0;
-
-        public Item(string name, string description, int type, int atk, int def, int hp, int price, bool isEquiped = false)
+        public Item(string name, string description, ItemType type, int atk, int def, int hp, int price, bool isEquiped = false)
         {
             Name = name;
             Description = description;
@@ -162,7 +166,8 @@ namespace TextDungeon
     internal class Program
     {
         public static Character _player;
-        public static Item[] _items;
+        public static List<Item> _items;
+        public static List<Item> Inventory;
         public static Goblin _goblin;
         public static Dragon _dragon;
         public bool IsDead = false;
@@ -181,25 +186,33 @@ namespace TextDungeon
 
         static void GameDataSetting()
         {
-            _items = new Item[10];
+            Inventory = new List<Item>();
+            Inventory.Add(new Item("나무 몽둥이", "초반 무기로 이거만한게 없지", ItemType.Weapon, 2, 0, 0, 50));
+            Inventory.Add(new Item("냄비 뚜껑", "엄마한테 혼남 주의", ItemType.Weapon, 0, 2, 0, 50));
             // 이름/ 설명/ 타입/ 공격력/ 방어력/ 체력/ 가격  
-            AddItem(new Item("무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", 0, 0, 5, 5, 50));
-            AddItem(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", 1, 2, 0, 0, 50));
-            AddItem(new Item("짱짱 칼", "짱짱 칼이당.", 1, 2, 0, 0, 50));
-            AddItem(new Item("짱짱 모자", "짱짱 모자당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 자켓", "짱짱 자켓이당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 바지", "짱짱 바지당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 장갑", "짱짱 장갑이당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 신발", "짱짱 신발이당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 벨트", "짱짱 벨트당.", 1, 0, 5, 0, 50));
-            AddItem(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", 1, 100, 0, 0, 50));
+            _items = new List<Item>();
+            _items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", ItemType.Weapon, 2, 0, 0, 50));
+            _items.Add(new Item("짱짱 칼", "짱짱 칼이당.", ItemType.Weapon, 2, 0, 0, 50));
+            _items.Add(new Item("짱짱 모자", "짱짱 모자당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 장갑", "짱짱 장갑이당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 신발", "짱짱 신발이당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 벨트", "짱짱 벨트당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", ItemType.Weapon, 100, 0, 0, 50));
         }
 
         static void Intro()
         {
             //1번 시작화면 + 이후 선택창 구현(이어하기 , 새로하기)
             //DB가 아직 구현안됨
-            Console.WriteLine("press any key to continue");
+            Console.SetCursorPosition(0,8);
+            Console.WriteLine("\t\t\t\t      \\                           |       ");
+            Console.WriteLine("\t\t\t\t     _ \\     __|  __|   _` |   _` |   _ \\ ");
+            Console.WriteLine("\t\t\t\t    ___ \\   |    (     (   |  (   |   __/ ");
+            Console.WriteLine("\t\t\t\t  _/    _\\ _|   \\___| \\__,_| \\__,_| \\___| ");
+            Console.WriteLine("\t\t\t\t                                          \n");          
+            Console.WriteLine("\t\t\t\t\t press any key to continue");
             Console.ReadLine();
             Console.Clear();
         }
@@ -207,7 +220,7 @@ namespace TextDungeon
         static void GameStartScene()
         {
             // 캐릭터 이름 세팅
-            Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다."); //변경사항
+            Console.WriteLine("아케이드 마을에 오신 여러분 환영합니다."); //변경사항
             Console.WriteLine("이름을 입력하세요.");
             Console.WriteLine();
             string playerName = Console.ReadLine();
@@ -289,13 +302,6 @@ namespace TextDungeon
             return false;
         }
 
-        static void AddItem(Item item) //아이템 함수인데 List 쓰면 필요 없음
-        {
-            if (Item.ItemCnt == 10) return;
-            _items[Item.ItemCnt] = item;
-            Item.ItemCnt++;
-        }
-
         static void StatusMenu()
         {
             Console.Clear();
@@ -332,9 +338,9 @@ namespace TextDungeon
         private static int getSumBonusAtk()
         {
             int sum = 0;
-            for (int i = 0; i < Item.ItemCnt; i++)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                if (_items[i].IsEquiped) sum += _items[i].Atk;
+                if (Inventory[i].IsEquiped) sum += Inventory[i].Atk;
             }
             return sum;
         }
@@ -343,9 +349,9 @@ namespace TextDungeon
         private static int getSumBonusDef()
         {
             int sum = 0;
-            for (int i = 0; i < Item.ItemCnt; i++)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                if (_items[i].IsEquiped) sum += _items[i].Def;
+                if (Inventory[i].IsEquiped) sum += Inventory[i].Def;
             }
             return sum;
         }
@@ -354,9 +360,9 @@ namespace TextDungeon
         private static int getSumBonusHp()
         {
             int sum = 0;
-            for (int i = 0; i < Item.ItemCnt; i++)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                if (_items[i].IsEquiped) sum += _items[i].Hp;
+                if (Inventory[i].IsEquiped) sum += Inventory[i].Hp;
             }
             return sum;
         }
@@ -378,9 +384,9 @@ namespace TextDungeon
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Item.ItemCnt; i++)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                _items[i].PrintItemStatDescription();
+                Inventory[i].PrintItemStatDescription();
             }
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
@@ -405,14 +411,14 @@ namespace TextDungeon
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Item.ItemCnt; i++)
+            for (int i = 0; i < Inventory.Count; i++)
             {
-                _items[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+                Inventory[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
             }
             Console.WriteLine("");
             Console.WriteLine("0. 나가기");
 
-            int keyInput = CheckValidInput(0, Item.ItemCnt);
+            int keyInput = CheckValidInput(0, Inventory.Count);
 
             switch (keyInput)
             {
@@ -428,7 +434,7 @@ namespace TextDungeon
 
         static void ToggleEquipStatus(int idx)
         {
-            _items[idx].IsEquiped = !_items[idx].IsEquiped;
+             Inventory[idx].IsEquiped = !Inventory[idx].IsEquiped;
         }
 
         static void ShowHighlightedText(string title)
@@ -438,10 +444,58 @@ namespace TextDungeon
             Console.ResetColor();
         }
 
+        static void ShopMenu(Character _player, List<Item> _Items)
+        {
+            Console.Clear();
+
+            ShowHighlightedText("■ 상점 ■");
+            Console.WriteLine($"구매 할 물품을 선택하세요.     {_player.Gold}  G");
+            Console.WriteLine("\n");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < _items.Count; i++)
+            {
+                _items[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+            }
+            Console.WriteLine("");
+            Console.WriteLine("구입할 아이템을 선택하세요");
+            Console.WriteLine("0. 나가기");
+
+            int.TryParse(Console.ReadLine(), out int choice);
+            if (choice >= 0 && choice <= _Items.Count)
+            {
+                if (choice == 0)
+                {
+                    // 다음 스테이지 이어서 들어가기
+                }
+
+                Item selectedItem = _Items[choice - 1];
+
+                if (_player.Gold >= selectedItem.Price)
+                {
+                    // 플레이어의 소지금에서 아이템 가격을 차감
+                    _player.Gold -= selectedItem.Price;
+
+                    // 아이템을 플레이어의 인벤토리에 추가
+                    Inventory.Add(selectedItem);
+                    _Items.Remove(selectedItem);
+
+                    Console.WriteLine($"{selectedItem.Name}을(를) 구입했습니다. 남은 골드: {_player.Gold}");
+                    Thread.Sleep(600);
+                    ShopMenu(_player, _Items);
+                }
+                else
+                {
+                    Console.WriteLine("골드가 부족하여 아이템을 구입할 수 없습니다.");
+                    Thread.Sleep(600);
+                    ShopMenu(_player, _Items);
+                }
+            }
+        }
+
         public class Stage
         {
             //스테이지 관련 주석은 여기 StartStage1() 에만 달아둘게유
-            static public void StartStage1() // 죽지 않고 클리어시 스테이지2로 연결하는거 해야댐   
+            static public void StartStage1() // 죽지 않고 클리어시 스테이지 1- 2로 연결하는거 해야댐   
             {
                 Console.Clear();
                 _goblin = new Goblin("고블린", 10, 3);   //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
