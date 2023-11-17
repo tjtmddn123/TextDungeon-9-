@@ -165,6 +165,7 @@ namespace TextDungeon
 
     internal class Program
     {
+
         public static Character _player;
         public static List<Item> _items;
         public static List<Item> Inventory;
