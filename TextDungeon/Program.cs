@@ -345,7 +345,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    Stage.TempleStage( _player); //던전입장
+                    Stage1.TempleStage( _player); //던전입장
                     break;
             }
         }
