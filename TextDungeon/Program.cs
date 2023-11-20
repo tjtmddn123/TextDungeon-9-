@@ -37,25 +37,17 @@ namespace TextDungeon
         public int Hp { get; set; }
         public int Atk { get; set; }
         public bool IsDead { get; set; }
-
-        public Monster(string name, int hp, int atk)
-        {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
-        }
-
     }
     public class Goblin : Monster
     {
-        public string Name { get; set; }
-        public int Hp { get; set; }
-        public int Atk { get; set; }
-        public Goblin(string name, int hp, int atk) : base(name, hp, atk)
+        
+        public Goblin()
         {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "고블린";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
         }
     }
 
@@ -64,7 +56,7 @@ namespace TextDungeon
         public string Name { get; set; }
         public int Hp { get; set; }
         public int Atk { get; set; }
-        public Dragon(string name, int hp, int atk) : base(name, hp, atk)
+        public Dragon(string name, int hp, int atk)
         {
             Name = name;
             Hp = hp;
@@ -287,7 +279,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stage1(_player, monsters);//던전입장
+                    newStage.Stage1(_player, monsters,1);//던전입장 1은 임시번호
                     break;
             }
         }

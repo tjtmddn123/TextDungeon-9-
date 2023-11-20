@@ -17,6 +17,11 @@ namespace TextDungeon
 
     public class Stage
     {
+        List<string> stage1mapname = new List<string>() { "들판", "들판안쪽", "평야외곽", "호수로가는길", "호수", "호수안쪽", "호수바닥" };
+        List<string> stage2mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
+
+        public int thisstagenum = 1;
+
         int CheckValidInput(int min, int max)
         {
             int keyInput;
@@ -36,17 +41,17 @@ namespace TextDungeon
             return false;
         }
 
-        public void Stage1(Character _player, List<Monster> monsters) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
+        public void Stage1(Character _player, List<Monster> monsters, int stagenum) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
-            List<string> mapList1 = new List<string>() { "들판", "들판안쪽", "평야외곽", "호수로가는길", "호수", "호수안쪽", "호수바닥" }; // 스테이지의 이름 설정을 하기위한 리스트
+             // 스테이지의 이름 설정을 하기위한 리스트
             int randomRoom = new Random().Next(); // 각 스테이지의 방을 랜덤으로 설정한다. ex) 1 - 1 번방에 몬스터가 나올 수 도 있고 다른 특수한 방이 나올 수 도 있다.
 
-            StageSet(_player, monsters); // 스테이지 1에 맞는 세팅을 해주는 메서드.
+            StageSet(_player, monsters,stagenum,0); // 스테이지 1에 맞는 세팅을 해주는 메서드.
 
             // * 몬스터는 스테이지 고정, 개체수 랜덤, 1 ~ 4 *
 
 
-            BattleScene(_player, monsters, mapList1);
+            BattleScene(_player, monsters, stage1mapname);
 
             // 몬스터와 싸우고 나면 몬스터의 피가 -로 되있다. 이 문제 해결해야댐. 
 
@@ -66,21 +71,29 @@ namespace TextDungeon
             Console.ReadLine();
         }
 
-        public void StageSet(Character _player, List<Monster> monsters) // 스테이지에 따라 몬스터를 다르게 배치할 수 있도록, 여기서 세팅한다.
+        public void StageSet(Character _player, List<Monster> monsters, int stagenum, int minstage) // 스테이지에 따라 몬스터를 다르게 배치할 수 있도록, 여기서 세팅한다.
         {
 
             int randomIncount = new Random().Next(1, 4); // 여기서 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
 
-
-            for (int i = 0; i < randomIncount; i++)
+            switch (stagenum)
             {
-                int randomMonsterHp = new Random().Next(20, 25);
-                int randomMonsterAtk = new Random().Next(2, 5);
+                case 1:
+                    switch (minstage)
+                    {
+                        case 0:
+                            //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
+                            break;
+                    }
+                    break;
+                case 2:
+                    for (int i = 0; i < randomIncount; i++)
+                    {
+                        monsters.Add(new Goblin());
+                    } // 스테이지 마다 분리해서 
+                    break;
 
-                monsters.Add(new Goblin("고블린", randomMonsterHp, randomMonsterAtk));
-            } // 스테이지 마다 분리해서 
-
-
+            }
         }
 
 
