@@ -140,12 +140,12 @@ namespace TextDungeon
 
     public class Item
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public string Description { get; }
         public ItemType Type { get; }
-        public int Atk { get; }
-        public int Def { get; }
-        public int Hp { get; }
+        public int Atk { get; set; }
+        public int Def { get; set; }
+        public int Hp { get; set; }
         public int Price { get; }
         public bool IsEquiped { get; set; }
 
@@ -345,7 +345,8 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    Stage1.TempleStage( _player); //던전입장
+                    //EnhanceStage.Enhance(Inventory); //강화입장
+                    //Stage1.TempleStage( _player); //던전입장
                     break;
             }
         }
