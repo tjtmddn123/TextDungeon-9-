@@ -38,13 +38,20 @@ namespace TextDungeon
         public int Atk { get; set; }
         public bool IsDead { get; set; }
 
+        public Monster(string name, int hp, int atk)
+        {
+            Name = name;
+            Hp = hp;
+            Atk = atk;
+        }
+
     }
     public class Goblin : Monster
     {
         public string Name { get; set; }
         public int Hp { get; set; }
         public int Atk { get; set; }
-        public Goblin(string name, int hp, int atk)
+        public Goblin(string name, int hp, int atk) : base(name, hp, atk)
         {
             Name = name;
             Hp = hp;
@@ -57,7 +64,7 @@ namespace TextDungeon
         public string Name { get; set; }
         public int Hp { get; set; }
         public int Atk { get; set; }
-        public Dragon(string name, int hp, int atk)
+        public Dragon(string name, int hp, int atk) : base(name, hp, atk)
         {
             Name = name;
             Hp = hp;
@@ -165,12 +172,13 @@ namespace TextDungeon
 
     internal class Program
     {
-
+        public static Stage newStage = new Stage();
         public static Character _player;
         public static List<Item> _items;
         public static List<Item> Inventory;
-        public static Goblin _goblin;
-        public static Dragon _dragon;
+        public static List<Monster> monsters = new List<Monster>();
+        //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
+        //public static Dragon _dragon;
         public bool IsDead = false;
 
         static void Main(string[] args)
@@ -279,7 +287,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    Stage.StartStage1(); //던전입장
+                    newStage.Stage1(_player, monsters);//던전입장
                     break;
             }
         }
@@ -491,152 +499,6 @@ namespace TextDungeon
                     ShopMenu(_player, _Items);
                 }
             }
-        }
-
-        public class Stage
-        {
-            //스테이지 관련 주석은 여기 StartStage1() 에만 달아둘게유
-            static public void StartStage1() // 죽지 않고 클리어시 스테이지 1- 2로 연결하는거 해야댐   
-            {
-                Console.Clear();
-                _goblin = new Goblin("고블린", 10, 3);   //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
-                //stpotion = new StrengthPotion("힘 포션");
-                //hppotion = new HealthPotion("힐 포션");
-                Console.WriteLine("게임이 시작됩니다!");
-                Console.WriteLine(" 1단계 스테이지 (vs 고블린)\n");
-                Console.WriteLine(" 플레이어 ");
-                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
-                Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
-                Console.WriteLine(" 고블린 ");
-                Console.WriteLine($"이름 : {_goblin.Name} ");
-                Console.WriteLine($"공격력 : {_goblin.Atk}, 체력 : {_goblin.Hp}\n ");
-                do
-                {
-                    Console.WriteLine("플레이어의 턴!!");
-                    Console.WriteLine("원하는 행동을 골라 보세요!");
-                    Console.WriteLine("1.공격");
-                    //Console.WriteLine("2.힘 포션 먹기");        인벤 보기를 넣을까 말까, 스킬 창을 따로 만들까 케이스로 구현할까
-                    //Console.WriteLine("3.힐 포션 먹기");
-                    int playerinput = int.Parse(Console.ReadLine());
-
-                    switch (playerinput)
-                    {
-                        case 1:
-                            Console.WriteLine("몬스터를 공격합니다.");
-                            _goblin.Hp -= _player.Atk;
-                            Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
-                            Console.WriteLine($"고블린의 남은 체력 : {_goblin.Hp}\n");
-                            break;
-                        //case 2:
-                        //    Console.WriteLine("힘 포션을 먹었습니다.");
-                        //    stpotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Atk}");
-                        //    break;
-                        //case 3:
-                        //    Console.WriteLine("힐 포션을 먹었습니다.");
-                        //    hppotion.Use(player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Health}");
-                        //    break;
-                        default:
-                            Console.WriteLine("잘못된 입력입니다.");
-                            Thread.Sleep(1000);
-                            StartStage1();
-                            break;
-                    }
-                    Thread.Sleep(1000);
-                    if (_goblin.Hp <= 0)
-                    {
-                        _goblin.IsDead = true;
-                        Console.WriteLine("고블린을 무찔렀습니다!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("고블린의 턴!!");
-                        _player.Hp -= _goblin.Atk;
-                        Console.WriteLine($"{_goblin.Atk}에 피해를 입었습니다");
-                        Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
-                        if (_player.Hp <= 0)
-                        {
-                            _player.IsDead = true;
-                            Console.WriteLine("플레이어가 사망하였습니다.");
-                        }
-                    }
-                    Thread.Sleep(1000);
-                    Console.Clear();
-                }
-                while (!_player.IsDead && !_goblin.IsDead); //조건 정하기
-            }//startStage1()
-
-            static public void StartStage2()
-            {
-                Console.Clear();
-                _dragon = new Dragon("드래곤", 50, 10);
-                //stpotion = new StrengthPotion("힘 포션");
-                //hppotion = new HealthPotion("힐 포션");
-                Console.WriteLine("게임이 시작됩니다!");
-                Console.WriteLine(" 2단계 스테이지 (vs 드래곤)\n");
-                Console.WriteLine(" 플레이어 ");
-                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} ");
-                Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
-                Console.WriteLine(" 드래곤 ");
-                Console.WriteLine($"이름 : {_dragon.Name} ");
-                Console.WriteLine($"공격력 : {_dragon.Atk}, 체력 : {_dragon.Hp}\n ");
-                do
-                {
-                    Console.WriteLine("플레이어의 턴!!");
-                    Console.WriteLine("원하는 행동을 골라 보세요!");
-                    Console.WriteLine("1.공격");
-                    Console.WriteLine("2.힘 포션 먹기");
-                    Console.WriteLine("3.힐 포션 먹기");
-                    int playerinput = int.Parse(Console.ReadLine());
-
-                    switch (playerinput)
-                    {
-                        case 1:
-                            Console.WriteLine("몬스터를 공격합니다.");
-                            _dragon.Hp -= _player.Atk;
-                            Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
-                            Console.WriteLine($"드래곤의 남은 체력 : {_dragon.Hp}\n");
-                            break;
-                        //case 2:
-                        //    Console.WriteLine("힘 포션을 먹었습니다.");
-                        //    stpotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Atk}");
-                        //    break;
-                        //case 3:
-                        //    Console.WriteLine("힐 포션을 먹었습니다.");
-                        //    hppotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Hp}");
-                        //    break;
-                        default:
-                            Console.WriteLine("잘못된 입력입니다.");
-                            Thread.Sleep(1000);
-                            StartStage2();
-                            break;
-                    }
-                    Thread.Sleep(1000);
-                    if (_dragon.Hp <= 0)
-                    {
-                        _dragon.IsDead = true;
-                        Console.WriteLine("드래곤을 무찔렀습니다!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("드래곤의 턴!!");
-                        _player.Hp -= _dragon.Atk;
-                        Console.WriteLine($"{_dragon.Atk}에 피해를 입었습니다");
-                        Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
-                        if (_player.Hp <= 0)
-                        {
-                            _player.IsDead = true;
-                            Console.WriteLine("플레이어가 사망하였습니다.");
-                        }
-                    }
-                    Thread.Sleep(1000);
-                    Console.Clear();
-                }
-                while (!_player.IsDead && !_dragon.IsDead); //조건 정하기
-            }//startStage2()
-        }// class stage
+        }       
     }//~
 }
