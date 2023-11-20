@@ -17,19 +17,24 @@ namespace TextDungeon
 
     public class Stage
     {
-
-
-
-        enum MonsterTypes // 몬스터의 타입을 지정해 같은 값이 나오면 그 타입으로 몬스터를 생성시키기 위해 일단 만들어놨다.
+        int CheckValidInput(int min, int max)
         {
-            goblin = 1,
-            troll,
-            slime,
-            werewolf,
-            dragon,
+            int keyInput;
+            bool result;
+            do
+            {
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                result = int.TryParse(Console.ReadLine(), out keyInput);
+            } while (result == false || CheckIfValid(keyInput, min, max) == false);
+
+            return keyInput;
         }
 
-
+        bool CheckIfValid(int checkable, int min, int max)
+        {
+            if (min <= checkable && checkable <= max) return true;
+            return false;
+        }
 
         public void Stage1(Character _player, List<Monster> monsters) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
@@ -65,7 +70,7 @@ namespace TextDungeon
         {
 
             int randomIncount = new Random().Next(1, 4); // 여기서 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
-            
+
 
             for (int i = 0; i < randomIncount; i++)
             {
@@ -73,7 +78,7 @@ namespace TextDungeon
                 int randomMonsterAtk = new Random().Next(2, 5);
 
                 monsters.Add(new Goblin("고블린", randomMonsterHp, randomMonsterAtk));
-            }
+            } // 스테이지 마다 분리해서 
 
 
         }
@@ -89,7 +94,7 @@ namespace TextDungeon
             int monstersIndex = monsters.Count - 1;
             // 어떤 요소가 들어와도 작동 할 수 있게.
             do
-            {               
+            {
                 Console.Clear();
                 //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
 
@@ -103,116 +108,89 @@ namespace TextDungeon
 
                 for (int i = 0; i < monsters.Count; i++)
                 {
-                    Console.WriteLine("{0} ", monsters[i].Name);
+                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
                     Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
                 }
-                
+
 
 
                 Console.WriteLine("플레이어의 턴!!");
                 Console.WriteLine("원하는 행동을 골라 보세요!");
                 Console.WriteLine("1.공격");
-                //Console.WriteLine("2.힘 포션 먹기");        인벤 보기를 넣을까 말까, 스킬 창을 따로 만들까 케이스로 구현할까
-                //Console.WriteLine("3.힐 포션 먹기");       // 국민님이 만드신 메서드
 
-
-
-                int _playerinput = int.Parse(Console.ReadLine());
-
-                switch (_playerinput)
+                switch (CheckValidInput(1, 1))
                 {
                     case 1:
-                        Console.WriteLine("방향키로 적을 지정해주세요!");
-                        ConsoleKeyInfo playerKeyInput = Console.ReadKey();
+                        Console.WriteLine("원하시는 몬스터를 선택해주세요.");
 
-                        switch (playerKeyInput.Key)
+                        switch (CheckValidInput(1, monsters.Count + 1))
                         {
-                            case ConsoleKey.UpArrow: // 공격할 몬스터를 고르기 위한것
-                                int selectIndex = 0;
-                                Console.Clear();
-                                //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
-
-                                //stpotion = new StrengthPotion("힘 포션");
-                                //hppotion = new HealthPotion("힐 포션");
-                                Console.WriteLine("게임이 시작됩니다!");
-                                Console.WriteLine(" 1 - {0} 스테이지 (vs {1} 몬수터 수: {2})\n", mapList[mapListIndex], monsters[monstersIndex].Name, monsters.Count); // 스테이지 숫자 변경 해야댐.
-                                Console.WriteLine(" 플레이어 ");
-                                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
-                                Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
-
-
-                                for (int i = 0; i <= monsters.Count; i++)
-                                {
-                                    if (selectIndex == 0)
-                                    {
-                                        Console.WriteLine("{0} ◀", monsters[i].Name);
-                                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
-                                    }
-                                    else if (true)
-                                    {
-
-                                    }
-
-                                }
-
-
-
+                            case 1: // 공격할 몬스터를 고르기 위한것
+                                Console.WriteLine("고블린 공격!");
+                                monsters[0].Hp -= _player.Atk;
+                                Console.WriteLine("몬스터를 공격합니다.");
+                                Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
+                                Console.WriteLine($"{monsters[0].Name} 남은 체력 : {monsters[0].Hp}\n");
+                                break;
+                            case 2:
+                                Console.WriteLine("고블린 공격!");
+                                monsters[1].Hp -= _player.Atk;
+                                Console.WriteLine("몬스터를 공격합니다.");
+                                Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
+                                Console.WriteLine($"{monsters[1].Name} 남은 체력 : {monsters[1].Hp}\n");
+                                break;
+                            case 3:
                                 Console.WriteLine("플레이어의 턴!!");
-                                Console.WriteLine("원하는 행동을 골라 보세요! 방향키로 적을 지정해주세요!");
-                                Console.WriteLine("1.공격");
+                                Console.WriteLine("고블린 공격!");
+                                monsters[2].Hp -= _player.Atk;
+                                Console.WriteLine("몬스터를 공격합니다.");
+                                Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
+                                Console.WriteLine($"{monsters[2].Name} 남은 체력 : {monsters[2].Hp}\n");
+                                break;
+                            case 4:
+                                Console.WriteLine("플레이어의 턴!!");
+                                Console.WriteLine("고블린 공격!");
+                                monsters[3].Hp -= _player.Atk;
+                                Console.WriteLine("몬스터를 공격합니다.");
+                                Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
+                                Console.WriteLine($"{monsters[3].Name} 남은 체력 : {monsters[3].Hp}\n");
+                                break;
 
-                                Console.WriteLine();
-                                break;
-                            case ConsoleKey.DownArrow:
-                                break;
-                            default:
-                                continue;
                         }
-                        Console.WriteLine("몬스터를 공격합니다.");
-                        monsters[monstersIndex].Hp -= _player.Atk;
-                        Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
-                        Console.WriteLine($"{monsters[monstersIndex].Name} 남은 체력 : {monsters[monstersIndex].Hp}\n");
-                        break;
-                    //case 2:
-                    //    Console.WriteLine("힘 포션을 먹었습니다.");
-                    //    stpotion.Use(__player);
-                    //    Console.WriteLine($"현재 공격력 : {__player.Atk}");
-                    //    break;
-                    //case 3:
-                    //    Console.WriteLine("힐 포션을 먹었습니다.");
-                    //    hppotion.Use(_player);
-                    //    Console.WriteLine($"현재 공격력 : {__player.Health}");
-                    //    break;
-                    default:
-                        Console.WriteLine("잘못된 입력입니다.");
-                        Thread.Sleep(1000);
                         break;
                 }
                 Thread.Sleep(1000);
 
-                if (monsters[monstersIndex].Hp <= 0)
+                for (int i = 0; i < monsters.Count; i++)
                 {
-                    Thread.Sleep(1000);
-                    monsters[monstersIndex].IsDead = true;
-                    Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[monstersIndex].Name);
-                    Console.WriteLine("보상으로 ?골드와 ?을 휙득했습니다.");
-
-                    Console.WriteLine("다음 스테이지로 이동합니다....");
-                    mapListIndex++;
-                }
-                else
-                {
-                    Console.WriteLine("고블린의 턴!!");
-                    _player.Hp -= monsters[monstersIndex].Atk;
-                    Console.WriteLine($"{monsters[monstersIndex].Atk}에 피해를 입었습니다");
-                    Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
-
-                    if (_player.Hp <= 0)
+                    if (monsters[0].Hp <= 0 && monsters[1].Hp <= 0 && monsters[2].Hp <= 0 && monsters[3].Hp <= 0)
                     {
-                        _player.IsDead = true;
-                        Console.WriteLine("플레이어가 사망하였습니다.");
+                        Thread.Sleep(1000);
+                        monsters[i].IsDead = true;
+                        Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[i].Name);
+                        Console.WriteLine("보상으로 ?골드와 ?을 휙득했습니다.");
+
+                        Console.WriteLine("다음 스테이지로 이동합니다....");
+                        mapListIndex++;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("{0}의 턴!!", monsters[i].Name);
+                        _player.Hp -= monsters[i].Atk;
+                        Console.WriteLine($"{monsters[i].Atk}의 피해를 입었습니다\n");
+                        Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
+                        Thread.Sleep(1000);
+
+
+                        if (_player.Hp <= 0)
+                        {
+                            _player.IsDead = true;
+                            Console.WriteLine("플레이어가 사망하였습니다.");
+                        }
                     }
                 }
+
 
                 Thread.Sleep(1000);
                 Console.Clear();
