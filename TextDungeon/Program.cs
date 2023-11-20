@@ -2,6 +2,7 @@
 using System;
 using System.Numerics;
 using System.Threading;
+using TectDungeon_Skill;
 
 namespace TextDungeon
 {
@@ -15,10 +16,18 @@ namespace TextDungeon
         public int Atk { get; }
         public int Def { get; }
         public int Hp { get; set; }
+        public int Mp { get; set; } // MP 변수 추가
         public int Gold { get; set; }
         public bool IsDead { get; set; }
+        public double CritChance { get; }  //치확
+        public double CritiDamage { get; }  //크댐
+        public double Evasion { get; } // 회피율 
 
-        public Character(string name, string job, int level, int atk, int def, int hp, int gold)
+        //캐릭터 클래스에 치명타 확률 및 치명타 공격력의 정보를 추가하고,
+        //전투 시에 이를 고려하여 확률에 따라 치명타가 발생
+        //캐릭터 클래스에 Evasion 변수를 추가하고 매개변수로 전달
+
+        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold, double critChance, double critiDamage, double evasion)
         {
             Name = name;
             Job = job;
@@ -26,7 +35,60 @@ namespace TextDungeon
             Atk = atk;
             Def = def;
             Hp = hp;
+            Mp = mp;
             Gold = gold;
+            CritChance = critChance;
+            CritiDamage = critiDamage;
+            Evasion = evasion;
+        }
+    }
+
+    public class SkillManager
+    //SkillManager 클래스는 Skill 객체들을 담는 skills 리스트를 가지고 있다.
+    {
+        private List<Skill> skills;
+        // Skill 객체들을 담는 리스트
+
+        public SkillManager()
+        {
+            skills = new List<Skill>
+                 // SkillManager 생성자, 기본적인 스킬들을 초기화
+                {
+                 new FireballSkill(),
+                 new PowerStrikeSkill(),
+                 new SuperPunchSkill()
+                 // 기본적인 스킬들을 생성하여 리스트에 추가
+                };
+        }
+
+        public void ShowSkills()
+        // 사용 가능한 스킬 목록을 보여주는 메소드
+        {
+            Console.WriteLine("어떤 스킬을 사용할까요?");
+            for (int i = 0; i < skills.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {skills[i].Name}");
+                // 리스트에 있는 각 스킬의 이름과 번호를 출력
+            }
+        }
+
+        public Skill ChooseSkill(int index)
+        // 선택한 인덱스에 해당하는 스킬을 반환하는 메소드
+        {
+            if (index >= 0 && index < skills.Count)
+            {
+                return skills[index];
+                // 해당 인덱스에 위치한 스킬을 반환
+            }
+            return null;
+            // 옳지 않은 인덱스인 경우, null을 반환
+        }
+
+        public int GetSkillsCount()
+        // 보유한 스킬의 개수를 반환하는 메소드
+        {
+            return skills.Count;
+            // 보유한 스킬의 개수를 반환
         }
     }
 
@@ -68,13 +130,16 @@ namespace TextDungeon
     public enum ItemType
     {
         Weapon,
-        Armor,
-        Potion
+        helme,
+        shirt,
+        pants
+        
+            
     }
 
 
     public class Item
-    { 
+    {
         public string Name { get; }
         public string Description { get; }
         public ItemType Type { get; }
@@ -82,7 +147,6 @@ namespace TextDungeon
         public int Def { get; }
         public int Hp { get; }
         public int Price { get; }
-
         public bool IsEquiped { get; set; }
 
         public Item(string name, string description, ItemType type, int atk, int def, int hp, int price, bool isEquiped = false)
@@ -194,12 +258,12 @@ namespace TextDungeon
             _items = new List<Item>();
             _items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", ItemType.Weapon, 2, 0, 0, 50));
             _items.Add(new Item("짱짱 칼", "짱짱 칼이당.", ItemType.Weapon, 2, 0, 0, 50));
-            _items.Add(new Item("짱짱 모자", "짱짱 모자당.", ItemType.Armor, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.Armor, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.Armor, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 장갑", "짱짱 장갑이당.", ItemType.Armor, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 신발", "짱짱 신발이당.", ItemType.Armor, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 벨트", "짱짱 벨트당.", ItemType.Armor, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 모자", "짱짱 모자당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 장갑", "짱짱 장갑이당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 신발", "짱짱 신발이당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 벨트", "짱짱 벨트당.", ItemType.helme, 0, 5, 0, 50));
             _items.Add(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", ItemType.Weapon, 100, 0, 0, 50));
         }
 
@@ -207,12 +271,12 @@ namespace TextDungeon
         {
             //1번 시작화면 + 이후 선택창 구현(이어하기 , 새로하기)
             //DB가 아직 구현안됨
-            Console.SetCursorPosition(0,8);
+            Console.SetCursorPosition(0, 8);
             Console.WriteLine("\t\t\t\t      \\                           |       ");
             Console.WriteLine("\t\t\t\t     _ \\     __|  __|   _` |   _` |   _ \\ ");
             Console.WriteLine("\t\t\t\t    ___ \\   |    (     (   |  (   |   __/ ");
             Console.WriteLine("\t\t\t\t  _/    _\\ _|   \\___| \\__,_| \\__,_| \\___| ");
-            Console.WriteLine("\t\t\t\t                                          \n");          
+            Console.WriteLine("\t\t\t\t                                          \n");
             Console.WriteLine("\t\t\t\t\t press any key to continue");
             Console.ReadLine();
             Console.Clear();
@@ -240,15 +304,17 @@ namespace TextDungeon
             int input = CheckValidInput(1, 3);
 
             switch (input)
+            //여기에도 크확 크댐 추가.
+            //회피율도 추가
             {
                 case 1:
-                    _player = new Character($"{playerName}", "전사", 1, 10, 10, 150, 1500);
+                    _player = new Character($"{playerName}", "전사", 1, 10, 10, 150, 10, 1500, 0.5, 2, 0.5);
                     break;
                 case 2:
-                    _player = new Character($"{playerName}", "궁수", 1, 15, 5, 80, 1500);
+                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
                     break;
                 case 3:
-                    _player = new Character($"{playerName}", "도적", 1, 7, 7, 77, 7777);
+                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
                     break;
                 default:
                     Console.WriteLine("잘못된 선택입니다.");
@@ -279,7 +345,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    Stage.StartStage1(); //던전입장
+                    Stage.TempleStage( _player); //던전입장
                     break;
             }
         }
@@ -333,7 +399,7 @@ namespace TextDungeon
                     StartMenu();
                     break;
             }
-        }
+        }//StatusMenu()
 
         //아이템 장착시 공격력
         private static int getSumBonusAtk()
@@ -402,7 +468,7 @@ namespace TextDungeon
                     EquipMenu();
                     break;
             }
-        }
+        }//InventoryMenu()
 
         static void EquipMenu()
         {
@@ -431,11 +497,11 @@ namespace TextDungeon
                     EquipMenu();
                     break;
             }
-        }
+        }//EquipMenu()
 
         static void ToggleEquipStatus(int idx)
         {
-             Inventory[idx].IsEquiped = !Inventory[idx].IsEquiped;
+            Inventory[idx].IsEquiped = !Inventory[idx].IsEquiped;
         }
 
         static void ShowHighlightedText(string title)
@@ -448,7 +514,6 @@ namespace TextDungeon
         static void ShopMenu(Character _player, List<Item> _Items)
         {
             Console.Clear();
-
             ShowHighlightedText("■ 상점 ■");
             Console.WriteLine($"구매 할 물품을 선택하세요.     {_player.Gold}  G");
             Console.WriteLine("\n");
@@ -491,21 +556,22 @@ namespace TextDungeon
                     ShopMenu(_player, _Items);
                 }
             }
+
         }
 
         public class Stage
         {
             //스테이지 관련 주석은 여기 StartStage1() 에만 달아둘게유
-            static public void StartStage1() // 죽지 않고 클리어시 스테이지 1- 2로 연결하는거 해야댐   
+            static public void StartStage1() // 죽지 않고 클리어시 스테이지2로 연결하는거 해야댐   
             {
                 Console.Clear();
-                _goblin = new Goblin("고블린", 10, 3);   //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
-                //stpotion = new StrengthPotion("힘 포션");
-                //hppotion = new HealthPotion("힐 포션");
+                _goblin = new Goblin("고블린", 20, 3);   //몬스터한테 방어력을 줘야되나? 아님 행동 랜덤 요소를 넣어줘야되나?
+                                                      //stpotion = new StrengthPotion("힘 포션");
+                                                      //hppotion = new HealthPotion("힐 포션");
                 Console.WriteLine("게임이 시작됩니다!");
                 Console.WriteLine(" 1단계 스테이지 (vs 고블린)\n");
                 Console.WriteLine(" 플레이어 ");
-                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
+                Console.WriteLine($"이름 : {_player.Name} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
                 Console.WriteLine(" 고블린 ");
                 Console.WriteLine($"이름 : {_goblin.Name} ");
@@ -515,35 +581,90 @@ namespace TextDungeon
                     Console.WriteLine("플레이어의 턴!!");
                     Console.WriteLine("원하는 행동을 골라 보세요!");
                     Console.WriteLine("1.공격");
+                    Console.WriteLine("2. 스킬 사용");
                     //Console.WriteLine("2.힘 포션 먹기");        인벤 보기를 넣을까 말까, 스킬 창을 따로 만들까 케이스로 구현할까
                     //Console.WriteLine("3.힐 포션 먹기");
                     int playerinput = int.Parse(Console.ReadLine());
+
+
+
+                    //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
+                    //투하는 부분에서 플레이어의 공격 시에 치명타 확률을 고려하여
+                    //랜덤하게 치명타가 발생하면 공격력을 두 배로 적용
+                    static bool IsCriticalHit(double critChance)
+                    // 치명타 여부를 결정하는 메서드 추가
+                    {
+                        Random random = new Random();
+                        // 랜덤한 값을 생성하기 위해 Random 클래스를 이용
+                        double randomNumber = random.NextDouble();
+                        // 0부터 1 사이의 랜덤한 double 값을 생성
+                        return randomNumber <= critChance;
+                        // randomNumber가 critChance보다 작거나 같으면 true를 반환하고
+                        // 그렇지 않으면 false를 반환
+                        // randomNumber가 critChance보다 작거나 같을 때 크리티컬 히트가 발생한다고 판단
+                    }
+                    static bool IsEvaded(double evasion)
+                    // 플레이어가 회피할지 여부를 결정하는 메서드 추가
+                    {
+                        Random random = new Random();
+                        double randomNumber = random.NextDouble();
+                        // 0부터 1 사이의 랜덤한 double 값을 생성
+                        return randomNumber <= evasion;
+                        // 랜덤 숫자가 회피율보다 작거나 같으면 회피 발생
+                    }
 
                     switch (playerinput)
                     {
                         case 1:
                             Console.WriteLine("몬스터를 공격합니다.");
-                            _goblin.Hp -= _player.Atk;
-                            Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
+                            bool isCritical = IsCriticalHit(_player.CritChance);
+                            int damageDealt = _player.Atk;
+
+                            if (isCritical)
+                            // 만약 크리티컬 히트가 발생
+                            {
+                                Console.WriteLine("치명타 공격!");
+                                damageDealt = (int)(_player.Atk * _player.CritiDamage);
+                                //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
+                            }
+
+                            _goblin.Hp -= damageDealt;
+                            //공격으로 인한 피해를 몬스터의 체력에서 제거
+                            Console.WriteLine($"{damageDealt}에 피해를 {(isCritical ? "치명타로 " : "")}주었습니다");
+                            //isCritical이 true라면 "치명타로 "를 출력하고, false라면 빈 문자열("")을 출력
                             Console.WriteLine($"고블린의 남은 체력 : {_goblin.Hp}\n");
                             break;
-                        //case 2:
-                        //    Console.WriteLine("힘 포션을 먹었습니다.");
-                        //    stpotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Atk}");
-                        //    break;
-                        //case 3:
-                        //    Console.WriteLine("힐 포션을 먹었습니다.");
-                        //    hppotion.Use(player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Health}");
-                        //    break;
+                        case 2:
+                            SkillManager skillManager = new SkillManager();
+                            // SkillManager 객체 생성
+                            skillManager.ShowSkills();
+                            // 사용 가능한 스킬 보여줌
+                            int skillChoice = int.Parse(Console.ReadLine()) - 1;
+                            // 선택한 스킬 번호를 받는다
+
+                            if (skillChoice >= 0 && skillChoice < skillManager.GetSkillsCount())
+                            // 선택한 스킬이 유효한지 확인하고 해당 스킬을 가져옴
+                            {
+                                Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
+                                chosenSkill.UseSkill(_player, _goblin);
+                                // 선택한 스킬을 사용합니다.
+                                Console.WriteLine($"남은 MP: {_player.Mp}\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("잘못된 선택입니다.");
+
+                            }
+                            break;
+
+
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
-                            Thread.Sleep(1000);
+                            Thread.Sleep(5000);
                             StartStage1();
                             break;
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
                     if (_goblin.Hp <= 0)
                     {
                         _goblin.IsDead = true;
@@ -552,20 +673,40 @@ namespace TextDungeon
                     else
                     {
                         Console.WriteLine("고블린의 턴!!");
-                        _player.Hp -= _goblin.Atk;
-                        Console.WriteLine($"{_goblin.Atk}에 피해를 입었습니다");
-                        Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
-                        if (_player.Hp <= 0)
+
+                        bool isEvaded = IsEvaded(_player.Evasion);
+                        // 플레이어의 회피를 체크
+                        if (isEvaded)
                         {
-                            _player.IsDead = true;
-                            Console.WriteLine("플레이어가 사망하였습니다.");
+                            Console.WriteLine("플레이어가 공격을 회피했습니다!");
+                            // 회피에 성공했을 때 추가적인 행동을 수행하거나 메시지를 출력
+                        }
+                        else
+                        {
+                            // 플레이어가 회피하지 못한 경우의 공격 로직을 실행
+                            _player.Hp -= _goblin.Atk;
+                            Console.WriteLine($"{_goblin.Atk}에 피해를 입었습니다");
+                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
+
+                            if (_player.Hp <= 0)
+                            {
+                                _player.IsDead = true;
+                                Console.WriteLine("플레이어가 사망하였습니다.");
+                            }
                         }
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3000);
                     Console.Clear();
                 }
-                while (!_player.IsDead && !_goblin.IsDead); //조건 정하기
-            }//startStage1()
+                while (!_player.IsDead && !_goblin.IsDead);
+                {
+                    // 몬스터가 죽었을 때 상점 메뉴를 보여줌
+                    if (_goblin.IsDead)
+                    {
+                        ShopMenu(_player, _items);
+                    }
+                }
+            }
 
             static public void StartStage2()
             {
@@ -590,27 +731,38 @@ namespace TextDungeon
                     Console.WriteLine("3.힐 포션 먹기");
                     int playerinput = int.Parse(Console.ReadLine());
 
+
+                    // 치명타 여부를 결정하는 메서드 추가
+                    static bool IsCriticalHit(double critChance)
+                    {
+                        Random random = new Random();
+                        double randomNumber = random.NextDouble();
+
+                        return randomNumber <= critChance;
+                    }
+
+
                     switch (playerinput)
                     {
                         case 1:
                             Console.WriteLine("몬스터를 공격합니다.");
-                            _dragon.Hp -= _player.Atk;
-                            Console.WriteLine($"{_player.Atk}에 피해를 주었습니다");
-                            Console.WriteLine($"드래곤의 남은 체력 : {_dragon.Hp}\n");
+                            bool isCritical = IsCriticalHit(_player.CritChance);
+                            int damageDealt = _player.Atk;
+
+                            if (isCritical)
+                            {
+                                Console.WriteLine("치명타 공격!");
+                                damageDealt = (int)(_player.Atk * _player.CritiDamage);
+                            }
+
+                            _goblin.Hp -= damageDealt;
+                            Console.WriteLine($"{damageDealt}에 피해를 {(isCritical ? "치명타로 " : "")}주었습니다");
+                            Console.WriteLine($"드래곤의 남은 체력 : {_goblin.Hp}\n");
                             break;
-                        //case 2:
-                        //    Console.WriteLine("힘 포션을 먹었습니다.");
-                        //    stpotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Atk}");
-                        //    break;
-                        //case 3:
-                        //    Console.WriteLine("힐 포션을 먹었습니다.");
-                        //    hppotion.Use(_player);
-                        //    Console.WriteLine($"현재 공격력 : {_player.Hp}");
-                        //    break;
+
                         default:
                             Console.WriteLine("잘못된 입력입니다.");
-                            Thread.Sleep(1000);
+                            Thread.Sleep(2000);
                             StartStage2();
                             break;
                     }
