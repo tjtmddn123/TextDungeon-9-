@@ -25,7 +25,7 @@ namespace TectDungeon_Skill
             MpCost = mpCost;
         }
 
-        public abstract void UseSkill(Character player, Monster target);
+        public abstract void UseSkill(Character player, Goblin _goblin);
         // 스킬 사용 메소드, 파생 클래스에서 구현
         //스킬을 사용할 때의 동작을 나타냄
     }
@@ -36,7 +36,7 @@ namespace TectDungeon_Skill
         public FireballSkill() : base("파이어볼", 20, 3) { }
         // 파이어볼 스킬의 기본 속성 초기화
 
-        public override void UseSkill(Character player, Monster target)
+        public override void UseSkill(Character player, Goblin _goblin)
         // 파이어볼 스킬 사용 시의 동작 정의
         {
             if (player.Mp >= MpCost)
@@ -46,10 +46,10 @@ namespace TectDungeon_Skill
 
                 // 몬스터에게 피해 입히기
                 int damageDealt = Damage;
-                target.Hp -= damageDealt;
+                _goblin.Hp -= damageDealt;
 
-                Console.WriteLine($"{target.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{target.Name}의 남은 체력: {Math.Max(target.Hp, 0)}");
+                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
+                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
             }
             else
             {
@@ -63,7 +63,7 @@ namespace TectDungeon_Skill
     {
         public PowerStrikeSkill() : base("파워스트라이크", 25, 5) { }
 
-        public override void UseSkill(Character player, Monster target)
+        public override void UseSkill(Character player, Goblin _goblin)
         // 파워스트라이크 스킬 사용 시의 동작 정의
         {
             if (player.Mp >= MpCost)
@@ -73,10 +73,10 @@ namespace TectDungeon_Skill
 
                 // 몬스터에게 피해 입히기
                 int damageDealt = Damage;
-                target.Hp -= damageDealt;
+                _goblin.Hp -= damageDealt;
 
-                Console.WriteLine($"{target.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{target.Name}의 남은 체력: {Math.Max(target.Hp, 0)}");
+                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
+                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
             }
             else
             {
@@ -90,7 +90,7 @@ namespace TectDungeon_Skill
     {
         public SuperPunchSkill() : base("짱짱펀치", 999, 10) { }
 
-        public override void UseSkill(Character player, Monster target)
+        public override void UseSkill(Character player, Goblin _goblin)
         // 짱짱펀치 스킬 사용 시의 동작 정의
         {
             if (player.Mp >= MpCost)
@@ -100,10 +100,10 @@ namespace TectDungeon_Skill
 
                 // 몬스터에게 피해 입히기
                 int damageDealt = Damage;
-                target.Hp -= damageDealt;
+                _goblin.Hp -= damageDealt;
 
-                Console.WriteLine($"{target.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{target.Name}의 남은 체력: {Math.Max(target.Hp, 0)}");
+                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
+                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
             }
             else
             {
