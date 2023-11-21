@@ -8,7 +8,6 @@ using TectDungeon_Skill;
 namespace TextDungeon
 {
 
-
     // 스테이지의 흐름
     // 1. 각각 해당하는 스테이지 메서드를 만든다. 몬스터 스테이지, 특수 스테이지(보스, 랜덤기도, 회복샘,  상점) 1 - 1, 1 - 2 등 1 - n 에 해당하는 세부 적인 장면 구현
     // 2. 스테이지 (3.)에 세팅할 메서드를 만든다. (세부 구현한 스테이지 들을 어떤식으로 배치할지, 몬스터의 대한 매개변수, 아티템에 대한 매개변수를 어떻게 받아올지)
@@ -73,8 +72,8 @@ namespace TextDungeon
 
         public int thisstagenum = 1;
 
-        int stageNum = 1;
-        int minStage = 1;
+        public static int stageNum = Program.stageNum;
+        public static int minStage = Program.minStage;
         int mapListIndex = 0;
         int stageMapName = 1;
         //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
@@ -102,7 +101,8 @@ namespace TextDungeon
 
         public void Stages(Character _player, List<Monster> monsters, int stagenum , int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
-             // 스테이지의 이름 설정을 하기위한 리스트
+            // 스테이지의 이름 설정을 하기위한 리스트
+            mapListIndex = minStage - 1;
             StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
             if (stageNum == 1)
             {
