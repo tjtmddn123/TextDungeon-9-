@@ -302,9 +302,6 @@ namespace TextDungeon
         public static List<Item> _items = new List<Item>();
         public static List<Item> Inventory =  new List<Item>();
         public static List<Monster> monsters = new List<Monster>();
-        //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
-        //public static Dragon _dragon;
-
         public bool IsDead = false;
 
         static void Main(string[] args)
@@ -458,7 +455,10 @@ namespace TextDungeon
 
             int bonusHp = getSumBonusHp();
             PrintTextWithHighlights("체 력 : ", (_player.Hp += bonusHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
-
+            Console.Write("마나 : ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{_player.Mp}");
+            Console.ResetColor();
             PrintTextWithHighlights("Gold : ", _player.Gold.ToString(), "  G");
             Console.WriteLine("");
             Console.WriteLine("0. 뒤로가기\n");
