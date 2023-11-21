@@ -110,12 +110,10 @@ namespace TextDungeon
             }
             else if (stageNum == 2)
             {
-                mapListIndex = 0;
                 BattleScene(_player, monsters, stage2mapname);
             }
             else if (stageNum == 3)
             {
-                mapListIndex = 0;
                 BattleScene(_player, monsters, stage3mapname);
             }
             
@@ -192,7 +190,7 @@ namespace TextDungeon
                             //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Dragon());
                             } // 스테이지 마다 분리해서 
                             break;
                         case 2: // 1 - 1
@@ -369,17 +367,14 @@ namespace TextDungeon
                 {
 
                     case 1:
-
-
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
-
                         int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
-
-                        
-                        if (monsters[selectedMonsterIndex].IsDead == true)
+                        if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
-                            Console.WriteLine("이미 무찌른 몬스터 입니다!");
-                            break;
+                            Console.WriteLine();
+                            Console.WriteLine("이미죽음");
+                            Thread.Sleep(1000);
+                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
 
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
@@ -410,14 +405,21 @@ namespace TextDungeon
 
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(1000);
                         }
 
                         break;
                     case 2:
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
-
                         int selectedSkillIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
+
+                        if (monsters[selectedSkillIndex].Hp <= 0)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("이미죽음");
+                            Thread.Sleep(1000);
+                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
+                        }
 
                         SkillManager skillManager = new SkillManager();
                         // SkillManager 객체 생성
@@ -453,11 +455,10 @@ namespace TextDungeon
 
 
                 }
-                //Thread.Sleep(1000);
 
                 foreach (Monster monster in monsters)
                 {
-                    //Thread.Sleep(1000);
+                    Thread.Sleep(1000);
                     if (monster.Hp > 0)
                     {
                         Console.WriteLine("{0}의 턴!!", monster.Name);
@@ -496,7 +497,7 @@ namespace TextDungeon
                 }
 
 
-                 //Thread.Sleep(1000);
+                 Thread.Sleep(1000);
                 Console.Clear();
             }
 
@@ -510,10 +511,17 @@ namespace TextDungeon
                 {
                     stageNum++;
                     minStage = 0;
+                    mapListIndex = 0;
+                }
+                else
+                {
+                    mapListIndex++;
                 }
 
-                mapListIndex++;
-                Stages(_player, monsters, stageNum, minStage++);
+                
+                minStage++;
+
+                Stages(_player, monsters, stageNum, minStage);
             }
             else
             {

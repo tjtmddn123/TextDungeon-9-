@@ -68,14 +68,14 @@ namespace TextDungeon
 
     public class Dragon : Monster
     {
-        public string Name { get; set; }
-        public int Hp { get; set; }
-        public int Atk { get; set; }
-        public Dragon(string name, int hp, int atk)
+
+        public Dragon()
         {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "드래곤";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
         }
     }
 
