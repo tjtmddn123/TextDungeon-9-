@@ -71,7 +71,6 @@ namespace TextDungeon
         List<string> stage2mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
         List<string> stage3mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
 
-        public int thisstagenum = 1;
 
         int stageNum = 1;
         int minStage = 1;
@@ -100,9 +99,9 @@ namespace TextDungeon
             return false;
         }
 
-        public void Stages(Character _player, List<Monster> monsters, int stagenum , int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
+        public void Stages(Character _player, List<Monster> monsters, int stagenum, int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
-             // 스테이지의 이름 설정을 하기위한 리스트
+            // 스테이지의 이름 설정을 하기위한 리스트
             StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
             if (stageNum == 1)
             {
@@ -116,7 +115,7 @@ namespace TextDungeon
             {
                 BattleScene(_player, monsters, stage3mapname);
             }
-            
+
 
         }
 
@@ -141,7 +140,7 @@ namespace TextDungeon
                         case 2: // 1 - 2
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                
+
                                 monsters.Add(new Goblin()); // 슬라임
                             } // 스테이지 마다 분리해서 
                             break;
@@ -162,20 +161,20 @@ namespace TextDungeon
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } 
+                            }
                             break;
                         case 6: // 1 - 6                    
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } 
+                            }
                             break;
                         case 7:// 1 - 7
 
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } 
+                            }
 
 
                             break;
@@ -317,23 +316,23 @@ namespace TextDungeon
 
         public void BattleScene(Character _player, List<Monster> monsters, List<string> mapList) // 매개변수 로 플레이어와 몬스터의 정보를 가져온다. // 죽지 않고 클리어시 스테이지2로 연결하는거 해야댐   
         {                                                                                // 몬스터 타입을 넣으면 그에 맞는 몬스터가 나옴
-            
+
             // 어떤 요소가 들어와도 작동 할 수 있게.
             do
             {
                 Console.Clear();
                 Console.WriteLine("게임이 시작됩니다!");
-                
+
                 Console.WriteLine($" {stageNum} - {minStage} 스테이지 {mapList[mapListIndex]} \n"); // 스테이지 숫자 변경 해야댐.
                 Console.WriteLine(" 플레이어 ");
                 Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
 
-                    for (int i = 0; i < monsters.Count; i++)
-                    {
-                        Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
-                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
-                    }
+                for (int i = 0; i < monsters.Count; i++)
+                {
+                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
+                    Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
+                }
                 Console.WriteLine("플레이어의 턴!!");
                 Console.WriteLine("원하는 행동을 골라 보세요!");
                 Console.WriteLine("1.공격하기");
@@ -377,14 +376,6 @@ namespace TextDungeon
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
 
-                        if (monsters[selectedMonsterIndex].Hp <= 0)
-                        {
-                            Console.WriteLine();
-                            Console.WriteLine("이미죽음");
-                            Thread.Sleep(1000);
-                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감 
-                        }
-
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                         bool isCritical = IsCriticalHit(_player.CritChance);
                         int damageDealt = _player.Atk;
@@ -392,12 +383,10 @@ namespace TextDungeon
                         if (isCritical)
                         // 만약 크리티컬 히트가 발생
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("치명타 공격!");
                             damageDealt = (int)(_player.Atk * _player.CritiDamage);
                             //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
                             Console.WriteLine("{0}의 피해를 주었습니다.", damageDealt);
-                            Console.ResetColor();
                             monsters[selectedMonsterIndex].Hp -= damageDealt;
                         }
                         else
@@ -428,7 +417,7 @@ namespace TextDungeon
                             Console.WriteLine();
                             Console.WriteLine("이미죽음");
                             Thread.Sleep(1000);
-                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감 
+                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
 
                         SkillManager skillManager = new SkillManager();
@@ -444,21 +433,13 @@ namespace TextDungeon
                             Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
                             // 선택한 스킬을 사용합니다.
-                            Console.WriteLine();
-                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
-                            Console.ResetColor();
                         }
                         else
                         {
                             Console.WriteLine("잘못된 선택입니다.");
                             // 잘못된 선택일 경우 메시지를 출력
                         }
-
-                        break;
-                }
-                Thread.Sleep(1000);
-
 
                         if (monsters[selectedSkillIndex].Hp <= 0)
                         {
@@ -474,7 +455,6 @@ namespace TextDungeon
 
                 }
 
-
                 foreach (Monster monster in monsters)
                 {
                     Thread.Sleep(1000);
@@ -486,50 +466,37 @@ namespace TextDungeon
 
                         if (isEvaded)
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("플레이어가 공격을 회피했습니다!");
-                            Console.ResetColor();
                             // 회피에 성공했을 때 추가적인 행동을 수행하거나 메시지를 출력
                         }
                         else if (!monster.IsDead)
                         {
                             _player.Hp -= monster.Atk;
                             Console.WriteLine($"{monster.Atk}의 피해를 입었습니다\n");
-                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");                       
+                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
 
                             if (_player.Hp <= 0)
                             {
                                 _player.IsDead = true;
-                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("플레이어가 사망하였습니다.");
-                                Console.ResetColor();
                                 break;
                             }
                         }
                         else
                         {
+                            Console.WriteLine($"{monster.Name}은(는) 죽었습니다!");
+                        }
 
-                            Console.WriteLine();
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine($"{monster.Name}은(는) 이미 죽었습니다!");
-                            Console.ResetColor();
-                        }                     
                     }
                     else
                     {
-
-                        Console.WriteLine();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"{monster.Name}은(는) 이미 죽었습니다!");
-                        Console.ResetColor();
+                        Console.WriteLine($"{monster.Name}은(는) 죽었습니다!");
                     }
 
                 }
 
 
-
                 Thread.Sleep(1000);
-
                 Console.Clear();
             }
 
@@ -550,7 +517,7 @@ namespace TextDungeon
                     mapListIndex++;
                 }
 
-                
+
                 minStage++;
 
                 Stages(_player, monsters, stageNum, minStage);
