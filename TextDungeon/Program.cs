@@ -99,18 +99,17 @@ namespace TextDungeon
         public int Hp { get; set; }
         public int Atk { get; set; }
         public bool IsDead { get; set; }
-
     }
     public class Goblin : Monster
     {
-        public string Name { get; set; }
-        public int Hp { get; set; }
-        public int Atk { get; set; }
-        public Goblin(string name, int hp, int atk)
+        
+        public Goblin()
         {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "고블린";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
         }
     }
 
@@ -227,12 +226,14 @@ namespace TextDungeon
 
     internal class Program
     {
-
+        public static Stage newStage = new Stage();
         public static Character _player;
         public static List<Item> _items = new List<Item>();
         public static List<Item> Inventory =  new List<Item>();
-        public static Goblin _goblin;
-        public static Dragon _dragon;
+        public static List<Monster> monsters = new List<Monster>();
+        //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
+        //public static Dragon _dragon;
+
         public bool IsDead = false;
 
         static void Main(string[] args)
@@ -343,7 +344,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    Stage1.TempleStage( _player); //던전입장
+                    newStage.Stage1(_player, monsters,1);//던전입장 1은 임시번호
                     break;
             }
         }
