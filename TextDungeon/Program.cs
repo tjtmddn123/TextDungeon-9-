@@ -307,13 +307,13 @@ namespace TextDungeon
             //회피율도 추가
             {
                 case 1:
-                    _player = new Character($"{playerName}", "전사", 1, 10, 10, 150, 10, 1500, 0.5, 2, 0.5);
+                    _player = new Character($"{playerName}", "전사", 1, 10, 10, 150, 10, 1500, 1.0d, 2d, 0.5d);
                     break;
                 case 2:
-                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
+                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5d, 2d, 0.5d);
                     break;
                 case 3:
-                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
+                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5d, 2d, 0.5d);
                     break;
                 default:
                     Console.WriteLine("잘못된 선택입니다.");
@@ -344,7 +344,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stage1(_player, monsters,1);//던전입장 1은 임시번호
+                    newStage.Stages(_player, monsters,1 , 1);//던전입장 1은 임시번호
                     break;
             }
         }
@@ -624,58 +624,18 @@ namespace TextDungeon
                     Console.WriteLine("플레이어의 턴!!");
                     Console.WriteLine("원하는 행동을 골라 보세요!");
                     Console.WriteLine("1.공격");
-                    Console.WriteLine("2. 스킬 사용");
+                    
                     //Console.WriteLine("2.힘 포션 먹기");        인벤 보기를 넣을까 말까, 스킬 창을 따로 만들까 케이스로 구현할까
                     //Console.WriteLine("3.힐 포션 먹기");
                     int playerinput = int.Parse(Console.ReadLine());
 
 
 
-                    //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
-                    //투하는 부분에서 플레이어의 공격 시에 치명타 확률을 고려하여
-                    //랜덤하게 치명타가 발생하면 공격력을 두 배로 적용
-                    static bool IsCriticalHit(double critChance)
-                    // 치명타 여부를 결정하는 메서드 추가
-                    {
-                        Random random = new Random();
-                        // 랜덤한 값을 생성하기 위해 Random 클래스를 이용
-                        double randomNumber = random.NextDouble();
-                        // 0부터 1 사이의 랜덤한 double 값을 생성
-                        return randomNumber <= critChance;
-                        // randomNumber가 critChance보다 작거나 같으면 true를 반환하고
-                        // 그렇지 않으면 false를 반환
-                        // randomNumber가 critChance보다 작거나 같을 때 크리티컬 히트가 발생한다고 판단
-                    }
-                    static bool IsEvaded(double evasion)
-                    // 플레이어가 회피할지 여부를 결정하는 메서드 추가
-                    {
-                        Random random = new Random();
-                        double randomNumber = random.NextDouble();
-                        // 0부터 1 사이의 랜덤한 double 값을 생성
-                        return randomNumber <= evasion;
-                        // 랜덤 숫자가 회피율보다 작거나 같으면 회피 발생
-                    }
+                    
 
                     switch (playerinput)
                     {
                         case 1:
-                            Console.WriteLine("몬스터를 공격합니다.");
-                            bool isCritical = IsCriticalHit(_player.CritChance);
-                            int damageDealt = _player.Atk;
-
-                            if (isCritical)
-                            // 만약 크리티컬 히트가 발생
-                            {
-                                Console.WriteLine("치명타 공격!");
-                                damageDealt = (int)(_player.Atk * _player.CritiDamage);
-                                //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
-                            }
-
-                            _goblin.Hp -= damageDealt;
-                            //공격으로 인한 피해를 몬스터의 체력에서 제거
-                            Console.WriteLine($"{damageDealt}에 피해를 {(isCritical ? "치명타로 " : "")}주었습니다");
-                            //isCritical이 true라면 "치명타로 "를 출력하고, false라면 빈 문자열("")을 출력
-                            Console.WriteLine($"고블린의 남은 체력 : {_goblin.Hp}\n");
                             break;
                         case 2:
                             SkillManager skillManager = new SkillManager();

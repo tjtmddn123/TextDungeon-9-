@@ -22,7 +22,13 @@ namespace TextDungeon
         List<string> stage1mapname = new List<string>() { "들판", "들판안쪽", "평야외곽", "호수로가는길", "호수", "호수안쪽", "호수바닥" };
         List<string> stage2mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
         List<string> stage3mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
+
         public int thisstagenum = 1;
+
+        //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
+        //투하는 부분에서 플레이어의 공격 시에 치명타 확률을 고려하여
+        //랜덤하게 치명타가 발생하면 공격력을 두 배로 적용
+        
 
         int CheckValidInput(int min, int max)
         {
@@ -285,33 +291,74 @@ namespace TextDungeon
                 Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
 
-                if (monsters)
+                for (int i = 0; i < monsters.Count; i++)
                 {
-                    for (int i = 0; i < monsters.Count; i++)
-                    {
-                        Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
-                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
-                    }
+                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
+                    Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
                 }
-
-
-
+                
 
                 Console.WriteLine("플레이어의 턴!!");
                 Console.WriteLine("원하는 행동을 골라 보세요!");
                 Console.WriteLine("1.공격하기");
+                Console.WriteLine("2. 스킬 사용");
+
+                bool IsCriticalHit(double critChance)
+                // 치명타 여부를 결정하는 메서드 추가
+                {
+                    Random random = new Random();
+                    // 랜덤한 값을 생성하기 위해 Random 클래스를 이용
+                    double randomNumber = random.NextDouble();
+                    // 0부터 1 사이의 랜덤한 double 값을 생성
+                    return randomNumber <= critChance;
+                    // randomNumber가 critChance보다 작거나 같으면 true를 반환하고
+                    // 그렇지 않으면 false를 반환
+                    // randomNumber가 critChance보다 작거나 같을 때 크리티컬 히트가 발생한다고 판단
+                }
+                bool IsEvaded(double evasion)
+                // 플레이어가 회피할지 여부를 결정하는 메서드 추가
+                {
+                    Random random = new Random();
+                    double randomNumber = random.NextDouble();
+                    // 0부터 1 사이의 랜덤한 double 값을 생성
+                    return randomNumber <= evasion;
+                    // 랜덤 숫자가 회피율보다 작거나 같으면 회피 발생
+                }
+
 
                 switch (CheckValidInput(1, 1))
                 {
                     case 1:
+
+
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
 
                         int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
-                        Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
-                        monsters[selectedMonsterIndex].Hp -= _player.Atk;
-                        Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);
+                        bool isCritical = IsCriticalHit(_player.CritChance);
+                        int damageDealt = _player.Atk;
+
+                        if (isCritical)
+                        // 만약 크리티컬 히트가 발생
+                        {
+                            Console.WriteLine("치명타 공격!");
+                            damageDealt = (int)(_player.Atk * _player.CritiDamage);
+                            //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
+                            _goblin.Hp -= damageDealt;
+                            //공격으로 인한 피해를 몬스터의 체력에서 제거
+                            Console.WriteLine($"{damageDealt}에 피해를 {(isCritical ? "치명타로 " : "")}주었습니다");
+                            //isCritical이 true라면 "치명타로 "를 출력하고, false라면 빈 문자열("")을 출력
+                        }
+                        else
+                        {
+                            Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
+                            monsters[selectedMonsterIndex].Hp -= _player.Atk;
+                            Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);                          
+                        }
+
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
+
+
 
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
