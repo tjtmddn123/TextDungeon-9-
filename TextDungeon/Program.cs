@@ -1,4 +1,4 @@
-﻿
+
 using System;
 using System.Numerics;
 using System.Threading;
@@ -68,14 +68,14 @@ namespace TextDungeon
 
     public class Dragon : Monster
     {
-        public string Name { get; set; }
-        public int Hp { get; set; }
-        public int Atk { get; set; }
-        public Dragon(string name, int hp, int atk)
+
+        public Dragon()
         {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "드래곤";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
         }
     }
 
@@ -260,13 +260,14 @@ namespace TextDungeon
             //회피율도 추가
             {
                 case 1:
+
                     _player = new Character($"{playerName}", "전사", 1, 100, 10, 150, 10, 1500, 1.0d, 2, 1.0d);
                     break;
                 case 2:
-                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0d, 2, 0.5d);
+                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
                     break;
                 case 3:
-                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5d, 2, 0.5d);
+                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
                     break;
                 default:
                     Console.WriteLine("잘못된 선택입니다.");
@@ -275,7 +276,7 @@ namespace TextDungeon
 
         }//GameStartScene()
 
-        static void StartMenu()
+        public static void StartMenu()
         {
             Console.Clear();
 
@@ -297,7 +298,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stages(_player, monsters,1,1);//던전입장 1은 임시번호
+                    newStage.Stages(_player, monsters,1, 1);//던전입장 1은 임시번호
                     break;
             }
         }
@@ -552,7 +553,6 @@ namespace TextDungeon
                     ShopMenu(_player, _Items);
                 }
             }
-
         }
     }//~
 }
