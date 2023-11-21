@@ -40,28 +40,34 @@ namespace TextDungeon
             return false;
         }
 
-        public void Stage1(Character _player, List<Monster> monsters, int stagenum , int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
+        public void Stages(Character _player, List<Monster> monsters, int stagenum , int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
              // 스테이지의 이름 설정을 하기위한 리스트
             int randomRoom = new Random().Next(); // 각 스테이지의 방을 랜덤으로 설정한다. ex) 1 - 1 번방에 몬스터가 나올 수 도 있고 다른 특수한 방이 나올 수 도 있다.
 
-            StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
+            switch (stagenum)
+            {
+                case 1: // 1 스테이지
+                    StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
+                    BattleScene(_player, monsters, stage1mapname);
 
-            // * 몬스터는 스테이지 고정, 개체수 랜덤, 1 ~ 4 *
+                default:
+                case 2: // 2 스테이지
+                    StageSet(_player, monsters, stagenum, minstage); // 스테이지 2에 맞는 세팅을 해주는 메서드.
+                    BattleScene(_player, monsters, stage1mapname);
+                default:
+                case 3: // 3 스테이지
+                    StageSet(_player, monsters, stagenum, minstage); // 스테이지 3에 맞는 세팅을 해주는 메서드.
+                    BattleScene(_player, monsters, stage1mapname);
+                default:
+            }
 
-
-            BattleScene(_player, monsters, stage1mapname);
+            
 
             // 몬스터와 싸우고 나면 몬스터의 피가 -로 되있다. 이 문제 해결해야댐. 
 
 
-            // 도핑식으로 포션을 먹을지 말지 선택.
-            //BattleScene(_player, monster);
-            //BattleScene(_player, monster);
-            //BattleScene(_player, monster);
-            //BattleScene(_player, monster);
-            //BattleScene(_player, monster);
-            //BattleScene(_player, monster);
+
             Thread.Sleep(1000);
             Console.Clear();
 
@@ -252,11 +258,15 @@ namespace TextDungeon
                 Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
 
-                for (int i = 0; i < monsters.Count; i++)
+                if (monsters)
                 {
-                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
-                    Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
+                    for (int i = 0; i < monsters.Count; i++)
+                    {
+                        Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
+                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
+                    }
                 }
+
 
 
 
@@ -269,16 +279,19 @@ namespace TextDungeon
                     case 1:
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
 
-                        int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했습니다.
+                        int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
-                        Console.WriteLine("{0}를 공격합니다!");
+                        Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                         monsters[selectedMonsterIndex].Hp -= _player.Atk;
                         Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
 
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
-                            
+                            if (monsters[selectedMonsterIndex].IsDead = true)
+                            {
+                                Console.WriteLine("이미 무찌른 몬스터 입니다!");
+                            }
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
                             Thread.Sleep(1000);
@@ -289,16 +302,15 @@ namespace TextDungeon
 
                 foreach (Monster monster in monsters)
                 {
+                    Thread.Sleep(1000);
                     if (monster.Hp > 0)
                     {
-                        Console.Clear();
                         Console.WriteLine("{0}의 턴!!", monster.Name);
                         if (!monster.IsDead)
                         {
                             _player.Hp -= monster.Atk;
                             Console.WriteLine($"{monster.Atk}의 피해를 입었습니다\n");
-                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
-                            Thread.Sleep(1000);
+                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");                       
 
                             if (_player.Hp <= 0)
                             {
