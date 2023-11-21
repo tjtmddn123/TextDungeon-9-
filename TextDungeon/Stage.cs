@@ -8,7 +8,6 @@ using TectDungeon_Skill;
 namespace TextDungeon
 {
 
-
     // 스테이지의 흐름
     // 1. 각각 해당하는 스테이지 메서드를 만든다. 몬스터 스테이지, 특수 스테이지(보스, 랜덤기도, 회복샘,  상점) 1 - 1, 1 - 2 등 1 - n 에 해당하는 세부 적인 장면 구현
     // 2. 스테이지 (3.)에 세팅할 메서드를 만든다. (세부 구현한 스테이지 들을 어떤식으로 배치할지, 몬스터의 대한 매개변수, 아티템에 대한 매개변수를 어떻게 받아올지)
@@ -71,9 +70,10 @@ namespace TextDungeon
         List<string> stage2mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
         List<string> stage3mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
 
+        public int thisstagenum = 1;
 
-        int stageNum = 1;
-        int minStage = 1;
+        public static int stageNum = Program.stageNum;
+        public static int minStage = Program.minStage;
         int mapListIndex = 0;
         int stageMapName = 1;
         //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
@@ -99,9 +99,10 @@ namespace TextDungeon
             return false;
         }
 
-        public void Stages(Character _player, List<Monster> monsters, int stagenum, int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
+        public void Stages(Character _player, List<Monster> monsters, int stagenum , int minstage) // 함수의 이름만 바꿔서 큰 스테이지만큼 만들면 댐..
         {
             // 스테이지의 이름 설정을 하기위한 리스트
+            mapListIndex = minStage - 1;
             StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
             if (stageNum == 1)
             {
@@ -115,7 +116,7 @@ namespace TextDungeon
             {
                 BattleScene(_player, monsters, stage3mapname);
             }
-
+            
 
         }
 
@@ -123,6 +124,7 @@ namespace TextDungeon
         {
 
             int randomIncount = new Random().Next(1, 4); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
+            int randomIncount2 = new Random().Next(1, 2); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
 
             monsters.Clear();
             switch (stagenum)
@@ -134,153 +136,174 @@ namespace TextDungeon
                             //만약 1-1 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Slime());
                             } // 스테이지 마다 분리해서 
                             break;
                         case 2: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-
-                                monsters.Add(new Goblin()); // 슬라임
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Slime());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Goblin());
+                            } 
                             break;
                         case 3: // 1 - 3
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Slime());
+                            } 
+                            for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                            } 
                             break;
                         case 4: // 1 - 4
-                                // 신전
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                            }
                             break;
                         case 5: // 1 - 5                      
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Orc());
                             }
                             break;
                         case 6: // 1 - 6                    
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
-                            }
+                                monsters.Add(new Orc());
+                            } 
                             break;
                         case 7:// 1 - 7
-
-                            for (int i = 0; i < randomIncount; i++)
+                            monsters.Add(new GoblinLord());
+                            for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
                             }
-
-
                             break;
-
-
                     }
                     break;
                 case 2:
                     switch (minstage)
                     {
                         case 1:
-                            //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Dragon());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 2: // 1 - 1
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 3: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 4: // 1 - 3                             
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 5: // 1 - 4                        
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonWarrior());
                             }
                             break;
-                        case 6: // 1 - 5                       
-                            for (int i = 0; i < randomIncount; i++)
+                        case 2: // 2 - 2
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonArcher());
                             }
                             break;
-                        case 7:// 1 - 6
-
+                        case 3:
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonArcher());
+                            }
+                            break;
+                        case 4:                           
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonArcher());
                             }
+                            break;
+                        case 5:
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                            }
+                            break;
+                        case 6:                       
+                            for (int i = 0; i < randomIncount; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                            }
+                            break;
+                        case 7:
+                            monsters.Add(new Lich());
+                            monsters.Add(new SkeletonWarrior());
+                            monsters.Add(new SkeletonArcher());
                             break;
                     }
                     break;
                 case 3:
                     switch (minstage)
                     {
-                        case 0:
-                            //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
                         case 1: // 1 - 1
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
                             break;
                         case 2: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Wyvern());
+                            }
                             break;
                         case 3: // 1 - 3                             
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Wyvern());
+                            }
                             break;
                         case 4: // 1 - 4                        
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Wyvern());
                             }
                             break;
                         case 5: // 1 - 5                       
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Wyvern());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Griffin());
                             }
                             break;
                         case 6:// 1 - 6
-
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Griffin());
                             }
+                            break;
+                        case 7:// 1 - 7
+                            monsters.Add(new Dragon());
                             break;
                     }
                     break;
-
             }
         }
 
@@ -316,26 +339,24 @@ namespace TextDungeon
 
         public void BattleScene(Character _player, List<Monster> monsters, List<string> mapList) // 매개변수 로 플레이어와 몬스터의 정보를 가져온다. // 죽지 않고 클리어시 스테이지2로 연결하는거 해야댐   
         {                                                                                // 몬스터 타입을 넣으면 그에 맞는 몬스터가 나옴
-
+            
             // 어떤 요소가 들어와도 작동 할 수 있게.
             do
             {
                 Console.Clear();
-                Console.WriteLine("게임이 시작됩니다!");
-
                 Console.WriteLine($" {stageNum} - {minStage} 스테이지 {mapList[mapListIndex]} \n"); // 스테이지 숫자 변경 해야댐.
                 Console.WriteLine(" 플레이어 ");
-                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
-                Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
+                Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job}, LV : {_player.Level} "); //직업을 표시해줘야 될까? 
+                Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}, 마나 : {_player.Mp}\n ");
 
-                for (int i = 0; i < monsters.Count; i++)
-                {
-                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
-                    Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
-                }
+                    for (int i = 0; i < monsters.Count; i++)
+                    {
+                        Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
+                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
+                    }
                 Console.WriteLine("플레이어의 턴!!");
                 Console.WriteLine("원하는 행동을 골라 보세요!");
-                Console.WriteLine("1.공격하기");
+                Console.WriteLine("1. 공격 하기");
                 Console.WriteLine("2. 스킬 사용");
 
 
@@ -375,16 +396,13 @@ namespace TextDungeon
                             Thread.Sleep(1000);
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
-
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                         bool isCritical = IsCriticalHit(_player.CritChance);
-                        int damageDealt = _player.Atk;
-
+                        int damageDealt = (int)(_player.Atk * _player.CritiDamage);
                         if (isCritical)
                         // 만약 크리티컬 히트가 발생
                         {
                             Console.WriteLine("치명타 공격!");
-                            damageDealt = (int)(_player.Atk * _player.CritiDamage);
                             //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
                             Console.WriteLine("{0}의 피해를 주었습니다.", damageDealt);
                             monsters[selectedMonsterIndex].Hp -= damageDealt;
@@ -394,20 +412,17 @@ namespace TextDungeon
                             monsters[selectedMonsterIndex].Hp -= _player.Atk;
                             Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);
                         }
-
-
-
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
 
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
-
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
                             Thread.Sleep(1000);
                         }
 
                         break;
+                        //스킬
                     case 2:
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
                         int selectedSkillIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
@@ -421,40 +436,38 @@ namespace TextDungeon
                         }
 
                         SkillManager skillManager = new SkillManager();
-                        // SkillManager 객체 생성
                         skillManager.ShowSkills();
                         // 사용 가능한 스킬 보여줌
                         int skillChoice = int.Parse(Console.ReadLine()) - 1;
-                        // 선택한 스킬 번호를 받는다
-
                         if (skillChoice >= 0 && skillChoice < skillManager.GetSkillsCount())
                         // 선택한 스킬이 유효한지 확인하고 해당 스킬을 가져옴
                         {
                             Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
-                            // 선택한 스킬을 사용합니다.
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
+                            Thread.Sleep(1000);
+                        }
+                        else if (_player.Mp < 3)
+                        {
+                            Console.WriteLine("마나가 부족합니다!");
+                            Thread.Sleep(1000);
                         }
                         else
                         {
                             Console.WriteLine("잘못된 선택입니다.");
-                            // 잘못된 선택일 경우 메시지를 출력
+                            Thread.Sleep(1000);
+                            continue;
                         }
 
                         if (monsters[selectedSkillIndex].Hp <= 0)
                         {
-
                             monsters[selectedSkillIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedSkillIndex].Name);
                             //Thread.Sleep(1000);
                         }
-
                         break;
-
-
-
                 }
-
+                //몬스터 턴
                 foreach (Monster monster in monsters)
                 {
                     Thread.Sleep(1000);
@@ -473,7 +486,7 @@ namespace TextDungeon
                         {
                             _player.Hp -= monster.Atk;
                             Console.WriteLine($"{monster.Atk}의 피해를 입었습니다\n");
-                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
+                            Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");                       
 
                             if (_player.Hp <= 0)
                             {
@@ -486,17 +499,14 @@ namespace TextDungeon
                         {
                             Console.WriteLine($"{monster.Name}은(는) 죽었습니다!");
                         }
-
+                        
                     }
                     else
                     {
                         Console.WriteLine($"{monster.Name}은(는) 죽었습니다!");
                     }
-
                 }
-
-
-                Thread.Sleep(1000);
+                 Thread.Sleep(1000);
                 Console.Clear();
             }
 
@@ -516,17 +526,21 @@ namespace TextDungeon
                 {
                     mapListIndex++;
                 }
-
-
                 minStage++;
-
+                if (_player.Mp <= 10)
+                {
+                    _player.Mp += 5;
+                }
+                else if (_player.Mp >= 10)
+                {
+                    _player.Mp = 10;
+                }
                 Stages(_player, monsters, stageNum, minStage);
             }
             else
             {
                 stageNum = 1;
                 minStage = 1;
-
                 Program.StartMenu();
             }
         }

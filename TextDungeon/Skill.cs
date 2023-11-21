@@ -41,10 +41,6 @@ namespace TectDungeon_Skill
                 Console.ResetColor();
                 Console.WriteLine($"{monsters[SelectMonster].Name}의 남은 체력: {monsters[SelectMonster].Hp}");
             }
-            else
-            {
-                Console.WriteLine("마나가 부족하여 스킬을 시전할 수 없습니다.");
-            }
         }
     }
         // 스킬 사용 메소드, 파생 클래스에서 구현
@@ -54,7 +50,7 @@ namespace TectDungeon_Skill
     public class FireballSkill : Skill
     // 파이어볼 스킬 클래스
     {
-        public FireballSkill() : base("파이어볼", 20, 3) { }
+        public FireballSkill() : base("파이어볼 : MP 3 소모", 14, 3) { }
         // 파이어볼 스킬의 기본 속성 초기화
 
         public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
@@ -67,7 +63,7 @@ namespace TectDungeon_Skill
     public class PowerStrikeSkill : Skill
     // 파워스트라이크 스킬 클래스
     {
-        public PowerStrikeSkill() : base("파워스트라이크", 25, 5) { }
+        public PowerStrikeSkill() : base("파워스트라이크 : MP 5 소모", 20, 5) { }
 
         public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         // 파워스트라이크 스킬 사용 시의 동작 정의
@@ -79,7 +75,7 @@ namespace TectDungeon_Skill
     public class SuperPunchSkill : Skill
     // 짱짱펀치 스킬 클래스
     {
-        public SuperPunchSkill() : base("짱짱펀치", 999, 10) { }
+        public SuperPunchSkill() : base("짱짱펀치 : MP 10 소모", 999, 10) { }
 
         public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         // 짱짱펀치 스킬 사용 시의 동작 정의
