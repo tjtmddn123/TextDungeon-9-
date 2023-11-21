@@ -25,23 +25,11 @@ namespace TectDungeon_Skill
             MpCost = mpCost;
         }
 
-        public abstract void UseSkill(Character player, Goblin _goblin);
-        // 스킬 사용 메소드, 파생 클래스에서 구현
-        //스킬을 사용할 때의 동작을 나타냄
-    }
-
-    public class FireballSkill : Skill
-    // 파이어볼 스킬 클래스
-    {
-        public FireballSkill() : base("파이어볼", 20, 3) { }
-        // 파이어볼 스킬의 기본 속성 초기화
-
-        public override void UseSkill(Character player, Goblin _goblin)
-        // 파이어볼 스킬 사용 시의 동작 정의
+        public virtual void UseSkill(Character player, Goblin _goblin)
         {
             if (player.Mp >= MpCost)
             {
-                Console.WriteLine($"3의 MP를 소모하여 '{Name}' 시전!");
+                Console.WriteLine($"{MpCost}의 MP를 소모하여 '{Name}' 시전!");
                 player.Mp -= MpCost;
 
                 // 몬스터에게 피해 입히기
@@ -55,6 +43,22 @@ namespace TectDungeon_Skill
             {
                 Console.WriteLine("마나가 부족하여 스킬을 시전할 수 없습니다.");
             }
+        }
+    }
+        // 스킬 사용 메소드, 파생 클래스에서 구현
+        //스킬을 사용할 때의 동작을 나타냄
+
+
+    public class FireballSkill : Skill
+    // 파이어볼 스킬 클래스
+    {
+        public FireballSkill() : base("파이어볼", 20, 3) { }
+        // 파이어볼 스킬의 기본 속성 초기화
+
+        public override void UseSkill(Character player, Goblin _goblin)
+        // 파이어볼 스킬 사용 시의 동작 정의
+        {
+            base.UseSkill(player, _goblin);
         }
     }
 
@@ -66,22 +70,7 @@ namespace TectDungeon_Skill
         public override void UseSkill(Character player, Goblin _goblin)
         // 파워스트라이크 스킬 사용 시의 동작 정의
         {
-            if (player.Mp >= MpCost)
-            {
-                Console.WriteLine($"5의 MP를 소모하여 '{Name}' 시전!");
-                player.Mp -= MpCost;
-
-                // 몬스터에게 피해 입히기
-                int damageDealt = Damage;
-                _goblin.Hp -= damageDealt;
-
-                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
-            }
-            else
-            {
-                Console.WriteLine("마나가 부족하여 스킬을 시전할 수 없습니다.");
-            }
+            base.UseSkill(player, _goblin);
         }
     }
 
@@ -93,22 +82,7 @@ namespace TectDungeon_Skill
         public override void UseSkill(Character player, Goblin _goblin)
         // 짱짱펀치 스킬 사용 시의 동작 정의
         {
-            if (player.Mp >= MpCost)
-            {
-                Console.WriteLine($"10의 MP를 소모하여 '{Name}' 시전!");
-                player.Mp -= MpCost;
-
-                // 몬스터에게 피해 입히기
-                int damageDealt = Damage;
-                _goblin.Hp -= damageDealt;
-
-                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
-            }
-            else
-            {
-                Console.WriteLine("마나가 부족하여 스킬을 시전할 수 없습니다.");
-            }
+            base.UseSkill(player, _goblin);
         }
     }
 }

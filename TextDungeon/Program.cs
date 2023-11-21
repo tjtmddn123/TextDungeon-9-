@@ -99,18 +99,17 @@ namespace TextDungeon
         public int Hp { get; set; }
         public int Atk { get; set; }
         public bool IsDead { get; set; }
-
     }
     public class Goblin : Monster
     {
-        public string Name { get; set; }
-        public int Hp { get; set; }
-        public int Atk { get; set; }
-        public Goblin(string name, int hp, int atk)
+        
+        public Goblin()
         {
-            Name = name;
-            Hp = hp;
-            Atk = atk;
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "고블린";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
         }
     }
 
@@ -129,12 +128,10 @@ namespace TextDungeon
 
     public enum ItemType
     {
-        Weapon,
+        weapon,
         helme,
         shirt,
         pants
-        
-            
     }
 
 
@@ -229,12 +226,14 @@ namespace TextDungeon
 
     internal class Program
     {
-
+        public static Stage newStage = new Stage();
         public static Character _player;
-        public static List<Item> _items;
-        public static List<Item> Inventory;
-        public static Goblin _goblin;
-        public static Dragon _dragon;
+        public static List<Item> _items = new List<Item>();
+        public static List<Item> Inventory =  new List<Item>();
+        public static List<Monster> monsters = new List<Monster>();
+        //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
+        //public static Dragon _dragon;
+
         public bool IsDead = false;
 
         static void Main(string[] args)
@@ -251,20 +250,20 @@ namespace TextDungeon
 
         static void GameDataSetting()
         {
-            Inventory = new List<Item>();
-            Inventory.Add(new Item("나무 몽둥이", "초반 무기로 이거만한게 없지", ItemType.Weapon, 2, 0, 0, 50));
-            Inventory.Add(new Item("냄비 뚜껑", "엄마한테 혼남 주의", ItemType.Weapon, 0, 2, 0, 50));
+            //Inventory = new List<Item>();
+            Inventory.Add(new Item("나무 몽둥이", "초반 무기로 이거만한게 없지", ItemType.weapon, 2, 0, 0, 50));
+            Inventory.Add(new Item("냄비 뚜껑", "엄마한테 혼남 주의", ItemType.weapon, 0, 2, 0, 50));
             // 이름/ 설명/ 타입/ 공격력/ 방어력/ 체력/ 가격  
-            _items = new List<Item>();
-            _items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", ItemType.Weapon, 2, 0, 0, 50));
-            _items.Add(new Item("짱짱 칼", "짱짱 칼이당.", ItemType.Weapon, 2, 0, 0, 50));
+            //_items = new List<Item>();
+            _items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", ItemType.weapon, 2, 0, 0, 50));
+            _items.Add(new Item("짱짱 칼", "짱짱 칼이당.", ItemType.weapon, 2, 0, 0, 50));
             _items.Add(new Item("짱짱 모자", "짱짱 모자당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.helme, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.shirt, 0, 5, 0, 50));
+            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.pants, 0, 5, 0, 50));
             _items.Add(new Item("짱짱 장갑", "짱짱 장갑이당.", ItemType.helme, 0, 5, 0, 50));
             _items.Add(new Item("짱짱 신발", "짱짱 신발이당.", ItemType.helme, 0, 5, 0, 50));
             _items.Add(new Item("짱짱 벨트", "짱짱 벨트당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", ItemType.Weapon, 100, 0, 0, 50));
+            _items.Add(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", ItemType.weapon, 100, 0, 0, 50));
         }
 
         static void Intro()
@@ -328,7 +327,7 @@ namespace TextDungeon
             Console.Clear();
 
             Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-            Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다."); //변경사항
+            Console.WriteLine("아케이드 마을에 오신 여러분 환영합니다."); //변경사항
             Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
             Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
             Console.WriteLine("");
@@ -345,8 +344,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    //EnhanceStage.Enhance(Inventory); //강화입장
-                    //Stage1.TempleStage( _player); //던전입장
+                    newStage.Stage1(_player, monsters,1);//던전입장 1은 임시번호
                     break;
             }
         }
@@ -503,7 +501,51 @@ namespace TextDungeon
         static void ToggleEquipStatus(int idx)
         {
             Inventory[idx].IsEquiped = !Inventory[idx].IsEquiped;
-        }
+
+            if (Inventory[idx].Type == ItemType.weapon)
+            {
+                for(int i = 0; i< Inventory.Count; i++)
+                {
+                    if(i != idx && Inventory[i] is Item)
+                    {
+                        Inventory[i].IsEquiped= false;
+                    }
+                }
+            }
+
+            if (Inventory[idx].Type == ItemType.helme)
+            {
+                for (int i = 0; i < Inventory.Count; i++)
+                {
+                    if (i != idx && Inventory[i] is Item)
+                    {
+                        Inventory[i].IsEquiped = false;
+                    }
+                }
+            }
+
+            if (Inventory[idx].Type == ItemType.shirt)
+            {
+                for (int i = 0; i < Inventory.Count; i++)
+                {
+                    if (i != idx && Inventory[i] is Item)
+                    {
+                        Inventory[i].IsEquiped = false;
+                    }
+                }
+            }
+
+            if (Inventory[idx].Type == ItemType.pants)
+            {
+                for (int i = 0; i < Inventory.Count; i++)
+                {
+                    if (i != idx && Inventory[i] is Item)
+                    {
+                        Inventory[i].IsEquiped = false;
+                    }
+                }
+            }
+        }//ToggleEquipStatus()
 
         static void ShowHighlightedText(string title)
         {
