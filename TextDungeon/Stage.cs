@@ -58,16 +58,18 @@ namespace TextDungeon
                 case 1: // 1 스테이지
                     StageSet(_player, monsters, stagenum, minstage); // 스테이지 1에 맞는 세팅을 해주는 메서드.
                     BattleScene(_player, monsters, stage1mapname);
-
-                default:
+                    break;
                 case 2: // 2 스테이지
                     StageSet(_player, monsters, stagenum, minstage); // 스테이지 2에 맞는 세팅을 해주는 메서드.
                     BattleScene(_player, monsters, stage1mapname);
-                default:
+                    break;
                 case 3: // 3 스테이지
                     StageSet(_player, monsters, stagenum, minstage); // 스테이지 3에 맞는 세팅을 해주는 메서드.
                     BattleScene(_player, monsters, stage1mapname);
-                default:
+                    break;
+                    default:
+                    Console.WriteLine("잘못된 입력입니다.");
+                    break;
             }
 
             
@@ -291,19 +293,18 @@ namespace TextDungeon
                 Console.WriteLine($"이름 : {_player.Name}, 직업 : {_player.Job} "); //직업을 표시해줘야 될까? 
                 Console.WriteLine($"공격력 : {_player.Atk}, 체력 : {_player.Hp}\n ");
 
-                for (int i = 0; i < monsters.Count; i++)
-                {
-                    Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
-                    Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
-                }
-                
-
+                    for (int i = 0; i < monsters.Count; i++)
+                    {
+                        Console.WriteLine("{0}: {1} ", i + 1, monsters[i].Name);
+                        Console.WriteLine($"공격력 : {monsters[i].Atk}, 체력 : {monsters[i].Hp}\n ");
+                    }
                 Console.WriteLine("플레이어의 턴!!");
                 Console.WriteLine("원하는 행동을 골라 보세요!");
                 Console.WriteLine("1.공격하기");
                 Console.WriteLine("2. 스킬 사용");
 
-                bool IsCriticalHit(double critChance)
+
+                static bool IsCriticalHit(double critChance)
                 // 치명타 여부를 결정하는 메서드 추가
                 {
                     Random random = new Random();
@@ -315,7 +316,7 @@ namespace TextDungeon
                     // 그렇지 않으면 false를 반환
                     // randomNumber가 critChance보다 작거나 같을 때 크리티컬 히트가 발생한다고 판단
                 }
-                bool IsEvaded(double evasion)
+                static bool IsEvaded(double evasion)
                 // 플레이어가 회피할지 여부를 결정하는 메서드 추가
                 {
                     Random random = new Random();
@@ -328,6 +329,7 @@ namespace TextDungeon
 
                 switch (CheckValidInput(1, 1))
                 {
+
                     case 1:
 
 
@@ -335,6 +337,7 @@ namespace TextDungeon
 
                         int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
+                        Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                         bool isCritical = IsCriticalHit(_player.CritChance);
                         int damageDealt = _player.Atk;
 
@@ -344,16 +347,13 @@ namespace TextDungeon
                             Console.WriteLine("치명타 공격!");
                             damageDealt = (int)(_player.Atk * _player.CritiDamage);
                             //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
-                            _goblin.Hp -= damageDealt;
-                            //공격으로 인한 피해를 몬스터의 체력에서 제거
-                            Console.WriteLine($"{damageDealt}에 피해를 {(isCritical ? "치명타로 " : "")}주었습니다");
-                            //isCritical이 true라면 "치명타로 "를 출력하고, false라면 빈 문자열("")을 출력
+                            Console.WriteLine("{0}의 피해를 주었습니다.", damageDealt);
+                            monsters[selectedMonsterIndex].Hp -= damageDealt;
                         }
                         else
                         {
-                            Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                             monsters[selectedMonsterIndex].Hp -= _player.Atk;
-                            Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);                          
+                            Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);
                         }
 
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
@@ -368,19 +368,27 @@ namespace TextDungeon
                             }
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
-                            Thread.Sleep(1000);
+                            Thread.Sleep(3500);
                         }
                         break;
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(3500);
 
                 foreach (Monster monster in monsters)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3500);
                     if (monster.Hp > 0)
                     {
                         Console.WriteLine("{0}의 턴!!", monster.Name);
-                        if (!monster.IsDead)
+                        bool isEvaded = IsEvaded(_player.Evasion);
+                        // 플레이어의 회피를 체크
+
+                        if (isEvaded)
+                        {
+                            Console.WriteLine("플레이어가 공격을 회피했습니다!");
+                            // 회피에 성공했을 때 추가적인 행동을 수행하거나 메시지를 출력
+                        }
+                        else if (!monster.IsDead)
                         {
                             _player.Hp -= monster.Atk;
                             Console.WriteLine($"{monster.Atk}의 피해를 입었습니다\n");
@@ -407,7 +415,7 @@ namespace TextDungeon
                 }
 
 
-                Thread.Sleep(1000);
+                Thread.Sleep(3500);
                 Console.Clear();
             }
 
