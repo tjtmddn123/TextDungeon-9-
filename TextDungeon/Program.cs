@@ -90,12 +90,12 @@ namespace TextDungeon
 
     public class Item
     {
-        public string Name { get; }
+        public string Name { get; set; }
         public string Description { get; }
-        public ItemType Type { get; set;  }
-        public int Atk { get; }
-        public int Def { get; }
-        public int Hp { get; }
+        public ItemType Type { get; }
+        public int Atk { get; set; }
+        public int Def { get; set; }
+        public int Hp { get; set; }
         public int Price { get; }
         public bool IsEquiped { get; set; }
 
