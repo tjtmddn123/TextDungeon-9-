@@ -25,19 +25,19 @@ namespace TectDungeon_Skill
             MpCost = mpCost;
         }
 
-        public virtual void UseSkill(Character player, Goblin _goblin)
+        public virtual void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         {
-            if (player.Mp >= MpCost)
+            if (_player.Mp >= MpCost)
             {
                 Console.WriteLine($"{MpCost}의 MP를 소모하여 '{Name}' 시전!");
-                player.Mp -= MpCost;
+                _player.Mp -= MpCost;
 
                 // 몬스터에게 피해 입히기
                 int damageDealt = Damage;
-                _goblin.Hp -= damageDealt;
+                monsters[SelectMonster].Hp -= damageDealt;
 
-                Console.WriteLine($"{_goblin.Name}에게 {damageDealt}의 피해를 입혔습니다.");
-                Console.WriteLine($"{_goblin.Name}의 남은 체력: {_goblin.Hp}");
+                Console.WriteLine($"{monsters[SelectMonster].Name}에게 {damageDealt}의 피해를 입혔습니다.");
+                Console.WriteLine($"{monsters[SelectMonster].Name}의 남은 체력: {monsters[SelectMonster].Hp}");
             }
             else
             {
@@ -55,10 +55,10 @@ namespace TectDungeon_Skill
         public FireballSkill() : base("파이어볼", 20, 3) { }
         // 파이어볼 스킬의 기본 속성 초기화
 
-        public override void UseSkill(Character player, Goblin _goblin)
+        public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         // 파이어볼 스킬 사용 시의 동작 정의
         {
-            base.UseSkill(player, _goblin);
+            base.UseSkill(_player, monsters, SelectMonster);
         }
     }
 
@@ -67,10 +67,10 @@ namespace TectDungeon_Skill
     {
         public PowerStrikeSkill() : base("파워스트라이크", 25, 5) { }
 
-        public override void UseSkill(Character player, Goblin _goblin)
+        public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         // 파워스트라이크 스킬 사용 시의 동작 정의
         {
-            base.UseSkill(player, _goblin);
+            base.UseSkill(_player, monsters, SelectMonster);
         }
     }
 
@@ -79,10 +79,10 @@ namespace TectDungeon_Skill
     {
         public SuperPunchSkill() : base("짱짱펀치", 999, 10) { }
 
-        public override void UseSkill(Character player, Goblin _goblin)
+        public override void UseSkill(Character _player, List<Monster> monsters, int SelectMonster)
         // 짱짱펀치 스킬 사용 시의 동작 정의
         {
-            base.UseSkill(player, _goblin);
+            base.UseSkill(_player, monsters, SelectMonster);
         }
     }
 }
