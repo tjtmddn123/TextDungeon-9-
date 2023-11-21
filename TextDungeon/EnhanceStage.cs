@@ -27,7 +27,7 @@ namespace TextDungeon
             Console.WriteLine("");
 
             int input = CheckValidInput(1, Inventory.Count)-1;
-            if (Inventory[input].Type == ItemType.Weapon)
+            if (Inventory[input].Type == ItemType.weapon)
             {
                 Inventory[input].Atk *= 2;
                 Inventory[input].Name += "[강화됨]";
@@ -51,6 +51,7 @@ namespace TextDungeon
                 Inventory[i].PrintItemStatDescription();
             }
             Console.WriteLine("나가기");
+            //다음스테이지로 연결
             Console.ReadLine();
         }
 
