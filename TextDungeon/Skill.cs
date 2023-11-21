@@ -36,7 +36,9 @@ namespace TectDungeon_Skill
                 int damageDealt = Damage;
                 monsters[SelectMonster].Hp -= damageDealt;
 
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine($"{monsters[SelectMonster].Name}에게 {damageDealt}의 피해를 입혔습니다.");
+                Console.ResetColor();
                 Console.WriteLine($"{monsters[SelectMonster].Name}의 남은 체력: {monsters[SelectMonster].Hp}");
             }
             else

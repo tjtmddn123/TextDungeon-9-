@@ -377,6 +377,14 @@ namespace TextDungeon
 
                         int selectedMonsterIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
+                        if (monsters[selectedMonsterIndex].Hp <= 0)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("이미죽음");
+                            Thread.Sleep(1000);
+                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감 
+                        }
+
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
                         bool isCritical = IsCriticalHit(_player.CritChance);
                         int damageDealt = _player.Atk;
@@ -384,10 +392,12 @@ namespace TextDungeon
                         if (isCritical)
                         // 만약 크리티컬 히트가 발생
                         {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("치명타 공격!");
                             damageDealt = (int)(_player.Atk * _player.CritiDamage);
                             //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
                             Console.WriteLine("{0}의 피해를 주었습니다.", damageDealt);
+                            Console.ResetColor();
                             monsters[selectedMonsterIndex].Hp -= damageDealt;
                         }
                         else
@@ -403,6 +413,14 @@ namespace TextDungeon
 
                         int selectedSkillIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
+                        if (monsters[selectedSkillIndex].Hp <= 0)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("이미죽음");
+                            Thread.Sleep(1000);
+                            continue; // 다시 값을 입력받기 위해 switch문으로 돌아감 
+                        }
+
                         SkillManager skillManager = new SkillManager();
                         // SkillManager 객체 생성
                         skillManager.ShowSkills();
@@ -416,7 +434,10 @@ namespace TextDungeon
                             Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
                             // 선택한 스킬을 사용합니다.
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
+                            Console.ResetColor();
                         }
                         else
                         {
@@ -424,23 +445,12 @@ namespace TextDungeon
                             // 잘못된 선택일 경우 메시지를 출력
                         }
                         break;
-                        if (monsters[selectedMonsterIndex].Hp <= 0)
-                        {
-                            if (monsters[selectedMonsterIndex].IsDead = true)
-                            {
-                                Console.WriteLine("이미 무찌른 몬스터 입니다!");
-                            }
-                            monsters[selectedMonsterIndex].IsDead = true;
-                            Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
-                            Thread.Sleep(3500);
-                        }
-                        break;
                 }
-                Thread.Sleep(3500);
+                Thread.Sleep(1000);
 
                 foreach (Monster monster in monsters)
                 {
-                    Thread.Sleep(3500);
+                    Thread.Sleep(1000);
                     if (monster.Hp > 0)
                     {
                         Console.WriteLine("{0}의 턴!!", monster.Name);
@@ -449,7 +459,9 @@ namespace TextDungeon
 
                         if (isEvaded)
                         {
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("플레이어가 공격을 회피했습니다!");
+                            Console.ResetColor();
                             // 회피에 성공했을 때 추가적인 행동을 수행하거나 메시지를 출력
                         }
                         else if (!monster.IsDead)
@@ -461,25 +473,33 @@ namespace TextDungeon
                             if (_player.Hp <= 0)
                             {
                                 _player.IsDead = true;
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("플레이어가 사망하였습니다.");
+                                Console.ResetColor();
                                 break;
                             }
                         }
                         else
                         {
+                            Console.WriteLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine($"{monster.Name}은(는) 이미 죽었습니다!");
+                            Console.ResetColor();
                         }
                         
                     }
                     else
                     {
+                        Console.WriteLine();
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"{monster.Name}은(는) 이미 죽었습니다!");
+                        Console.ResetColor();
                     }
 
                 }
 
 
-                Thread.Sleep(3500);
+                Thread.Sleep(1000);
                 Console.Clear();
             }
 
