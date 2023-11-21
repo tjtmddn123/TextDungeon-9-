@@ -260,7 +260,7 @@ namespace TextDungeon
             //회피율도 추가
             {
                 case 1:
-                    _player = new Character($"{playerName}", "전사", 1, 10, 10, 150, 10, 1500, 0.5, 2, 0.5);
+                    _player = new Character($"{playerName}", "전사", 1,100, 10, 150, 10, 1500, 0.5, 2, 0.5);
                     break;
                 case 2:
                     _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
@@ -275,7 +275,7 @@ namespace TextDungeon
 
         }//GameStartScene()
 
-        static void StartMenu()
+        public static void StartMenu()
         {
             Console.Clear();
 
@@ -297,7 +297,7 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stage1(_player, monsters,1);//던전입장 1은 임시번호
+                    newStage.Stages(_player, monsters,1, 1);//던전입장 1은 임시번호
                     break;
             }
         }
