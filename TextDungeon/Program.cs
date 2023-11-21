@@ -184,13 +184,17 @@ namespace TextDungeon
         public static List<Item> _items = new List<Item>();
         public static List<Item> Inventory =  new List<Item>();
         public static List<Monster> monsters = new List<Monster>();
+        public static JsonManager jsonManager = new JsonManager();
         //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
         //public static Dragon _dragon;
 
         public bool IsDead = false;
+        public static int stageNum = 1;
+        public static int minStage = 1;
 
         static void Main(string[] args)
         {
+            
             //캐릭터 정보 및 아이템 불러오기
             GameDataSetting();
             //1번 시작화면 이후 선택창 불러오기
@@ -199,6 +203,7 @@ namespace TextDungeon
             GameStartScene();
             //2번 메인화면 : 상태창,인벤토리,전투 로 구성되어 있음.
             StartMenu();
+            
         }
 
         static void GameDataSetting()
@@ -238,38 +243,51 @@ namespace TextDungeon
         {
             // 캐릭터 이름 세팅
             Console.WriteLine("아케이드 마을에 오신 여러분 환영합니다."); //변경사항
-            Console.WriteLine("이름을 입력하세요.");
-            Console.WriteLine();
-            string playerName = Console.ReadLine();
-            Console.WriteLine("\n");
-            Console.WriteLine($"이름 :{playerName}");
-            Console.Clear();
-
-
-            // 캐릭터 직업 세팅
-            Console.WriteLine(" ※원하는 직업을 선택하세요.※");
-            Console.WriteLine();
-            Console.WriteLine("1. 전사 : 공격과 방어에 밸런스가 좋고 초기 체력이 높습니다.\n");
-            Console.WriteLine("2. 궁수 : 공격력이 강한 대신 방어력과 체력이 낮습니다.\n");
-            Console.WriteLine("3. 도적 : 초기스텟이 낮은 대신 추가 소지금이 있습니다.\n");
-
-            int input = CheckValidInput(1, 3);
-
-            switch (input)
-            //여기에도 크확 크댐 추가.
-            //회피율도 추가
+            Console.WriteLine("1.새로하기"); 
+            Console.WriteLine("2.이어하기");
+            int inin = CheckValidInput(1, 2);
+            switch (inin)
             {
                 case 1:
-                    _player = new Character($"{playerName}", "전사", 1,100, 10, 150, 10, 1500, 0.5, 2, 0.5);
+                    Console.WriteLine("이름을 입력하세요.");
+                    Console.WriteLine();
+                    string playerName = Console.ReadLine();
+                    Console.WriteLine("\n");
+                    Console.WriteLine($"이름 :{playerName}");
+                    Console.Clear();
+
+
+                    // 캐릭터 직업 세팅
+                    Console.WriteLine(" ※원하는 직업을 선택하세요.※");
+                    Console.WriteLine();
+                    Console.WriteLine("1. 전사 : 공격과 방어에 밸런스가 좋고 초기 체력이 높습니다.\n");
+                    Console.WriteLine("2. 궁수 : 공격력이 강한 대신 방어력과 체력이 낮습니다.\n");
+                    Console.WriteLine("3. 도적 : 초기스텟이 낮은 대신 추가 소지금이 있습니다.\n");
+
+                    int input = CheckValidInput(1, 3);
+
+                    switch (input)
+                    //여기에도 크확 크댐 추가.
+                    //회피율도 추가
+                    {
+                        case 1:
+                            _player = new Character($"{playerName}", "전사", 1, 100, 10, 150, 10, 1500, 0.5, 2, 0.5);
+                            break;
+                        case 2:
+                            _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
+                            break;
+                        case 3:
+                            _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
+                            break;
+                        default:
+                            Console.WriteLine("잘못된 선택입니다.");
+                            break;
+                    }
                     break;
+
                 case 2:
-                    _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
-                    break;
-                case 3:
-                    _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
-                    break;
-                default:
-                    Console.WriteLine("잘못된 선택입니다.");
+                    _player = jsonManager.LoadCharacterData();
+                    jsonManager.StageLoad(out stageNum, out minStage);
                     break;
             }
 
@@ -287,8 +305,8 @@ namespace TextDungeon
             Console.WriteLine("1. 상태 보기\n");
             Console.WriteLine("2. 인벤토리\n");
             Console.WriteLine("3. 던전 입장\n");
-
-            switch (CheckValidInput(1, 3))
+            Console.WriteLine($"{stageNum}, {minStage}");
+            switch (CheckValidInput(1, 4))
             {
                 case 1:
                     StatusMenu();
@@ -297,7 +315,10 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stages(_player, monsters,1, 1);//던전입장 1은 임시번호
+                    newStage.Stages(_player, monsters,stageNum ,minStage);//던전입장 1은 임시번호
+                    break;
+                    case 4:
+                    jsonManager.SaveData(_player, Inventory, 2, 2); //임시저장기능
                     break;
             }
         }
