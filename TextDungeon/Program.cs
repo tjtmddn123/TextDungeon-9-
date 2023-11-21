@@ -43,54 +43,7 @@ namespace TextDungeon
         }
     }
 
-    public class SkillManager
-    //SkillManager 클래스는 Skill 객체들을 담는 skills 리스트를 가지고 있다.
-    {
-        private List<Skill> skills;
-        // Skill 객체들을 담는 리스트
-
-        public SkillManager()
-        {
-            skills = new List<Skill>
-                 // SkillManager 생성자, 기본적인 스킬들을 초기화
-                {
-                 new FireballSkill(),
-                 new PowerStrikeSkill(),
-                 new SuperPunchSkill()
-                 // 기본적인 스킬들을 생성하여 리스트에 추가
-                };
-        }
-
-        public void ShowSkills()
-        // 사용 가능한 스킬 목록을 보여주는 메소드
-        {
-            Console.WriteLine("어떤 스킬을 사용할까요?");
-            for (int i = 0; i < skills.Count; i++)
-            {
-                Console.WriteLine($"{i + 1}. {skills[i].Name}");
-                // 리스트에 있는 각 스킬의 이름과 번호를 출력
-            }
-        }
-
-        public Skill ChooseSkill(int index)
-        // 선택한 인덱스에 해당하는 스킬을 반환하는 메소드
-        {
-            if (index >= 0 && index < skills.Count)
-            {
-                return skills[index];
-                // 해당 인덱스에 위치한 스킬을 반환
-            }
-            return null;
-            // 옳지 않은 인덱스인 경우, null을 반환
-        }
-
-        public int GetSkillsCount()
-        // 보유한 스킬의 개수를 반환하는 메소드
-        {
-            return skills.Count;
-            // 보유한 스킬의 개수를 반환
-        }
-    }
+    
 
     public class Monster
     {

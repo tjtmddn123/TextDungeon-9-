@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TectDungeon_Skill;
 
 namespace TextDungeon
 {
-    
+
 
     // 스테이지의 흐름
     // 1. 각각 해당하는 스테이지 메서드를 만든다. 몬스터 스테이지, 특수 스테이지(보스, 랜덤기도, 회복샘,  상점) 1 - 1, 1 - 2 등 1 - n 에 해당하는 세부 적인 장면 구현
@@ -14,7 +15,54 @@ namespace TextDungeon
     // 3. 큰 스테이지를 만든다. ( 세부 스테이지에 스테이지를 세팅하는( 2. ) 메서드를 넣어주고 세부적인 스테이지를 넣어준다. ) 
 
 
+    public class SkillManager
+    //SkillManager 클래스는 Skill 객체들을 담는 skills 리스트를 가지고 있다.
+    {
+        private List<Skill> skills;
+        // Skill 객체들을 담는 리스트
 
+        public SkillManager()
+        {
+            skills = new List<Skill>
+                 // SkillManager 생성자, 기본적인 스킬들을 초기화
+                {
+                 new FireballSkill(),
+                 new PowerStrikeSkill(),
+                 new SuperPunchSkill()
+                 // 기본적인 스킬들을 생성하여 리스트에 추가
+                };
+        }
+
+        public void ShowSkills()
+        // 사용 가능한 스킬 목록을 보여주는 메소드
+        {
+            Console.WriteLine("어떤 스킬을 사용할까요?");
+            for (int i = 0; i < skills.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {skills[i].Name}");
+                // 리스트에 있는 각 스킬의 이름과 번호를 출력
+            }
+        }
+
+        public Skill ChooseSkill(int index)
+        // 선택한 인덱스에 해당하는 스킬을 반환하는 메소드
+        {
+            if (index >= 0 && index < skills.Count)
+            {
+                return skills[index];
+                // 해당 인덱스에 위치한 스킬을 반환
+            }
+            return null;
+            // 옳지 않은 인덱스인 경우, null을 반환
+        }
+
+        public int GetSkillsCount()
+        // 보유한 스킬의 개수를 반환하는 메소드
+        {
+            return skills.Count;
+            // 보유한 스킬의 개수를 반환
+        }
+    }
 
 
     public class Stage
@@ -327,7 +375,7 @@ namespace TextDungeon
                 }
 
 
-                switch (CheckValidInput(1, 1))
+                switch (CheckValidInput(1, 2))
                 {
 
                     case 1:
@@ -357,9 +405,33 @@ namespace TextDungeon
                         }
 
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
+                        break;
+                    case 2:
+                        Console.WriteLine("원하시는 몬스터를 선택해주세요.");
 
+                        int selectedSkillIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
 
+                        SkillManager skillManager = new SkillManager();
+                        // SkillManager 객체 생성
+                        skillManager.ShowSkills();
+                        // 사용 가능한 스킬 보여줌
+                        int skillChoice = int.Parse(Console.ReadLine()) - 1;
+                        // 선택한 스킬 번호를 받는다
 
+                        if (skillChoice >= 0 && skillChoice < skillManager.GetSkillsCount())
+                        // 선택한 스킬이 유효한지 확인하고 해당 스킬을 가져옴
+                        {
+                            Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
+                            chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
+                            // 선택한 스킬을 사용합니다.
+                            Console.WriteLine($"남은 MP: {_player.Mp}\n");
+                        }
+                        else
+                        {
+                            Console.WriteLine("잘못된 선택입니다.");
+                            // 잘못된 선택일 경우 메시지를 출력
+                        }
+                        break;
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
                             if (monsters[selectedMonsterIndex].IsDead = true)
