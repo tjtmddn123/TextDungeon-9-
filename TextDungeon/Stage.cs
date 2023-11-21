@@ -124,6 +124,7 @@ namespace TextDungeon
         {
 
             int randomIncount = new Random().Next(1, 4); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
+            int randomIncount2 = new Random().Next(1, 2); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
 
             monsters.Clear();
             switch (stagenum)
@@ -135,153 +136,174 @@ namespace TextDungeon
                             //만약 1-1 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Slime());
                             } // 스테이지 마다 분리해서 
                             break;
                         case 2: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                
-                                monsters.Add(new Goblin()); // 슬라임
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 3: // 1 - 3
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 4: // 1 - 4
-                                // 신전
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 5: // 1 - 5                      
-                            for (int i = 0; i < randomIncount; i++)
+                                monsters.Add(new Slime());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
                             } 
+                            break;
+                        case 3: // 1 - 3
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Slime());
+                            } 
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Goblin());
+                            } 
+                            break;
+                        case 4: // 1 - 4
+                            for (int i = 0; i < randomIncount; i++)
+                            {
+                                monsters.Add(new Goblin());
+                            }
+                            break;
+                        case 5: // 1 - 5                      
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Goblin());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Orc());
+                            }
                             break;
                         case 6: // 1 - 6                    
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Orc());
                             } 
                             break;
                         case 7:// 1 - 7
-
-                            for (int i = 0; i < randomIncount; i++)
+                            monsters.Add(new GoblinLord());
+                            for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
-                            } 
-
-
+                            }
                             break;
-
-
                     }
                     break;
                 case 2:
                     switch (minstage)
                     {
                         case 1:
-                            //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Dragon());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 2: // 1 - 1
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 3: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 4: // 1 - 3                             
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
-                        case 5: // 1 - 4                        
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonWarrior());
                             }
                             break;
-                        case 6: // 1 - 5                       
-                            for (int i = 0; i < randomIncount; i++)
+                        case 2: // 2 - 2
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonArcher());
                             }
                             break;
-                        case 7:// 1 - 6
-
+                        case 3:
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonArcher());
+                            }
+                            break;
+                        case 4:                           
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new SkeletonArcher());
                             }
+                            break;
+                        case 5:
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonWarrior());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                            }
+                            break;
+                        case 6:                       
+                            for (int i = 0; i < randomIncount; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                            }
+                            break;
+                        case 7:
+                            monsters.Add(new Lich());
+                            monsters.Add(new SkeletonWarrior());
+                            monsters.Add(new SkeletonArcher());
                             break;
                     }
                     break;
                 case 3:
                     switch (minstage)
                     {
-                        case 0:
-                            //만약 1-0 방이라면~ 몬스터 세팅을 어떻게 
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
-                            break;
                         case 1: // 1 - 1
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
                             break;
                         case 2: // 1 - 2
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Wyvern());
+                            }
                             break;
                         case 3: // 1 - 3                             
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
-                            } // 스테이지 마다 분리해서 
+                                monsters.Add(new Drake());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Wyvern());
+                            }
                             break;
                         case 4: // 1 - 4                        
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Wyvern());
                             }
                             break;
                         case 5: // 1 - 5                       
-                            for (int i = 0; i < randomIncount; i++)
+                            for (int i = 0; i < randomIncount2; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Wyvern());
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Griffin());
                             }
                             break;
                         case 6:// 1 - 6
-
                             for (int i = 0; i < randomIncount; i++)
                             {
-                                monsters.Add(new Goblin());
+                                monsters.Add(new Griffin());
                             }
+                            break;
+                        case 7:// 1 - 7
+                            monsters.Add(new Dragon());
                             break;
                     }
                     break;
-
             }
         }
 
