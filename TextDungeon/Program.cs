@@ -4,6 +4,8 @@ using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using TectDungeon_Skill;
+using NAudio.Wave;
+using WMPLib;
 
 namespace TextDungeon
 {
@@ -341,24 +343,26 @@ namespace TextDungeon
         public static int stageNum = 1;
         public static int minStage = 1;
 
-
-
-        static void Main(string[] args)
+        static void StaringSleep(string addSleep)
         {
-            static void StaringSleep(string addSleep)
+            string inputString = addSleep;
+            foreach (char c in inputString)
             {
-                string inputString = addSleep;
-                foreach (char c in inputString)
-                {
-                    Console.Write(c);
-                    Thread.Sleep(1);
-
-
-                }
+                Console.Write(c);
+                Thread.Sleep(1);
 
 
             }
-            StaringSleep("당신은 어릴 적 신화가 생생하게 담겨 있는 책을 보았는데.. 그 책에는 신화에서 파생된 무기, 건물, 마법, 생명체 등에 대해 묘사가 남겨져 있었다. 그리고 그 신화는 당신의 기억에 푸르게 남아서, 당신이 성인이 된 이후에도 당신은 여전히 그 책과 신화에 대해 떠올리곤 했다.\r\n\r\n그리고 당신의 성인식 날, 당신의 가족과 친구들은 당신에게 선물을 주었고, 그 중에는 당신을 지켜줄 무기와 방어구도 있었다. \r\n\r\n그 무기와 방어구는 당신의 위험을 막아주고자 준 선물이지만, 당신은 선물의 의미는 내팽겨쳤다.\r\n\r\n오히려 드디어 무기를 가지게 되었다는 생각에 행복할 뿐이였는데…\r\n\r\n당신은 위험을 감수한 채 무기와 방어구를 바로 사용해보기로 했다.\r\n\r\n바로 던전에서 말이다.\r\n\r\n그렇게 당신은 오래 전 책에서 본 신화를 찾기 위해,");
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            
+
+           
+          StaringSleep("당신은 어릴 적 신화가 생생하게 담겨 있는 책을 보았는데.. 그 책에는 신화에서 파생된 무기, 건물, 마법, 생명체 등에 대해 묘사가 남겨져 있었다. 그리고 그 신화는 당신의 기억에 푸르게 남아서, 당신이 성인이 된 이후에도 당신은 여전히 그 책과 신화에 대해 떠올리곤 했다.\r\n\r\n그리고 당신의 성인식 날, 당신의 가족과 친구들은 당신에게 선물을 주었고, 그 중에는 당신을 지켜줄 무기와 방어구도 있었다. \r\n\r\n그 무기와 방어구는 당신의 위험을 막아주고자 준 선물이지만, 당신은 선물의 의미는 내팽겨쳤다.\r\n\r\n오히려 드디어 무기를 가지게 되었다는 생각에 행복할 뿐이였는데…\r\n\r\n당신은 위험을 감수한 채 무기와 방어구를 바로 사용해보기로 했다.\r\n\r\n바로 던전에서 말이다.\r\n\r\n그렇게 당신은 오래 전 책에서 본 신화를 찾기 위해,");
 
             swwitch();
 
@@ -433,16 +437,46 @@ namespace TextDungeon
                     break;
             }
 
+          
+
+
+        // 스레드 시작
+        ThreadPool.QueueUserWorkItem(_ =>
+            {
+                audio pg = new audio();
+
+                pg.PlayOne(); //음악 실행
+
+                EventWaitHandle _ewh = new EventWaitHandle(false, EventResetMode.ManualReset);
+
+               
+
+            });
+
             //캐릭터 정보 및 아이템 불러오기
             GameDataSetting();
             //1번 시작화면 이후 선택창 불러오기
             Intro();
+            
             //2번 메인화면 중 이름 , 직업선택(추가 가능) 설정 받아오기.
             GameStartScene();
             //2번 메인화면 : 상태창,인벤토리,전투 로 구성되어 있음.
             StartMenu();
+
             
+
+
+
+
+
+
+
+
+
+
         }
+
+      
 
         static void GameDataSetting()
         {

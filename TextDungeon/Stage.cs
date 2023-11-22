@@ -467,7 +467,7 @@ namespace TextDungeon
                         {
                             Console.WriteLine();
                             Console.WriteLine("이미죽음");
-                            Thread.Sleep(1000);
+                            //Thread.Sleep(1000);
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
@@ -492,7 +492,7 @@ namespace TextDungeon
                         {
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
-                            Thread.Sleep(1000);
+                           // Thread.Sleep(1000);
                         }
 
                         break;
@@ -505,7 +505,7 @@ namespace TextDungeon
                         {
                             Console.WriteLine();
                             Console.WriteLine("이미죽음");
-                            Thread.Sleep(1000);
+                            //Thread.Sleep(1000);
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
 
@@ -519,17 +519,17 @@ namespace TextDungeon
                             Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
-                            Thread.Sleep(1000);
+                            //Thread.Sleep(1000);
                         }
                         else if (_player.Mp < 3)
                         {
                             Console.WriteLine("마나가 부족합니다!");
-                            Thread.Sleep(1000);
+                            //Thread.Sleep(1000);
                         }
                         else
                         {
                             Console.WriteLine("잘못된 선택입니다.");
-                            Thread.Sleep(1000);
+                            //Thread.Sleep(1000);
                             continue;
                         }
 
@@ -544,7 +544,7 @@ namespace TextDungeon
                 //몬스터 턴
                 foreach (Monster monster in monsters)
                 {
-                    Thread.Sleep(1000);
+                   // Thread.Sleep(1000);
                     if (monster.Hp > 0)
                     {
                         Console.WriteLine("{0}의 턴!!", monster.Name);
@@ -580,7 +580,7 @@ namespace TextDungeon
                         Console.WriteLine($"{monster.Name}은(는) 죽었습니다!");
                     }
                 }
-                 Thread.Sleep(1000);
+                 //Thread.Sleep(1000);
                 Console.Clear();
             }
 
