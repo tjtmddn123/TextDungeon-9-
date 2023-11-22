@@ -23,12 +23,14 @@ namespace TextDungeon
         public double CritiDamage { get; set; }  //크댐
         public double Evasion { get; set; } // 회피율 
         public int MaxHp {  get; set; } // 최대 체력 - 회복샘에서 회복되는 최대 hp값
+        public int ExpCount { get; set; }
+        public int MaxExpCount { get; set; }
 
         //캐릭터 클래스에 치명타 확률 및 치명타 공격력의 정보를 추가하고,
         //전투 시에 이를 고려하여 확률에 따라 치명타가 발생
         //캐릭터 클래스에 Evasion 변수를 추가하고 매개변수로 전달
 
-        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold, double critChance, double critiDamage, double evasion, int maxHp)
+        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold, double critChance, double critiDamage, double evasion, int maxHp, int expCount, int maxExpCount)
         {
             Name = name;
             Job = job;
@@ -42,6 +44,8 @@ namespace TextDungeon
             CritiDamage = critiDamage;
             Evasion = evasion;
             MaxHp = maxHp;
+            ExpCount = expCount;
+            MaxExpCount = maxExpCount;
         }
     }
 
@@ -54,6 +58,9 @@ namespace TextDungeon
         public int Hp { get; set; }
         public int Atk { get; set; }
         public bool IsDead { get; set; }
+
+        public int RGold { get; set; }
+        public int RExp { get; set; }
     }
 
     //1스테이지
@@ -66,6 +73,8 @@ namespace TextDungeon
             Name = "슬라임";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 50;
+            RExp = 1;
         }
     }
 
@@ -78,6 +87,8 @@ namespace TextDungeon
             Name = "고블린";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 75;
+            RExp = 1;
         }
     }
 
@@ -90,6 +101,8 @@ namespace TextDungeon
             Name = "오크";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 100;
+            RExp = 1;
         }
     }
 
@@ -102,6 +115,8 @@ namespace TextDungeon
             Name = "고블린로드";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 150;
+            RExp = 2;
         }
     }
     //2스테이지
@@ -114,6 +129,8 @@ namespace TextDungeon
             Name = "해골병사";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 80;
+            RExp = 2;
         }
     }
 
@@ -126,6 +143,8 @@ namespace TextDungeon
             Name = "해골궁수";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 90;
+            RExp = 2;
         }
     }
 
@@ -138,6 +157,8 @@ namespace TextDungeon
             Name = "듀라한";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 120;
+            RExp = 2;
         }
     }
 
@@ -150,6 +171,8 @@ namespace TextDungeon
             Name = "리치";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 200;
+            RExp = 3;
         }
     }
 
@@ -163,6 +186,8 @@ namespace TextDungeon
             Name = "드레이크";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 500;
+            RExp = 3;
         }
     }
     public class Wyvern : Monster
@@ -174,6 +199,8 @@ namespace TextDungeon
             Name = "와이번";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 700;
+            RExp = 3;
         }
     }
     public class Griffin : Monster
@@ -185,6 +212,8 @@ namespace TextDungeon
             Name = "그리핀";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 1000;
+            RExp = 3;
         }
     }
     public class Dragon : Monster
@@ -196,6 +225,8 @@ namespace TextDungeon
             Name = "드래곤";
             Hp = randomMonsterHp;
             Atk = randomMonsterAtk;
+            RGold = 10000;
+            RExp = 10;
         }
     }
 
@@ -389,13 +420,13 @@ namespace TextDungeon
                     // MaxHp값 추가 함. 
                     {
                         case 1:
-                            _player = new Character($"{playerName}", "전사", 1, 100, 10, 150, 10, 1500, 0.5, 2, 0.5, 150);
+                            _player = new Character($"{playerName}", "전사", 1, 7, 2, 100, 10, 500, 0.2, 2, 0.2, 100, 0, 4);
                             break;
                         case 2:
-                            _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5, 80);
+                            _player = new Character($"{playerName}", "궁수", 1, 10, 1, 80, 10, 500, 0.3, 2, 0.1, 80, 0, 4);
                             break;
                         case 3:
-                            _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5, 77);
+                            _player = new Character($"{playerName}", "도적", 1, 5, 1, 77, 10, 777, 0.1, 2, 0.3, 77, 0, 4);
                             break;
                         default:
                             Console.WriteLine("잘못된 선택입니다.");
