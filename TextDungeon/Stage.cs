@@ -517,13 +517,14 @@ namespace TextDungeon
                         // 선택한 스킬이 유효한지 확인하고 해당 스킬을 가져옴
                         {
                             Skill chosenSkill = skillManager.ChooseSkill(skillChoice);
+                            if (_player.Mp < chosenSkill.MpCost)
+                            {
+                                Console.WriteLine("마나가 부족합니다!");
+                                Thread.Sleep(1000);
+                                continue;
+                            }
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
-                            Thread.Sleep(1000);
-                        }
-                        else if (_player.Mp < 3)
-                        {
-                            Console.WriteLine("마나가 부족합니다!");
                             Thread.Sleep(1000);
                         }
                         else
