@@ -500,7 +500,7 @@ namespace TextDungeon
                         {
                             Console.WriteLine();
                             Console.WriteLine("이미죽음");
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(500);
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
                         Console.WriteLine("{0}를 공격합니다!", monsters[selectedMonsterIndex].Name);
@@ -513,6 +513,7 @@ namespace TextDungeon
                             //추가 피해를 계산하고, "치명타 공격!" 메시지를 출력
                             Console.WriteLine("{0}의 피해를 주었습니다.", damageDealt);
                             monsters[selectedMonsterIndex].Hp -= damageDealt;
+                            Thread.Sleep(1000);
                         }
                         else
                         {
@@ -520,12 +521,16 @@ namespace TextDungeon
                             Console.WriteLine("{0}의 피해를 주었습니다.", _player.Atk);
                         }
                         Console.WriteLine("{0}의 남은체력 :{1}", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].Hp);
+                        Thread.Sleep(1500);
 
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
                             monsters[selectedMonsterIndex].Hp = 0;
                             monsters[selectedMonsterIndex].IsDead = true;
-                            Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
+
+                            Console.Clear();
+                            Console.WriteLine("{0}을 처치했습니다! {1}G을 획득합니다.\n", monsters[selectedMonsterIndex].Name, monsters[selectedMonsterIndex].RGold);
+                            Thread.Sleep(1000);
 
                             Program.PrintTextWithHighlights1(monsters[selectedMonsterIndex].Name = monsters[selectedMonsterIndex].Name + "(Dead)");
                             Thread.Sleep(1000);
@@ -536,12 +541,12 @@ namespace TextDungeon
                     case 2:
                         Console.WriteLine("원하시는 몬스터를 선택해주세요.");
                         int selectedSkillIndex = CheckValidInput(1, monsters.Count) - 1; // monsters의 인덱스는 0부터 시작하기 때문에 -1을 했다.
-
+                        Console.Clear();
                         if (monsters[selectedSkillIndex].Hp <= 0)
                         {
                             Console.WriteLine();
                             Console.WriteLine("이미죽음");
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(1000);
                             continue; // 다시 값을 입력받기 위해 switch문으로 돌아감
                         }
 
@@ -550,7 +555,7 @@ namespace TextDungeon
 
                         // 사용 가능한 스킬 보여줌
 
-                        int skillChoice = CheckValidInput(1, monsters.Count) - 1;
+                        int skillChoice = CheckValidInput(1, 3) - 1;
                         if (skillChoice >= 0 && skillChoice < skillManager.GetSkillsCount())
                         // 선택한 스킬이 유효한지 확인하고 해당 스킬을 가져옴
                         {
@@ -563,12 +568,12 @@ namespace TextDungeon
                             }
                             chosenSkill.UseSkill(_player, monsters, selectedSkillIndex);
                             Console.WriteLine($"남은 MP: {_player.Mp}\n");
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(1000);
                         }
                         else
                         {
                             Console.WriteLine("잘못된 선택입니다.");
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(1000);
                             continue;
                         }
 
@@ -576,15 +581,20 @@ namespace TextDungeon
                         {
                             monsters[selectedSkillIndex].Hp = 0;
                             monsters[selectedSkillIndex].IsDead = true;
-                            Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedSkillIndex].Name);
+
+                            Console.Clear();
+                            Console.WriteLine("{0}을 처치했습니다! {1}G와 {2}의 경험치를 획득합니다.\n", monsters[selectedSkillIndex].Name, monsters[selectedSkillIndex].RGold , monsters[selectedSkillIndex].RExp);
                             Program.PrintTextWithHighlights1(monsters[selectedSkillIndex].Name = monsters[selectedSkillIndex].Name + "(Dead)");
-                            //Thread.Sleep(1000);
+                            Thread.Sleep(2000);
+                            
                         }
                         break;
                 }
+                Console.Clear();
                 //몬스터 턴
                 foreach (Monster monster in monsters)
                 {
+                    Console.WriteLine();
                     if (monster.Hp > 0)
                     {
                         Console.WriteLine("{0}의 턴!!", monster.Name);
@@ -594,6 +604,7 @@ namespace TextDungeon
                         if (isEvaded)
                         {
                             Console.WriteLine("플레이어가 공격을 회피했습니다!");
+                            Thread.Sleep(1000);
                             // 회피에 성공했을 때 추가적인 행동을 수행하거나 메시지를 출력
                         }
                         else if (!monster.IsDead)
@@ -602,6 +613,7 @@ namespace TextDungeon
                             Console.WriteLine($"{monster.Atk}의 피해를 입었습니다");
                             Console.WriteLine($"{_player.Def}의 데미지를 방어했습니다.\n");
                             Console.WriteLine($"플레이어의 남은 체력 : {_player.Hp}");
+                            Thread.Sleep(1000);
 
                             if (_player.Hp <= 0)
                             {
@@ -611,7 +623,6 @@ namespace TextDungeon
                             }
                         }
                     }
-                    Thread.Sleep(1000);
                 }
                 Console.Clear();
             }
@@ -622,6 +633,9 @@ namespace TextDungeon
             {
                 _player.ExpCount += stageExp;
                 _player.Gold += stageGold;
+
+                Console.WriteLine("다음 스테이지로 이동합니다...");
+                Thread.Sleep(2000);
 
                 if (_player.MaxExpCount <= _player.ExpCount)
                 {
@@ -635,7 +649,7 @@ namespace TextDungeon
                 }
 
                 Console.WriteLine("");
-                if (minStage == 9)
+                if (minStage == 7)
                 {
                     stageNum++;
                     minStage = 0;
