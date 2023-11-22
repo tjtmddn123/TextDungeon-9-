@@ -79,38 +79,38 @@
 
 ## 시연 영상
 
-[프로젝트 시연영상] https://www.
+[프로젝트 시연영상] https://www.youtube.com/watch?v=Z1o6cnVp-N4
 
 ## 구현한 기능
 
 
 ### 게임 시작 화면
 
-![GameStartScene](/TextDungeon/Images/td1.png)
+![GameStartScene](TextDungeon/Images/td1.png)
   
 
 <br/>
 
 __새로하기, 이어하기__  
 
-![Load](/TextDungeon/Images/td2.png)  
+![Load](TextDungeon/Images/td2.png)  
 
 <br/>
 
 __이름 입력__
 
-![Name](/TextDungeon/Images/td3.png)
+![Name](TextDungeon/Images/td3.png)
 
 <br/>  
 
 __직업 선택__  
 
-![Jop](/TextDungeon/Images/td4.png)
+![Jop](TextDungeon/Images/td4.png)
 <br/>
 
 __메인 화면__  
 
-![MainScene](/TextDungeon/Images/td5.png)
+![MainScene](TextDungeon/Images/td5.png)
 <br/>
 
 ### 게임 진행 화면
@@ -119,62 +119,62 @@ __메인 화면__
 
 __상태 보기__
 
-![stat](/TextDungeon/Images/td6.png)  
+![stat](TextDungeon/Images/td6.png)  
 
 <br/>
 
 __인벤토리__
 
-![Inventory](/TextDungeon/Images/td7.png)  
+![Inventory](TextDungeon/Images/td7.png)  
 <br/>
 
 __장착 관리__  
 
-![EquipMenu](/TextDungeon/Images/td8.png)
+![EquipMenu](TextDungeon/Images/td8.png)
 
 * 장착시 아이템 앞에 [E] 표시
 
-![Equip](/TextDungeon/Images/td9.png)
+![Equip](TextDungeon/Images/td9.png)
 
 * 아이템 스텟 반영
 
-![Equip](/TextDungeon/Images/td10.png)
+![Equip](TextDungeon/Images/td10.png)
 
 <br/>
 
 __던전__
 
-![Dungeon](/TextDungeon/Images/td11.png)
+![Dungeon](TextDungeon/Images/td11.png)
 <br/>
 
 __신전__
 
-![Temple](/TextDungeon/Images/td12.png)
+![Temple](TextDungeon/Images/td12.png)
 <br/>
 
 __회복샘__
 
-![Temple](/TextDungeon/Images/td13.png)
+![Temple](TextDungeon/Images/td13.png)
 <br/>
 
 __강화소__
 
-![Enhance](/TextDungeon/Images/td17.png)
+![Enhance](TextDungeon/Images/td17.png)
 <br/>
 
 __상점(1스테이지)__
 
-![Shop1](/TextDungeon/Images/td14.png)
+![Shop1](TextDungeon/Images/td14.png)
 <br/>
 
 __상점(2스테이지)__
 
-![Shop2](/TextDungeon/Images/td15.png)
+![Shop2](TextDungeon/Images/td15.png)
 <br/>
 
 __상점(3스테이지)__
 
-![Shop3](/TextDungeon/Images/td16.png)
+![Shop3](TextDungeon/Images/td16.png)
 <br/>
 
 ## 프로젝트 시 일어난 문제와 해결  
