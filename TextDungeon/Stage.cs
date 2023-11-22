@@ -235,6 +235,7 @@ namespace TextDungeon
                                 stageExp += monsters[i].RExp;
                                 stageGold += monsters[i].RGold;
                             }
+                            Program.jsonManager.SaveData(_player,Program.Inventory, 2,1);
                             break;
                     }
                     break;
@@ -330,7 +331,7 @@ namespace TextDungeon
                             stageGold += monsters[1].RGold;
                             stageExp += monsters[2].RExp;
                             stageGold += monsters[2].RGold;
-
+                            Program.jsonManager.SaveData(_player, Program.Inventory, 3, 1);
 
                             break;
                     }
@@ -422,6 +423,7 @@ namespace TextDungeon
                             monsters.Add(new Dragon());
                             stageExp += monsters[0].RExp;
                             stageGold += monsters[0].RGold;
+                            Program.jsonManager.SaveData(_player, Program.Inventory, 3, 1);
                             break;
                     }
                     break;
