@@ -596,6 +596,9 @@ namespace TextDungeon
                     _player.Level++;
                     _player.ExpCount -= _player.MaxExpCount;
                     _player.MaxExpCount *= _player.Level;
+                    _player.Atk *= _player.Level;
+                    _player.Def *= _player.Level;
+                    _player.MaxHp *= _player.Level;
                 }
 
                 _player.ExpCount += stageExp;
