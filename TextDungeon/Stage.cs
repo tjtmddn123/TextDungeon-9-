@@ -430,9 +430,7 @@ namespace TextDungeon
                     Console.WriteLine("기도를 올렸습니다.");
                     _player.Gold = _player.Gold - 500;
                     Console.WriteLine($"현재 소지금 : {_player.Gold}");
-                    //1. 랜덤 스텟 상승 or 감소
-                    //2. 랜덤 아이템 획득
-                    //다음 스테이지 연결
+                    _player.Atk = _player.Atk * 2;
                     break;
             }
         }//TempleStage()
