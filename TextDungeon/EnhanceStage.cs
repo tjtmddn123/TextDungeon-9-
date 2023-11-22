@@ -12,7 +12,7 @@ namespace TextDungeon
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("■ 인벤토리 ■");
+            Console.WriteLine("■ 강화소 ■");
             Console.ResetColor();
             Console.WriteLine("보유 중인 아이템을 강화할 수 있습니다.");
             Console.WriteLine("");
@@ -37,21 +37,8 @@ namespace TextDungeon
                 Inventory[input].Def *= 2;
                 Inventory[input].Hp *= 2;
                 Inventory[input].Name += "[강화됨]";
-            }
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("■ 인벤토리 ■");
-            Console.ResetColor();
-            Console.WriteLine("보유 중인 아이템을 강화할 수 있습니다.");
-            Console.WriteLine("");
-            Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Inventory.Count; i++)
-            {
-                Console.Write(i + 1);
-                Inventory[i].PrintItemStatDescription();
-            }
+            }            
             Console.WriteLine("나가기");
-            //다음스테이지로 연결
             Console.ReadLine();
         }
 

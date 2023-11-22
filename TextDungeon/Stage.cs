@@ -66,9 +66,9 @@ namespace TextDungeon
 
     public class Stage
     {
-        List<string> stage1mapname = new List<string>() { "들판", "들판안쪽", "신전", "평야외곽", "호수로가는길", "회복의 샘", "호수", "호수안쪽", "상점", "호수바닥" };
-        List<string> stage2mapname = new List<string>() { "가위", "바위", "강화소", "보", "가나다", "라마바", "사아자", "차카" };
-        List<string> stage3mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
+        List<string> stage1mapname = new List<string>() { "1", "2", "3신전", "4", "5", "6회복샘", "7", "8", "9보스" };
+        List<string> stage2mapname = new List<string>() { "1", "2", "3강화소", "4", "5", "6회복샘", "7", "8" ,"9보스"};
+        List<string> stage3mapname = new List<string>() { "1", "2", "3신전", "4", "5", "6회복샘", "7", "8", "9보스" };
 
         public int thisstagenum = 1;
 
@@ -138,7 +138,7 @@ namespace TextDungeon
                 case 1:
                     switch (minstage)
                     {
-                        case 1:
+                        case 1:                            
                             //만약 1-1 방이라면~ 몬스터 세팅을 어떻게 
                             for (int i = 0; i < randomIncount; i++)
                             {
@@ -161,7 +161,10 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             } 
                             break;
-                        case 3: // 1 - 3
+                        case 3:
+                            TempleStage(_player);
+                            break;
+                        case 4: // 1 - 4
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Slime());
@@ -175,7 +178,7 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             } 
                             break;
-                        case 4: // 1 - 4
+                        case 5: // 1 - 5
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
@@ -183,7 +186,10 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 5: // 1 - 5                      
+                        case 6:
+                            Heal.HealStage(_player);
+                            break;
+                        case 7: // 1 - 7                    
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
@@ -196,8 +202,8 @@ namespace TextDungeon
                                 stageExp += monsters[i].RExp;
                                 stageGold += monsters[i].RGold;
                             }
-                            break;
-                        case 6: // 1 - 6                    
+                            break;                            
+                        case 8: // 1 - 8                   
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Orc());
@@ -205,7 +211,10 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             } 
                             break;
-                        case 7:// 1 - 7
+                        case 9:// 1 - 9
+                            Program.ShopMenu1(_player, Program._items1);
+                            Program.InventoryMenu2();
+                            Program.StatusMenu2();
                             monsters.Add(new GoblinLord());
                             stageExp += monsters[0].RExp;
                             stageGold += monsters[0].RGold;
@@ -244,6 +253,13 @@ namespace TextDungeon
                             }
                             break;
                         case 3:
+                            EnhanceStage.Enhance(Program.Inventory);
+                            Program.InventoryMenu2();
+                            Program.StatusMenu2();
+
+                            TempleStage(_player);
+                            break;
+                        case 4:
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonWarrior());
@@ -257,7 +273,7 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 4:                           
+                        case 5:                           
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new SkeletonArcher());
@@ -265,29 +281,35 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 5:
-                            for (int i = 0; i < randomIncount2; i++)
-                            {
-                                monsters.Add(new SkeletonWarrior());
-                                stageExp += monsters[i].RExp;
-                                stageGold += monsters[i].RGold;
-                            }
-                            for (int i = 0; i < randomIncount2; i++)
-                            {
-                                monsters.Add(new Dullahan());
-                                stageExp += monsters[i].RExp;
-                                stageGold += monsters[i].RGold;
-                            }
-                            break;
-                        case 6:                       
-                            for (int i = 0; i < randomIncount; i++)
-                            {
-                                monsters.Add(new Dullahan());
-                                stageExp += monsters[i].RExp;
-                                stageGold += monsters[i].RGold;
-                            }
+                        case 6:
+                            Heal.HealStage(_player);
                             break;
                         case 7:
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new SkeletonWarrior());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
+                            }
+                            for (int i = 0; i < randomIncount2; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
+                            }
+                            break;
+                        case 8:                       
+                            for (int i = 0; i < randomIncount; i++)
+                            {
+                                monsters.Add(new Dullahan());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
+                            }
+                            break;
+                        case 9:
+                            Program.ShopMenu2(_player, Program._items2);
+                            Program.InventoryMenu2();
+                            Program.StatusMenu2();
                             monsters.Add(new Lich());
                             monsters.Add(new SkeletonWarrior());
                             monsters.Add(new SkeletonArcher());
@@ -327,7 +349,14 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 3: // 1 - 3                             
+                        case 3:
+                            EnhanceStage.Enhance(Program.Inventory);
+                            Program.InventoryMenu2();
+                            Program.StatusMenu2();
+
+                            TempleStage(_player);
+                            break;
+                        case 4: // 1 - 3                             
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Drake());
@@ -341,7 +370,7 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 4: // 1 - 4                        
+                        case 5: // 1 - 4                        
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Wyvern());
@@ -349,7 +378,8 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 5: // 1 - 5                       
+
+                        case 6: // 1 - 5                       
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Wyvern());
@@ -363,7 +393,10 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 6:// 1 - 6
+                        case 7:
+                            Heal.HealStage(_player);
+                            break;
+                        case 8:// 1 - 6
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Griffin());
@@ -371,7 +404,10 @@ namespace TextDungeon
                                 stageGold += monsters[i].RGold;
                             }
                             break;
-                        case 7:// 1 - 7
+                        case 9:// 1 - 7
+                            Program.ShopMenu3(_player, Program._items3);
+                            Program.InventoryMenu2();
+                            Program.StatusMenu2();
                             monsters.Add(new Dragon());
                             stageExp += monsters[0].RExp;
                             stageGold += monsters[0].RGold;
@@ -490,6 +526,7 @@ namespace TextDungeon
 
                         if (monsters[selectedMonsterIndex].Hp <= 0)
                         {
+                            monsters[selectedMonsterIndex].Hp = 0;
                             monsters[selectedMonsterIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedMonsterIndex].Name);
                             Thread.Sleep(1000);
@@ -536,6 +573,7 @@ namespace TextDungeon
 
                         if (monsters[selectedSkillIndex].Hp <= 0)
                         {
+                            monsters[selectedSkillIndex].Hp = 0;
                             monsters[selectedSkillIndex].IsDead = true;
                             Console.WriteLine("{0}을 무찔렀습니다!\n", monsters[selectedSkillIndex].Name);
                             //Thread.Sleep(1000);
