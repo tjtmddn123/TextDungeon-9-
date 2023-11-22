@@ -30,6 +30,7 @@ namespace TextDungeon
         public int maxHp { get; set; }
         public int ExpCount { get; set; }
         public int MaxExpCount { get; set; }
+
     }
 
     internal class JsonManager
@@ -70,7 +71,6 @@ namespace TextDungeon
             insavefile.MaxExpCount = i.MaxExpCount;
 
 
-
             //string json = File.ReadAllText(relativePath);            
 
             string SerializedJsonResult = JsonConvert.SerializeObject(insavefile); //세이브를 json으로 변환시키고
@@ -104,5 +104,18 @@ namespace TextDungeon
             minstage = deserializedObject.minStage;
         }
 
+        public bool cheakJsonnull()
+        {
+            string json = File.ReadAllText(relativePath);
+            var deserializedObject = JsonConvert.DeserializeObject<SaveFile>(json);
+            if (deserializedObject == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

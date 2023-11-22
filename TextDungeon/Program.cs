@@ -432,12 +432,21 @@ namespace TextDungeon
                             Console.WriteLine("잘못된 선택입니다.");
                             break;
                     }
+                    jsonManager.SaveData(_player, Inventory,1,1);
                     break;
 
                 case 2:
-                    _player = jsonManager.LoadCharacterData();
-                    jsonManager.StageLoad(out stageNum, out minStage);
-
+                    if (jsonManager.cheakJsonnull())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("저장된 데이터가 없습니다.");
+                        GameStartScene();
+                    }
+                    else
+                    {
+                        _player = jsonManager.LoadCharacterData();
+                        jsonManager.StageLoad(out stageNum, out minStage);
+                    }                  
                     break;
             }
 
@@ -455,8 +464,8 @@ namespace TextDungeon
             Console.WriteLine("1. 상태 보기\n");
             Console.WriteLine("2. 인벤토리\n");
             Console.WriteLine("3. 던전 입장\n");
-            Console.WriteLine($"{stageNum}, {minStage}");
-            switch (CheckValidInput(1, 4))
+            Console.WriteLine($"현재 스테이지 : {stageNum} - {minStage}");
+            switch (CheckValidInput(1, 3))
             {
                 case 1:
                     StatusMenu();
@@ -465,11 +474,9 @@ namespace TextDungeon
                     InventoryMenu();
                     break;
                 case 3:
-                    newStage.Stages(_player, monsters,stageNum ,minStage);//던전입장 1은 임시번호
+                    newStage.Stages(_player, monsters,stageNum ,minStage);
                     break;
-                    case 4:
-                    jsonManager.SaveData(_player, Inventory, 2, 2); //임시저장기능
-                    break;
+                                     
             }
         }
 
