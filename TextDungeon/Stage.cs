@@ -66,8 +66,8 @@ namespace TextDungeon
 
     public class Stage
     {
-        List<string> stage1mapname = new List<string>() { "들판", "들판안쪽", "평야외곽", "호수로가는길", "호수", "호수안쪽", "호수바닥" };
-        List<string> stage2mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
+        List<string> stage1mapname = new List<string>() { "들판", "들판안쪽", "신전", "평야외곽", "호수로가는길", "회복의 샘", "호수", "호수안쪽", "상점", "호수바닥" };
+        List<string> stage2mapname = new List<string>() { "가위", "바위", "강화소", "보", "가나다", "라마바", "사아자", "차카" };
         List<string> stage3mapname = new List<string>() { "가위", "바위", "보", "가나다", "라마바", "사아자", "차카" };
 
         public int thisstagenum = 1;
