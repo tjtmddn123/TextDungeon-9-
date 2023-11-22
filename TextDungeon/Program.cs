@@ -405,9 +405,17 @@ namespace TextDungeon
                     break;
 
                 case 2:
-                    _player = jsonManager.LoadCharacterData();
-                    jsonManager.StageLoad(out stageNum, out minStage);
-
+                    if (jsonManager.cheakJsonnull())
+                    {
+                        Console.Clear();
+                        Console.WriteLine("저장된 데이터가 없습니다.");
+                        GameStartScene();
+                    }
+                    else
+                    {
+                        _player = jsonManager.LoadCharacterData();
+                        jsonManager.StageLoad(out stageNum, out minStage);
+                    }                  
                     break;
             }
 
@@ -438,7 +446,7 @@ namespace TextDungeon
                     newStage.Stages(_player, monsters,stageNum ,minStage);//던전입장 1은 임시번호
                     break;
                     case 4:
-                    jsonManager.SaveData(_player, Inventory, 2, 2); //임시저장기능
+                    
                     break;
             }
         }
