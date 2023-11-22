@@ -264,7 +264,6 @@ namespace TextDungeon
             Price = price;
             IsEquiped = isEquiped;
         }
-
         // 인벤토리 등 아이템 보이게 하는 부분임니다~!
         //여기 조절하면 배열 깔끔하게 맞출수 있음 대충 맞춰 놨는데 완벽하지 않아요!
         //지금 하지말고 추가 구현 끝나고 다 같이 맞춰 보시죠~
@@ -289,21 +288,20 @@ namespace TextDungeon
             }
             else Console.Write(PadRightForMixedText(Name, 12));
 
-            Console.Write(" | ");
+            Console.Write("   | ");
 
-            if (Atk != 0) Console.Write($"Atk {(Atk >= 0 ? "+" : "")}{Atk} ");
+            if (Atk != 0) Console.Write($"Atk {(Atk >= 0 ? "+" : "")}{Atk} \t");
             if (Def != 0) Console.Write($"Def {(Def >= 0 ? "+" : "")}{Def} ");
             if (Hp != 0) Console.Write($"Hp {(Hp >= 0 ? "+" : "")}{Hp}");
 
-            Console.Write(" |\t ");
+            Console.Write(" \t|");
 
-            Console.Write(Description + "\t");
+            Console.Write(Description + "");
 
-            Console.Write(" |\t ");
+            Console.Write(" \t|\t ");
 
             Console.WriteLine(Price + "G");
         }
-
         public static int GetPrintableLength(string str)
         {
             int length = 0;
@@ -318,10 +316,8 @@ namespace TextDungeon
                     length += 1; // 나머지 문자에 대해 길이를 1로 취급
                 }
             }
-
             return length;
         }
-
         public static string PadRightForMixedText(string str, int totalLength)
         {
             int currentLength = GetPrintableLength(str);
@@ -330,7 +326,6 @@ namespace TextDungeon
         }
 
     }
-
     internal class Program
     {
         public static Stage newStage = new Stage();
@@ -357,16 +352,10 @@ namespace TextDungeon
         public static int bonusAtk;
         public static int bonusDef;
         public static int bonusHp;
-
         static void Main(string[] args)
         {
-            
-
-           
-          StaringSleep("당신은 어릴 적 신화가 생생하게 담겨 있는 책을 보았는데.. 그 책에는 신화에서 파생된 무기, 건물, 마법, 생명체 등에 대해 묘사가 남겨져 있었다. 그리고 그 신화는 당신의 기억에 푸르게 남아서, 당신이 성인이 된 이후에도 당신은 여전히 그 책과 신화에 대해 떠올리곤 했다.\r\n\r\n그리고 당신의 성인식 날, 당신의 가족과 친구들은 당신에게 선물을 주었고, 그 중에는 당신을 지켜줄 무기와 방어구도 있었다. \r\n\r\n그 무기와 방어구는 당신의 위험을 막아주고자 준 선물이지만, 당신은 선물의 의미는 내팽겨쳤다.\r\n\r\n오히려 드디어 무기를 가지게 되었다는 생각에 행복할 뿐이였는데…\r\n\r\n당신은 위험을 감수한 채 무기와 방어구를 바로 사용해보기로 했다.\r\n\r\n바로 던전에서 말이다.\r\n\r\n그렇게 당신은 오래 전 책에서 본 신화를 찾기 위해,");
-
+          //StaringSleep("당신은 어릴 적 신화가 생생하게 담겨 있는 책을 보았는데.. 그 책에는 신화에서 파생된 무기, 건물, 마법, 생명체 등에 대해 묘사가 남겨져 있었다. 그리고 그 신화는 당신의 기억에 푸르게 남아서, 당신이 성인이 된 이후에도 당신은 여전히 그 책과 신화에 대해 떠올리곤 했다.\r\n\r\n그리고 당신의 성인식 날, 당신의 가족과 친구들은 당신에게 선물을 주었고, 그 중에는 당신을 지켜줄 무기와 방어구도 있었다. \r\n\r\n그 무기와 방어구는 당신의 위험을 막아주고자 준 선물이지만, 당신은 선물의 의미는 내팽겨쳤다.\r\n\r\n오히려 드디어 무기를 가지게 되었다는 생각에 행복할 뿐이였는데…\r\n\r\n당신은 위험을 감수한 채 무기와 방어구를 바로 사용해보기로 했다.\r\n\r\n바로 던전에서 말이다.\r\n\r\n그렇게 당신은 오래 전 책에서 본 신화를 찾기 위해,");
             swwitch();
-
              static void swwitch()
             {
                 static bool CheckIfValid2(int checkable, int min, int max)
@@ -374,7 +363,6 @@ namespace TextDungeon
                     if (min <= checkable && checkable <= max) return true;
                     return false;
                 }
-
                 static int CheckValidInput2(int min, int max)
                 {
                     int keyInput;
@@ -385,36 +373,24 @@ namespace TextDungeon
                         Console.WriteLine("1.던전으로 향한다");
 ;                        result = int.TryParse(Console.ReadLine(), out keyInput);
                     } while (result == false || CheckIfValid2(keyInput, min, max) == false);
-
                     return keyInput;
                 }
-
                 int input = CheckValidInput2(1, 3);
-
                 switch (input)
                 {
                     case 1:
                         Console.Clear();
-                        StaringSleep("신화가 담긴 책에는 지도는 없었지만, 당신이 있는 곳부터 던전까지 갈 수 있도록 길을 묘사하고 있었다. 이 말은, 돌아오는 길은 묘사가 되어있지 않다는 뜻이다.\r\n\r\n그렇지만, 당신의 열정을 누가 막을 수 있으랴.\r\n\r\n당신은 생각보다 걸음을 우선시했고, 끝내 위험천만한 길을 넘어서 던전의 입구까지 도착했다.\r\n\r\n던전의 입구는 당신이 생각한 것 보다 초라했다.\r\n\r\n던전의 입구는 책에서 나온대로 매우 칙칙하고 덩쿨이 얽혀져 있었으며, 기둥의 구성은 단조로웠고 지붕에는 오래된 문양이 있었다.\r\n\r\n매우 어두운 한밤중에 도착했기 때문에, 분위기는 매우 조용하고 음산했다.\r\n\r\n모든 것이 낡아있었지만, 당신에게는 모든 것이 새로운 광경이였으며 당신의 마음을 설레게 했다.\r\n\r\n");
+                        //StaringSleep("신화가 담긴 책에는 지도는 없었지만, 당신이 있는 곳부터 던전까지 갈 수 있도록 길을 묘사하고 있었다. 이 말은, 돌아오는 길은 묘사가 되어있지 않다는 뜻이다.\r\n\r\n그렇지만, 당신의 열정을 누가 막을 수 있으랴.\r\n\r\n당신은 생각보다 걸음을 우선시했고, 끝내 위험천만한 길을 넘어서 던전의 입구까지 도착했다.\r\n\r\n던전의 입구는 당신이 생각한 것 보다 초라했다.\r\n\r\n던전의 입구는 책에서 나온대로 매우 칙칙하고 덩쿨이 얽혀져 있었으며, 기둥의 구성은 단조로웠고 지붕에는 오래된 문양이 있었다.\r\n\r\n매우 어두운 한밤중에 도착했기 때문에, 분위기는 매우 조용하고 음산했다.\r\n\r\n모든 것이 낡아있었지만, 당신에게는 모든 것이 새로운 광경이였으며 당신의 마음을 설레게 했다.\r\n\r\n");
                         break;
                 }
             }
-
-            
-
-
-
-           
             StaringSleep("당신은 책에 나온대로\\\\");
-
             Console.WriteLine("1.입구에 다가가다");
-
             static bool CheckIfValid(int checkable, int min, int max)
             {
                 if (min <= checkable && checkable <= max) return true;
                 return false;
             }
-
             static int CheckValidInput(int min, int max)
             {
                 int keyInput;
@@ -424,36 +400,22 @@ namespace TextDungeon
                     Console.WriteLine("원하시는 행동을 입력해주세요.");
                     result = int.TryParse(Console.ReadLine(), out keyInput);
                 } while (result == false || CheckIfValid(keyInput, min, max) == false);
-
                 return keyInput;
             }
-
             int input = CheckValidInput(1, 3);
-
             switch (input)
             {
                 case 1:
                     Console.Clear();
-
                     break;
             }
-
-          
-
-
         // 스레드 시작
         ThreadPool.QueueUserWorkItem(_ =>
             {
                 audio pg = new audio();
-
                 pg.PlayOne(); //음악 실행
-
                 EventWaitHandle _ewh = new EventWaitHandle(false, EventResetMode.ManualReset);
-
-               
-
             });
-
             //캐릭터 정보 및 아이템 불러오기
             GameDataSetting();
             //1번 시작화면 이후 선택창 불러오기
@@ -463,65 +425,49 @@ namespace TextDungeon
             GameStartScene();
             //2번 메인화면 : 상태창,인벤토리,전투 로 구성되어 있음.
             StartMenu();
-
-            
-
-
-
-
-
-
-
-
-
-
         }
-
-      
-
         static void GameDataSetting()
         {
             //Inventory = new List<Item>();
-            Inventory.Add(new Item("나무 몽둥이", "나무를 꺾어만든 몽댕이", ItemType.weapon, 2, 0, 0, 0));
-            Inventory.Add(new Item("가죽 갑옷", "토끼 가죽으로 만든 간단한 갑옷, 따뜻하다.", ItemType.shirt, 0, 1, 10, 0));
+            Inventory.Add(new Item("나무 몽둥이  ", "나무를 꺾어만든 몽댕이, 손에 가시가 박힌다.    ", ItemType.weapon, 2, 0, 0, 0));
+            Inventory.Add(new Item("가죽 갑옷    ", "토끼 가죽으로 만든 간단한 갑옷, 따뜻하다.     ", ItemType.shirt, 0, 1, 10, 0));
             // 이름/ 설명/ 타입/ 공격력/ 방어력/ 체력/ 가격  
             //슬라임
-            _items1.Add(new Item("물컹한 단검", "물컹물컹 슬라임 단검, 하얗고 끈적하고 냄새나는 단검.. 날이 재대로 서있는지 모르겠다.", ItemType.weapon, 3, 0, 0, 300));
-            _items1.Add(new Item("물겅한 투구", "물컹물컹 슬라임 투구, 머리카락이 녹는 것 같다...", ItemType.helme, 0, 0, 20, 100));
-            _items1.Add(new Item("물겅한 상의", "물컹물컹 슬라임 상의, 내복이 녹아버려 살이 다 비처보인다.", ItemType.shirt, 2, 0, 0, 100));
-            _items1.Add(new Item("물겅한 하의", "물컹물컹 슬라임 하의, [성인인증이 필요합니다.]", ItemType.pants, 2, 0, 0, 100));
+            _items1.Add(new Item("물컹한 단검  ", "하얗고 끈적하고 냄새나는 단검..                ", ItemType.weapon, 3, 0, 0, 300));
+            _items1.Add(new Item("물겅한 투구  ", "머리카락이 녹는 것 같다...                         ", ItemType.helme, 0, 1, 20, 100));
+            _items1.Add(new Item("물겅한 상의  ", "내복이 녹아버려 살이 다 비처보인다. \t         ", ItemType.shirt, 0, 1, 20, 100));
+            _items1.Add(new Item("물겅한 하의  ", "[성인인증이 필요합니다.]                           ", ItemType.pants, 0, 1, 20, 100));
             //강철
-            _items1.Add(new Item("강철 검", "고블린 특제 강철 검, 투박하고 짧다. 손잡이가 더러워 만지기 싫다...", ItemType.weapon, 4, 0, 0, 400));
-            _items1.Add(new Item("강철 투구", "고블린 특제 강철 투구, 튼튼해보이지만 낡았다..", ItemType.helme, 0, 1, 20, 200));
-            _items1.Add(new Item("강철 갑옷", "고블린 특제 강철 갑옷, 튼튼하지만 조금 작다. 끼는듯..", ItemType.shirt, 2, 1, 20, 200));
-            _items1.Add(new Item("강철 하의", "고블린 특제 강철 하의, 어째선지 반바지다. 시원할 것 같다.", ItemType.pants, 2, 1, 20, 200));
+            _items1.Add(new Item("강철 검      ", "투박하고 짧다. 손잡이가 더러워 만지기 싫다...  ", ItemType.weapon, 4, 0, 0, 400));
+            _items1.Add(new Item("강철 투구    ", "튼튼해보이지만 낡았다..                           ", ItemType.helme, 0, 2, 25, 200));
+            _items1.Add(new Item("강철 갑옷    ", "튼튼하지만 조금 작다. 끼는듯..                      ", ItemType.shirt, 0, 2, 25, 200));
+            _items1.Add(new Item("강철 하의    ", "어째선지 반바지다. 시원할 것 같다.                ", ItemType.pants, 0, 2, 25, 200));
             //뼈
-            _items2.Add(new Item("뼈 창", "스켈레톤 뼈다구로 만든창, 마력이 서려 차갑다.", ItemType.weapon, 6, 0, 0, 500));
-            _items2.Add(new Item("뼈 투구", "스켈레톤 뼈다구로 만든 투구, 물을 받아 마시면 시원할 것 같다.", ItemType.helme, 0, 2, 50, 300));
-            _items2.Add(new Item("뼈 갑옷", "스켈레톤 뼈다구로 만든 갑옷, 얼기설기 엮여 시스루처럼 보인다.", ItemType.shirt, 0, 2, 50, 300));
-            _items2.Add(new Item("뼈 하의", "스켈레톤 뼈다구로 만든 하의, 움직일때마다 삐걱거려 조금 불편하다.", ItemType.pants, 0, 2, 50, 300));
+            _items2.Add(new Item("뼈 창        ", "마력이 서려 차갑다.\t                          ", ItemType.weapon, 6, 0, 0, 500));
+            _items2.Add(new Item("뼈 투구      ", "물을 받아 마시면 시원할 것 같다.                ", ItemType.helme, 0, 2, 50, 300));
+            _items2.Add(new Item("뼈 갑옷      ", "얼기설기 엮여 시스루처럼 보인다.               ", ItemType.shirt, 0, 2, 50, 300));
+            _items2.Add(new Item("뼈 하의      ", "움직일때마다 삐걱거려 조금 불편하다.            ", ItemType.pants, 0, 2, 50, 300));
             //저주받은
-            _items2.Add(new Item("저주받은 대검", "무시무시한 오라를  발산하는 검 , 간지가난다.", ItemType.weapon, 7, 0, 0, 700));
-            _items2.Add(new Item("저주받은 투구", "무시무시한 오라를  발산하는 투구, 쓰면 탈모가 올것 같다.", ItemType.helme, 0, 4, 25, 500));
-            _items2.Add(new Item("저주받은 갑옷", "무시무시한 오라를  발산하는 상의, 등드름 주의", ItemType.shirt, 0, 4, 25, 500));
-            _items2.Add(new Item("저주받은 하의", "무시무시한 오라를  발산하는 하의. 꼬무룩", ItemType.pants, 0, 4, 25, 500));
+            _items2.Add(new Item("저주받은 대검", "간지가난다.\t                                     ", ItemType.weapon, 7, 0, 0, 700));
+            _items2.Add(new Item("저주받은 투구", "쓰면 탈모가 올것 같다.                         ", ItemType.helme, 0, 4, 25, 500));
+            _items2.Add(new Item("저주받은 갑옷", "등드름 주의                                       ", ItemType.shirt, 0, 4, 25, 500));
+            _items2.Add(new Item("저주받은 하의", "꼬무룩                                              ", ItemType.pants, 0, 4, 25, 500));
             //킹룡
-            _items3.Add(new Item("킹룡 통뼈 빠따", "킹룡의 대퇴사두에 있는 뼈 크고 무겁다...", ItemType.weapon, 8, 0, 0, 900));
-            _items3.Add(new Item("킹룡 가죽 모자", "이세계 3인자 킹룡의 가죽으로 만든 모자", ItemType.helme, 0, 3, 80, 600));
-            _items3.Add(new Item("킹룡 가죽 갑옷", "이세계 3인자 킹룡의 가죽으로 만든 갑옷", ItemType.shirt, 0, 3, 80, 600));
-            _items3.Add(new Item("킹룡 가죽 바지", "이세계 3인자 킹룡의 가죽으로 만든 바지", ItemType.pants, 0, 3, 80, 600));
+            _items3.Add(new Item("킹룡통뼈 빠따", "킹룡의 대퇴사두에 있는 뼈 크고 무겁다...        ", ItemType.weapon, 8, 0, 0, 900));
+            _items3.Add(new Item("킹룡가죽 모자", "이세계 3인자 킹룡의 가죽으로 만든 모자         ", ItemType.helme, 0, 3, 80, 600));
+            _items3.Add(new Item("킹룡가죽 갑옷", "이세계 3인자 킹룡의 가죽으로 만든 갑옷          ", ItemType.shirt, 0, 3, 80, 600));
+            _items3.Add(new Item("킹룡가죽 바지", "이세계 3인자 킹룡의 가죽으로 만든 바지          ", ItemType.pants, 0, 3, 80, 600));
             //왕룡
-            _items3.Add(new Item("왕룡 뿔창", "이세계 2인자 생물의 뿔로 만든 창, 케라틴으로 이루어져 있다.", ItemType.weapon, 9, 0, 0, 1000));
-            _items3.Add(new Item("왕룡 비늘 투구", "이세계 2인자 생물의 비늘 투구. 1등을 옥상에서 밀어버리고싶은 욕구가 생긴다.", ItemType.helme, 0, 3, 90, 700));
-            _items3.Add(new Item("왕용 비늘 갑옷", "이세계 2인자 생물의 비늘 상의. 너만 없었으면!!!!", ItemType.shirt, 0, 3, 90, 700));
-            _items3.Add(new Item("왕룡 비늘 바지", "이세계 2인자 생물의 비늘 하의. 내가 1등할수있었는데!!! 너만!!", ItemType.pants, 0, 3, 90, 700));
+            _items3.Add(new Item("왕룡 뿔창    ", "왕룡뿔로 만든 창, 케라틴으로 이루어져 있다.     ", ItemType.weapon, 9, 0, 0, 1000));
+            _items3.Add(new Item("왕룡비늘 투구", "1등을 옥상에서 밀고 싶다..                       ", ItemType.helme, 0, 3, 90, 700));
+            _items3.Add(new Item("왕용비늘 갑옷", "왕룡 비늘 상의. 너만 없었으면!!!!                    ", ItemType.shirt, 0, 3, 90, 700));
+            _items3.Add(new Item("왕룡비늘 바지", "왕룡 비늘 하의. 내가 1등할수있었는데!!! 너만!!", ItemType.pants, 0, 3, 90, 700));
             //짱룡
-            _items3.Add(new Item("짱룡 이빨 창", "이세계 최강 생물의 이빨 검, 적들이 코를 부여잡고 쓰러진다.!", ItemType.weapon, 10, 0, 0, 1100));
-            _items3.Add(new Item("짱룡 역린 투구", "이세계 최강 생물의 역린 투구", ItemType.helme, 0, 5, 100, 800));
-            _items3.Add(new Item("짱룡 역린 갑옷", "이세계 최강 생물의 역린 상의", ItemType.shirt, 0, 5, 100, 800));
-            _items3.Add(new Item("짱룡 역린 바지", "이세계 최강 생물의 역린 하의", ItemType.pants, 0, 3, 100, 800));
+            _items3.Add(new Item("짱룡 이빨 창 ", "적들이 코를 부여잡고 쓰러진다.!                      ", ItemType.weapon, 10, 0, 0, 1100));
+            _items3.Add(new Item("짱룡역린 투구", "이세계 최강 생물의 역린 투구                         ", ItemType.helme, 0, 5, 100, 800));
+            _items3.Add(new Item("짱룡역린 갑옷", "이세계 최강 생물의 역린 상의                         ", ItemType.shirt, 0, 5, 100, 800));
+            _items3.Add(new Item("짱룡역린 바지", "이세계 최강 생물의 역린 하의                         ", ItemType.pants, 0, 3, 100, 800));
         }
-
         static void Intro()
         {
             //1번 시작화면 + 이후 선택창 구현(이어하기 , 새로하기)
@@ -536,7 +482,6 @@ namespace TextDungeon
             Console.ReadLine();
             Console.Clear();
         }
-
         static void GameStartScene()
         {
             // 캐릭터 이름 세팅
@@ -553,7 +498,6 @@ namespace TextDungeon
                     Console.WriteLine("\n");
                     Console.WriteLine($"이름 :{playerName}");
                     Console.Clear();
-
 
                     // 캐릭터 직업 세팅
                     Console.WriteLine(" ※원하는 직업을 선택하세요.※");
