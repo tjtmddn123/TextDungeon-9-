@@ -342,6 +342,10 @@ namespace TextDungeon
         public static int stageNum = 1;
         public static int minStage = 1;
 
+        public static int bonusAtk;
+        public static int bonusDef;
+        public static int bonusHp;
+
         static void Main(string[] args)
         {
             
@@ -526,7 +530,38 @@ namespace TextDungeon
             return false;
         }
 
-        static void StatusMenu()
+        public static void StatusMenu()
+        {
+            Console.Clear();
+
+            ShowHighlightedText("■ 상태 보기 ■");
+            Console.WriteLine("캐릭터의 정보가 표기됩니다.");
+
+            PrintTextWithHighlights("Lv. ", _player.Level.ToString("00"));
+            Console.WriteLine("");
+            Console.WriteLine("{0} ( {1} )", _player.Name, _player.Job);
+
+            PrintTextWithHighlights("공격력 : ", (_player.Atk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
+
+            PrintTextWithHighlights("방어력 : ", (_player.Def).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
+
+            PrintTextWithHighlights("체 력 : ", (_player.Hp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
+            Console.Write("마나 : ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{_player.Mp}");
+            Console.ResetColor();
+            PrintTextWithHighlights("Gold : ", _player.Gold.ToString(), "  G");
+            Console.WriteLine("");
+            Console.WriteLine("0. 뒤로가기\n");
+
+            switch (CheckValidInput(0, 0))
+            {
+                case 0:
+                    StartMenu();
+                    break;
+            }
+        }//StatusMenu()
+        public static void StatusMenu2()
         {
             Console.Clear();
 
@@ -558,7 +593,6 @@ namespace TextDungeon
             switch (CheckValidInput(0, 0))
             {
                 case 0:
-                    StartMenu();
                     break;
             }
         }//StatusMenu()
@@ -631,7 +665,32 @@ namespace TextDungeon
                     break;
             }
         }//InventoryMenu()
+        public static void InventoryMenu2()
+        {
+            Console.Clear();
 
+            ShowHighlightedText("■ 인벤토리 ■");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
+            Console.WriteLine("");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                Inventory[i].PrintItemStatDescription();
+            }
+            Console.WriteLine("");
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("1. 장착관리");
+            Console.WriteLine("");
+            switch (CheckValidInput(0, 1))
+            {
+                case 0:    
+                    
+                    break;
+                case 1:
+                    EquipMenu2();
+                    break;
+            }
+        }
         static void EquipMenu()
         {
             Console.Clear();
@@ -660,6 +719,34 @@ namespace TextDungeon
                     break;
             }
         }//EquipMenu()
+        public static void EquipMenu2()
+        {
+            Console.Clear();
+
+            ShowHighlightedText("■ 인벤토리 - 장착 관리 ■");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
+            Console.WriteLine("");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                Inventory[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+            }
+            Console.WriteLine("");
+            Console.WriteLine("0. 나가기");
+
+            int keyInput = CheckValidInput(0, Inventory.Count);
+
+            switch (keyInput)
+            {
+                case 0:
+                    InventoryMenu2();
+                    break;
+                default:
+                    ToggleEquipStatus(keyInput - 1);
+                    EquipMenu2();
+                    break;
+            }
+        }//EquipMenu()
 
         static void ToggleEquipStatus(int idx)
         {
@@ -667,9 +754,10 @@ namespace TextDungeon
 
             if (Inventory[idx].Type == ItemType.weapon)
             {
-                for(int i = 0; i< Inventory.Count; i++)
+                
+                for (int i = 0; i< Inventory.Count; i++)
                 {
-                    if(i != idx && Inventory[i] is Item)
+                    if(i != idx && Inventory[i].Type == ItemType.weapon)
                     {
                         Inventory[i].IsEquiped= false;
                     }
@@ -680,7 +768,7 @@ namespace TextDungeon
             {
                 for (int i = 0; i < Inventory.Count; i++)
                 {
-                    if (i != idx && Inventory[i] is Item)
+                    if (i != idx && Inventory[i].Type == ItemType.helme)
                     {
                         Inventory[i].IsEquiped = false;
                     }
@@ -691,7 +779,7 @@ namespace TextDungeon
             {
                 for (int i = 0; i < Inventory.Count; i++)
                 {
-                    if (i != idx && Inventory[i] is Item)
+                    if (i != idx && Inventory[i].Type == ItemType.shirt)
                     {
                         Inventory[i].IsEquiped = false;
                     }
@@ -702,12 +790,19 @@ namespace TextDungeon
             {
                 for (int i = 0; i < Inventory.Count; i++)
                 {
-                    if (i != idx && Inventory[i] is Item)
+                    if (i != idx && Inventory[i].Type == ItemType.pants)
                     {
                         Inventory[i].IsEquiped = false;
                     }
                 }
             }
+
+            bonusAtk = getSumBonusAtk();
+            bonusDef = getSumBonusDef();
+            bonusHp = getSumBonusHp();
+            _player.Atk += bonusAtk;
+            _player.Def += bonusDef;
+            _player.MaxHp += bonusHp;
         }//ToggleEquipStatus()
 
         static void ShowHighlightedText(string title)
@@ -717,7 +812,7 @@ namespace TextDungeon
             Console.ResetColor();
         }
 
-        static void ShopMenu1(Character _player, List<Item> _Items1)
+        public static void ShopMenu1(Character _player, List<Item> _Items1)
         {
             Console.Clear();
             ShowHighlightedText("■ 상점 ■");
@@ -737,7 +832,7 @@ namespace TextDungeon
             {
                 if (choice == 0)
                 {
-                    // 다음 스테이지 이어서 들어가기
+                    return;
                 }
 
                 Item selectedItem = _Items1[choice - 1];
@@ -764,7 +859,7 @@ namespace TextDungeon
             }
         }//ShopMenu1()
 
-        static void ShopMenu2(Character _player, List<Item> _Items2)
+        public static void ShopMenu2(Character _player, List<Item> _Items2)
         {
             Console.Clear();
             ShowHighlightedText("■ 상점 ■");
@@ -784,7 +879,7 @@ namespace TextDungeon
             {
                 if (choice == 0)
                 {
-                    // 다음 스테이지 이어서 들어가기
+                    return;
                 }
 
                 Item selectedItem = _Items2[choice - 1];
@@ -811,7 +906,7 @@ namespace TextDungeon
             }
         }//ShopMenu2()
 
-        static void ShopMenu3(Character _player, List<Item> _Items3)
+        public static void ShopMenu3(Character _player, List<Item> _Items3)
         {
             Console.Clear();
             ShowHighlightedText("■ 상점 ■");
@@ -831,7 +926,7 @@ namespace TextDungeon
             {
                 if (choice == 0)
                 {
-                    // 다음 스테이지 이어서 들어가기
+                    return;
                 }
 
                 Item selectedItem = _Items3[choice - 1];
