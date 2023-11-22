@@ -332,7 +332,9 @@ namespace TextDungeon
     {
         public static Stage newStage = new Stage();
         public static Character _player;
-        public static List<Item> _items = new List<Item>();
+        public static List<Item> _items1 = new List<Item>();
+        public static List<Item> _items2 = new List<Item>();
+        public static List<Item> _items3 = new List<Item>();
         public static List<Item> Inventory =  new List<Item>();
         public static List<Monster> monsters = new List<Monster>();
         public static JsonManager jsonManager = new JsonManager();
@@ -357,19 +359,44 @@ namespace TextDungeon
         static void GameDataSetting()
         {
             //Inventory = new List<Item>();
-            Inventory.Add(new Item("나무 몽둥이", "초반 무기로 이거만한게 없지", ItemType.weapon, 2, 0, 0, 50));
-            Inventory.Add(new Item("냄비 뚜껑", "엄마한테 혼남 주의", ItemType.weapon, 0, 2, 0, 50));
+            Inventory.Add(new Item("나무 몽둥이", "나무를 꺾어만든 몽댕이", ItemType.weapon, 2, 0, 0, 0));
+            Inventory.Add(new Item("가죽 갑옷", "토끼 가죽으로 만든 간단한 갑옷, 따뜻하다.", ItemType.shirt, 0, 1, 10, 0));
             // 이름/ 설명/ 타입/ 공격력/ 방어력/ 체력/ 가격  
-            //_items = new List<Item>();
-            _items.Add(new Item("낡은 검", "쉽게 볼 수 있는 낡은 검입니다.", ItemType.weapon, 2, 0, 0, 50));
-            _items.Add(new Item("짱짱 칼", "짱짱 칼이당.", ItemType.weapon, 2, 0, 0, 50));
-            _items.Add(new Item("짱짱 모자", "짱짱 모자당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 자켓", "짱짱 자켓이당.", ItemType.shirt, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 바지", "짱짱 바지당.", ItemType.pants, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 장갑", "짱짱 장갑이당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 신발", "짱짱 신발이당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 벨트", "짱짱 벨트당.", ItemType.helme, 0, 5, 0, 50));
-            _items.Add(new Item("짱짱 짱돌", "짱짱 짱..돌? 이건좀;", ItemType.weapon, 100, 0, 0, 50));
+            //슬라임
+            _items1.Add(new Item("물컹한 단검", "물컹물컹 슬라임 단검, 하얗고 끈적하고 냄새나는 단검.. 날이 재대로 서있는지 모르겠다.", ItemType.weapon, 3, 0, 0, 300));
+            _items1.Add(new Item("물겅한 투구", "물컹물컹 슬라임 투구, 머리카락이 녹는 것 같다...", ItemType.helme, 0, 0, 20, 100));
+            _items1.Add(new Item("물겅한 상의", "물컹물컹 슬라임 상의, 내복이 녹아버려 살이 다 비처보인다.", ItemType.shirt, 2, 0, 0, 100));
+            _items1.Add(new Item("물겅한 하의", "물컹물컹 슬라임 하의, [성인인증이 필요합니다.]", ItemType.pants, 2, 0, 0, 100));
+            //강철
+            _items1.Add(new Item("강철 검", "고블린 특제 강철 검, 투박하고 짧다. 손잡이가 더러워 만지기 싫다...", ItemType.weapon, 4, 0, 0, 400));
+            _items1.Add(new Item("강철 투구", "고블린 특제 강철 투구, 튼튼해보이지만 낡았다..", ItemType.helme, 0, 1, 20, 200));
+            _items1.Add(new Item("강철 갑옷", "고블린 특제 강철 갑옷, 튼튼하지만 조금 작다. 끼는듯..", ItemType.shirt, 2, 1, 20, 200));
+            _items1.Add(new Item("강철 하의", "고블린 특제 강철 하의, 어째선지 반바지다. 시원할 것 같다.", ItemType.pants, 2, 1, 20, 200));
+            //뼈
+            _items2.Add(new Item("뼈 창", "스켈레톤 뼈다구로 만든창, 마력이 서려 차갑다.", ItemType.weapon, 6, 0, 0, 500));
+            _items2.Add(new Item("뼈 투구", "스켈레톤 뼈다구로 만든 투구, 물을 받아 마시면 시원할 것 같다.", ItemType.helme, 0, 2, 50, 300));
+            _items2.Add(new Item("뼈 갑옷", "스켈레톤 뼈다구로 만든 갑옷, 얼기설기 엮여 시스루처럼 보인다.", ItemType.shirt, 0, 2, 50, 300));
+            _items2.Add(new Item("뼈 하의", "스켈레톤 뼈다구로 만든 하의, 움직일때마다 삐걱거려 조금 불편하다.", ItemType.pants, 0, 2, 50, 300));
+            //저주받은
+            _items2.Add(new Item("저주받은 대검", "무시무시한 오라를  발산하는 검 , 간지가난다.", ItemType.weapon, 7, 0, 0, 700));
+            _items2.Add(new Item("저주받은 투구", "무시무시한 오라를  발산하는 투구, 쓰면 탈모가 올것 같다.", ItemType.helme, 0, 4, 25, 500));
+            _items2.Add(new Item("저주받은 갑옷", "무시무시한 오라를  발산하는 상의, 등드름 주의", ItemType.shirt, 0, 4, 25, 500));
+            _items2.Add(new Item("저주받은 하의", "무시무시한 오라를  발산하는 하의. 꼬무룩", ItemType.pants, 0, 4, 25, 500));
+            //킹룡
+            _items3.Add(new Item("킹룡 통뼈 빠따", "킹룡의 대퇴사두에 있는 뼈 크고 무겁다...", ItemType.weapon, 8, 0, 0, 900));
+            _items3.Add(new Item("킹룡 가죽 모자", "이세계 3인자 킹룡의 가죽으로 만든 모자", ItemType.helme, 0, 3, 80, 600));
+            _items3.Add(new Item("킹룡 가죽 갑옷", "이세계 3인자 킹룡의 가죽으로 만든 갑옷", ItemType.shirt, 0, 3, 80, 600));
+            _items3.Add(new Item("킹룡 가죽 바지", "이세계 3인자 킹룡의 가죽으로 만든 바지", ItemType.pants, 0, 3, 80, 600));
+            //왕룡
+            _items3.Add(new Item("왕룡 뿔창", "이세계 2인자 생물의 뿔로 만든 창, 케라틴으로 이루어져 있다.", ItemType.weapon, 9, 0, 0, 1000));
+            _items3.Add(new Item("왕룡 비늘 투구", "이세계 2인자 생물의 비늘 투구. 1등을 옥상에서 밀어버리고싶은 욕구가 생긴다.", ItemType.helme, 0, 3, 90, 700));
+            _items3.Add(new Item("왕용 비늘 갑옷", "이세계 2인자 생물의 비늘 상의. 너만 없었으면!!!!", ItemType.shirt, 0, 3, 90, 700));
+            _items3.Add(new Item("왕룡 비늘 바지", "이세계 2인자 생물의 비늘 하의. 내가 1등할수있었는데!!! 너만!!", ItemType.pants, 0, 3, 90, 700));
+            //짱룡
+            _items3.Add(new Item("짱룡 이빨 창", "이세계 최강 생물의 이빨 검, 적들이 코를 부여잡고 쓰러진다.!", ItemType.weapon, 10, 0, 0, 1100));
+            _items3.Add(new Item("짱룡 역린 투구", "이세계 최강 생물의 역린 투구", ItemType.helme, 0, 5, 100, 800));
+            _items3.Add(new Item("짱룡 역린 갑옷", "이세계 최강 생물의 역린 상의", ItemType.shirt, 0, 5, 100, 800));
+            _items3.Add(new Item("짱룡 역린 바지", "이세계 최강 생물의 역린 하의", ItemType.pants, 0, 3, 100, 800));
         }
 
         static void Intro()
@@ -688,30 +715,30 @@ namespace TextDungeon
             Console.ResetColor();
         }
 
-        static void ShopMenu(Character _player, List<Item> _Items)
+        static void ShopMenu1(Character _player, List<Item> _Items1)
         {
             Console.Clear();
             ShowHighlightedText("■ 상점 ■");
             Console.WriteLine($"구매 할 물품을 선택하세요.     {_player.Gold}  G");
             Console.WriteLine("\n");
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < _items1.Count; i++)
             {
-                _items[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+                _items1[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
             }
             Console.WriteLine("");
             Console.WriteLine("구입할 아이템을 선택하세요");
             Console.WriteLine("0. 나가기");
 
             int.TryParse(Console.ReadLine(), out int choice);
-            if (choice >= 0 && choice <= _Items.Count)
+            if (choice >= 0 && choice <= _Items1.Count)
             {
                 if (choice == 0)
                 {
                     // 다음 스테이지 이어서 들어가기
                 }
 
-                Item selectedItem = _Items[choice - 1];
+                Item selectedItem = _Items1[choice - 1];
 
                 if (_player.Gold >= selectedItem.Price)
                 {
@@ -720,20 +747,115 @@ namespace TextDungeon
 
                     // 아이템을 플레이어의 인벤토리에 추가
                     Inventory.Add(selectedItem);
-                    _Items.Remove(selectedItem);
+                    _Items1.Remove(selectedItem);
 
                     Console.WriteLine($"{selectedItem.Name}을(를) 구입했습니다. 남은 골드: {_player.Gold}");
                     Thread.Sleep(600);
-                    ShopMenu(_player, _Items);
+                    ShopMenu1(_player, _Items1);
                 }
                 else
                 {
                     Console.WriteLine("골드가 부족하여 아이템을 구입할 수 없습니다.");
                     Thread.Sleep(600);
-                    ShopMenu(_player, _Items);
+                    ShopMenu1(_player, _Items1);
                 }
             }
+        }//ShopMenu1()
 
-        }        
+        static void ShopMenu2(Character _player, List<Item> _Items2)
+        {
+            Console.Clear();
+            ShowHighlightedText("■ 상점 ■");
+            Console.WriteLine($"구매 할 물품을 선택하세요.     {_player.Gold}  G");
+            Console.WriteLine("\n");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < _items2.Count; i++)
+            {
+                _items2[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+            }
+            Console.WriteLine("");
+            Console.WriteLine("구입할 아이템을 선택하세요");
+            Console.WriteLine("0. 나가기");
+
+            int.TryParse(Console.ReadLine(), out int choice);
+            if (choice >= 0 && choice <= _Items2.Count)
+            {
+                if (choice == 0)
+                {
+                    // 다음 스테이지 이어서 들어가기
+                }
+
+                Item selectedItem = _Items2[choice - 1];
+
+                if (_player.Gold >= selectedItem.Price)
+                {
+                    // 플레이어의 소지금에서 아이템 가격을 차감
+                    _player.Gold -= selectedItem.Price;
+
+                    // 아이템을 플레이어의 인벤토리에 추가
+                    Inventory.Add(selectedItem);
+                    _Items2.Remove(selectedItem);
+
+                    Console.WriteLine($"{selectedItem.Name}을(를) 구입했습니다. 남은 골드: {_player.Gold}");
+                    Thread.Sleep(600);
+                    ShopMenu2(_player, _Items2);
+                }
+                else
+                {
+                    Console.WriteLine("골드가 부족하여 아이템을 구입할 수 없습니다.");
+                    Thread.Sleep(600);
+                    ShopMenu2(_player, _Items2);
+                }
+            }
+        }//ShopMenu2()
+
+        static void ShopMenu3(Character _player, List<Item> _Items3)
+        {
+            Console.Clear();
+            ShowHighlightedText("■ 상점 ■");
+            Console.WriteLine($"구매 할 물품을 선택하세요.     {_player.Gold}  G");
+            Console.WriteLine("\n");
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < _items3.Count; i++)
+            {
+                _items3[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
+            }
+            Console.WriteLine("");
+            Console.WriteLine("구입할 아이템을 선택하세요");
+            Console.WriteLine("0. 나가기");
+
+            int.TryParse(Console.ReadLine(), out int choice);
+            if (choice >= 0 && choice <= _Items3.Count)
+            {
+                if (choice == 0)
+                {
+                    // 다음 스테이지 이어서 들어가기
+                }
+
+                Item selectedItem = _Items3[choice - 1];
+
+                if (_player.Gold >= selectedItem.Price)
+                {
+                    // 플레이어의 소지금에서 아이템 가격을 차감
+                    _player.Gold -= selectedItem.Price;
+
+                    // 아이템을 플레이어의 인벤토리에 추가
+                    Inventory.Add(selectedItem);
+                    _Items3.Remove(selectedItem);
+
+                    Console.WriteLine($"{selectedItem.Name}을(를) 구입했습니다. 남은 골드: {_player.Gold}");
+                    Thread.Sleep(600);
+                    ShopMenu3(_player, _Items3);
+                }
+                else
+                {
+                    Console.WriteLine("골드가 부족하여 아이템을 구입할 수 없습니다.");
+                    Thread.Sleep(600);
+                    ShopMenu3(_player, _Items3);
+                }
+            }
+        }//ShopMenu3()
+
+
     }//~
 }
