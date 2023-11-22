@@ -27,6 +27,9 @@ namespace TextDungeon
         public List<Item> Inventory { get; set; }
         public int stageNum { get; set; }
         public int minStage { get; set; }
+        public int maxHp { get; set; }
+        public int ExpCount { get; set; }
+        public int MaxExpCount { get; set; }
     }
 
     internal class JsonManager
@@ -62,6 +65,10 @@ namespace TextDungeon
             insavefile.Inventory = inven;
             insavefile.stageNum = stageNum;
             insavefile.minStage = minStage;
+            insavefile.maxHp = i.MaxHp;
+            insavefile.ExpCount = i.ExpCount;
+            insavefile.MaxExpCount = i.MaxExpCount;
+
 
 
             //string json = File.ReadAllText(relativePath);            
@@ -80,7 +87,8 @@ namespace TextDungeon
 
             return new Character(deserializedObject.Name,deserializedObject.Job,deserializedObject.Level, deserializedObject.Atk,
                 deserializedObject.Def,deserializedObject.Hp,deserializedObject.Mp,deserializedObject.Gold,
-                deserializedObject.CritChance,deserializedObject.CritiDamage,deserializedObject.Evasion);
+                deserializedObject.CritChance,deserializedObject.CritiDamage,deserializedObject.Evasion, deserializedObject.maxHp,
+                deserializedObject.ExpCount, deserializedObject.MaxExpCount);
 
 
             //로드할 때 뭐뭐 가저올지 매개변수로 받아서 바꿔줘야할것같음 팀원과 상의
