@@ -1,8 +1,11 @@
 
 using System;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using TectDungeon_Skill;
+using NAudio.Wave;
+using WMPLib;
 
 namespace TextDungeon
 {
@@ -342,6 +345,15 @@ namespace TextDungeon
         public static int stageNum = 1;
         public static int minStage = 1;
 
+        static void StaringSleep(string addSleep)
+        {
+            string inputString = addSleep;
+            foreach (char c in inputString)
+            {
+                Console.Write(c);
+                Thread.Sleep(1);
+            }
+        }
         public static int bonusAtk;
         public static int bonusDef;
         public static int bonusHp;
@@ -349,16 +361,123 @@ namespace TextDungeon
         static void Main(string[] args)
         {
             
+
+           
+          StaringSleep("당신은 어릴 적 신화가 생생하게 담겨 있는 책을 보았는데.. 그 책에는 신화에서 파생된 무기, 건물, 마법, 생명체 등에 대해 묘사가 남겨져 있었다. 그리고 그 신화는 당신의 기억에 푸르게 남아서, 당신이 성인이 된 이후에도 당신은 여전히 그 책과 신화에 대해 떠올리곤 했다.\r\n\r\n그리고 당신의 성인식 날, 당신의 가족과 친구들은 당신에게 선물을 주었고, 그 중에는 당신을 지켜줄 무기와 방어구도 있었다. \r\n\r\n그 무기와 방어구는 당신의 위험을 막아주고자 준 선물이지만, 당신은 선물의 의미는 내팽겨쳤다.\r\n\r\n오히려 드디어 무기를 가지게 되었다는 생각에 행복할 뿐이였는데…\r\n\r\n당신은 위험을 감수한 채 무기와 방어구를 바로 사용해보기로 했다.\r\n\r\n바로 던전에서 말이다.\r\n\r\n그렇게 당신은 오래 전 책에서 본 신화를 찾기 위해,");
+
+            swwitch();
+
+             static void swwitch()
+            {
+                static bool CheckIfValid2(int checkable, int min, int max)
+                {
+                    if (min <= checkable && checkable <= max) return true;
+                    return false;
+                }
+
+                static int CheckValidInput2(int min, int max)
+                {
+                    int keyInput;
+                    bool result;
+                    do
+                    {
+                        Console.WriteLine("원하시는 행동을 입력해주세요.");
+                        Console.WriteLine("1.던전으로 향한다");
+;                        result = int.TryParse(Console.ReadLine(), out keyInput);
+                    } while (result == false || CheckIfValid2(keyInput, min, max) == false);
+
+                    return keyInput;
+                }
+
+                int input = CheckValidInput2(1, 3);
+
+                switch (input)
+                {
+                    case 1:
+                        Console.Clear();
+                        StaringSleep("신화가 담긴 책에는 지도는 없었지만, 당신이 있는 곳부터 던전까지 갈 수 있도록 길을 묘사하고 있었다. 이 말은, 돌아오는 길은 묘사가 되어있지 않다는 뜻이다.\r\n\r\n그렇지만, 당신의 열정을 누가 막을 수 있으랴.\r\n\r\n당신은 생각보다 걸음을 우선시했고, 끝내 위험천만한 길을 넘어서 던전의 입구까지 도착했다.\r\n\r\n던전의 입구는 당신이 생각한 것 보다 초라했다.\r\n\r\n던전의 입구는 책에서 나온대로 매우 칙칙하고 덩쿨이 얽혀져 있었으며, 기둥의 구성은 단조로웠고 지붕에는 오래된 문양이 있었다.\r\n\r\n매우 어두운 한밤중에 도착했기 때문에, 분위기는 매우 조용하고 음산했다.\r\n\r\n모든 것이 낡아있었지만, 당신에게는 모든 것이 새로운 광경이였으며 당신의 마음을 설레게 했다.\r\n\r\n");
+                        break;
+                }
+            }
+
+            
+
+
+
+           
+            StaringSleep("당신은 책에 나온대로\\\\");
+
+            Console.WriteLine("1.입구에 다가가다");
+
+            static bool CheckIfValid(int checkable, int min, int max)
+            {
+                if (min <= checkable && checkable <= max) return true;
+                return false;
+            }
+
+            static int CheckValidInput(int min, int max)
+            {
+                int keyInput;
+                bool result;
+                do
+                {
+                    Console.WriteLine("원하시는 행동을 입력해주세요.");
+                    result = int.TryParse(Console.ReadLine(), out keyInput);
+                } while (result == false || CheckIfValid(keyInput, min, max) == false);
+
+                return keyInput;
+            }
+
+            int input = CheckValidInput(1, 3);
+
+            switch (input)
+            {
+                case 1:
+                    Console.Clear();
+
+                    break;
+            }
+
+          
+
+
+        // 스레드 시작
+        ThreadPool.QueueUserWorkItem(_ =>
+            {
+                audio pg = new audio();
+
+                pg.PlayOne(); //음악 실행
+
+                EventWaitHandle _ewh = new EventWaitHandle(false, EventResetMode.ManualReset);
+
+               
+
+            });
+
             //캐릭터 정보 및 아이템 불러오기
             GameDataSetting();
             //1번 시작화면 이후 선택창 불러오기
             Intro();
+            
             //2번 메인화면 중 이름 , 직업선택(추가 가능) 설정 받아오기.
             GameStartScene();
             //2번 메인화면 : 상태창,인벤토리,전투 로 구성되어 있음.
             StartMenu();
+
             
+
+
+
+
+
+
+
+
+
+
         }
+
+      
 
         static void GameDataSetting()
         {
@@ -421,7 +540,7 @@ namespace TextDungeon
         static void GameStartScene()
         {
             // 캐릭터 이름 세팅
-            Console.WriteLine("아케이드 마을에 오신 여러분 환영합니다."); //변경사항
+            Console.WriteLine("던전에 오신 당신을 환영합니다."); //변경사항
             Console.WriteLine("1.새로하기"); 
             Console.WriteLine("2.이어하기");
             int inin = CheckValidInput(1, 2);
@@ -488,7 +607,7 @@ namespace TextDungeon
             Console.Clear();
 
             Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-            Console.WriteLine("아케이드 마을에 오신 여러분 환영합니다."); //변경사항
+            Console.WriteLine("던전에 오신 여러분 환영합니다."); //변경사항
             Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
             Console.WriteLine("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
             Console.WriteLine("");
@@ -704,6 +823,7 @@ namespace TextDungeon
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < Inventory.Count; i++)
+
             {
                 Inventory[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
             }

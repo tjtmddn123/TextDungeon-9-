@@ -51,6 +51,19 @@
     * 1스테이지 들판, 2스테이지 동굴, 3스테이지 협곡
     * 각각의 스테이지는 총 N개의 서브스테이지가 존재하여 진행하는 방식이다.  \
          -예) 1 - 1, 2 - 4, 3 - 7 등이 있다. 
+    * 던전 진행도중 만나게 되는 특수 스테이지들이 있는데 그 스테이지는 신전,강화소,회복샘,상점이 있다.
+
+* 게임 진행(신전)
+    * 기도를 하거나 그냥 지나칠 수 있다.
+
+* 게임 진행(강화소)
+    * 아이템을 1회 한해 강화 할 수 있다.
+
+* 게임 진행(회복샘)
+    * 플레이어의 체력을 최대치로 회복한다.
+
+* 게임 진행(상점)
+    * 각 스테이지에 맞는 상점이 등장하며 아이템을 구매 할 수 있다.
 
 
 ##  기술 스택
@@ -116,32 +129,64 @@ __인벤토리__
 
 __장착 관리__  
 
-![dungeon](/TextDungeon/Images/td8.png)
+![EquipMenu](/TextDungeon/Images/td8.png)
 
 * 장착시 아이템 앞에 [E] 표시
 
-![dungeon](/TextDungeon/Images/td9.png)
+![Equip](/TextDungeon/Images/td9.png)
 
 * 아이템 스텟 반영
 
-![dungeon](/TextDungeon/Images/td10.png)
+![Equip](/TextDungeon/Images/td10.png)
 
 <br/>
 
 __던전__
 
-![HardUnlocked](/TextDungeon/Images/td11.png)
-<br/>   
+![Dungeon](/TextDungeon/Images/td11.png)
+<br/>
 
+__신전__
+
+![Temple](/TextDungeon/Images/td12.png)
+<br/>
+
+__회복샘__
+
+![Temple](/TextDungeon/Images/td13.png)
+<br/>
+
+__강화소__
+
+![Enhance](/TextDungeon/Images/td17.png)
+<br/>
+
+__상점(1스테이지)__
+
+![Shop1](/TextDungeon/Images/td14.png)
+<br/>
+
+__상점(2스테이지)__
+
+![Shop2](/TextDungeon/Images/td15.png)
+<br/>
+
+__상점(3스테이지)__
+
+![Shop3](/TextDungeon/Images/td16.png)
+<br/>
 
 ## 프로젝트 시 일어난 문제와 해결  
 
 ### 프로젝트
 
-__문제__:  
+__문제__:
+작업한 내용이 겹쳤을때 알아보기 힘들고 그걸 합치는일이 어려웠다. 
  
 
-__결과__:  
+__결과 및 해결__:
+결국 다같이 모여서 화면공유를 통해 수정의 수정을 거듭해서 하나로 만들어 냈다.
+코드컨벤션의 중요성도 알게되는 문제였다.
 
 
 ### GitHub  
