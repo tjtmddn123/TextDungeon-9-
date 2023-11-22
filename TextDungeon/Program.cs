@@ -573,14 +573,11 @@ namespace TextDungeon
             Console.WriteLine("");
             Console.WriteLine("{0} ( {1} )", _player.Name, _player.Job);
 
-            int bonusAtk = getSumBonusAtk();
-            PrintTextWithHighlights("공격력 : ", (_player.Atk += bonusAtk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
+            PrintTextWithHighlights("공격력 : ", (_player.Atk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
 
-            int bonusDef = getSumBonusDef();
-            PrintTextWithHighlights("방어력 : ", (_player.Def += bonusDef).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
+            PrintTextWithHighlights("방어력 : ", (_player.Def).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
 
-            int bonusHp = getSumBonusHp();
-            PrintTextWithHighlights("체 력 : ", (_player.MaxHp += bonusHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
+            PrintTextWithHighlights("체 력 : ", (_player.MaxHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
             Console.WriteLine($"현재 체력 : {_player.Hp}");
             Console.Write("마나 : ");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -683,8 +680,7 @@ namespace TextDungeon
             Console.WriteLine("");
             switch (CheckValidInput(0, 1))
             {
-                case 0:    
-                    
+                case 0:                     
                     break;
                 case 1:
                     EquipMenu2();
@@ -700,6 +696,7 @@ namespace TextDungeon
             Console.WriteLine("");
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < Inventory.Count; i++)
+
             {
                 Inventory[i].PrintItemStatDescription(true, i + 1); // 1, 2, 3에 매핑하기 위해 +1
             }
