@@ -538,6 +538,7 @@ namespace TextDungeon
             Console.WriteLine("캐릭터의 정보가 표기됩니다.");
 
             PrintTextWithHighlights("Lv. ", _player.Level.ToString("00"));
+            Console.WriteLine($"Exp : {_player.ExpCount} / {_player.MaxExpCount}");
             Console.WriteLine("");
             Console.WriteLine("{0} ( {1} )", _player.Name, _player.Job);
 
@@ -546,6 +547,7 @@ namespace TextDungeon
             PrintTextWithHighlights("방어력 : ", (_player.Def).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
 
             PrintTextWithHighlights("체 력 : ", (_player.Hp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
+            Console.WriteLine($"현재 체력 : {_player.Hp}");
             Console.Write("마나 : ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"{_player.Mp}");
@@ -573,14 +575,12 @@ namespace TextDungeon
             Console.WriteLine("");
             Console.WriteLine("{0} ( {1} )", _player.Name, _player.Job);
 
-            int bonusAtk = getSumBonusAtk();
-            PrintTextWithHighlights("공격력 : ", (_player.Atk += bonusAtk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
 
-            int bonusDef = getSumBonusDef();
-            PrintTextWithHighlights("방어력 : ", (_player.Def += bonusDef).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
+            PrintTextWithHighlights("공격력 : ", (_player.Atk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
 
-            int bonusHp = getSumBonusHp();
-            PrintTextWithHighlights("체 력 : ", (_player.MaxHp += bonusHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
+            PrintTextWithHighlights("방어력 : ", (_player.Def).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
+
+            PrintTextWithHighlights("체 력 : ", (_player.MaxHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
             Console.WriteLine($"현재 체력 : {_player.Hp}");
             Console.Write("마나 : ");
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -638,7 +638,12 @@ namespace TextDungeon
             Console.ResetColor();
             Console.WriteLine(s3);
         }
-
+        public static void PrintTextWithHighlights1(string s1)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(s1);
+            Console.ResetColor();
+        }
         static void InventoryMenu()
         {
             Console.Clear();
@@ -684,7 +689,6 @@ namespace TextDungeon
             switch (CheckValidInput(0, 1))
             {
                 case 0:    
-                    
                     break;
                 case 1:
                     EquipMenu2();
