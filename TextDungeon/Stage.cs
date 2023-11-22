@@ -76,6 +76,10 @@ namespace TextDungeon
         public static int minStage = Program.minStage;
         int mapListIndex = 0;
         int stageMapName = 1;
+
+        public static int stageExp = 0;
+        public static int stageGold = 0;
+
         //스테이지 클래스 내부의 전투 메서드 중 플레이어의 턴 부분
         //투하는 부분에서 플레이어의 공격 시에 치명타 확률을 고려하여
         //랜덤하게 치명타가 발생하면 공격력을 두 배로 적용
@@ -122,9 +126,11 @@ namespace TextDungeon
 
         public void StageSet(Character _player, List<Monster> monsters, int stagenum, int minstage) // 스테이지에 따라 몬스터를 다르게 배치할 수 있도록, 여기서 세팅한다.
         {
-
+            stageExp = 0;
+            stageGold = 0;
             int randomIncount = new Random().Next(1, 4); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
             int randomIncount2 = new Random().Next(1, 2); // 각 스테이지의 몬스터 수를 랜덤하게 설정한다.
+
 
             monsters.Clear();
             switch (stagenum)
@@ -137,55 +143,77 @@ namespace TextDungeon
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Slime());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             } // 스테이지 마다 분리해서 
                             break;
                         case 2: // 1 - 2
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Slime());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             } 
                             break;
                         case 3: // 1 - 3
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Slime());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             } 
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             } 
                             break;
                         case 4: // 1 - 4
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Goblin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 5: // 1 - 5                      
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Orc());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 6: // 1 - 6                    
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Orc());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             } 
                             break;
                         case 7:// 1 - 7
                             monsters.Add(new GoblinLord());
+                            stageExp += monsters[0].RExp;
+                            stageGold += monsters[0].RGold;
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Goblin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                     }
@@ -197,54 +225,80 @@ namespace TextDungeon
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new SkeletonWarrior());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 2: // 2 - 2
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonWarrior());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonArcher());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 3:
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonWarrior());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonArcher());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 4:                           
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new SkeletonArcher());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 5:
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new SkeletonWarrior());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Dullahan());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 6:                       
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Dullahan());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 7:
                             monsters.Add(new Lich());
                             monsters.Add(new SkeletonWarrior());
                             monsters.Add(new SkeletonArcher());
+                            stageExp += monsters[0].RExp;
+                            stageGold += monsters[0].RGold;
+                            stageExp += monsters[1].RExp;
+                            stageGold += monsters[1].RGold;
+                            stageExp += monsters[2].RExp;
+                            stageGold += monsters[2].RGold;
+
+
                             break;
                     }
                     break;
@@ -255,52 +309,72 @@ namespace TextDungeon
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Drake());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 2: // 1 - 2
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Drake());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Wyvern());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 3: // 1 - 3                             
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Drake());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Wyvern());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 4: // 1 - 4                        
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Wyvern());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 5: // 1 - 5                       
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Wyvern());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             for (int i = 0; i < randomIncount2; i++)
                             {
                                 monsters.Add(new Griffin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 6:// 1 - 6
                             for (int i = 0; i < randomIncount; i++)
                             {
                                 monsters.Add(new Griffin());
+                                stageExp += monsters[i].RExp;
+                                stageGold += monsters[i].RGold;
                             }
                             break;
                         case 7:// 1 - 7
                             monsters.Add(new Dragon());
+                            stageExp += monsters[0].RExp;
+                            stageGold += monsters[0].RGold;
                             break;
                     }
                     break;
@@ -513,9 +587,20 @@ namespace TextDungeon
             while (!_player.IsDead && monsters.Any(monsters => !monsters.IsDead));
             //Any는 LINQ의 기능입니다. 요소가 하나이상이라도 있으면 true을 반환하고, 비어있으면 false를 반환합니다. // monsters의 리스트 에서 isDead가 false인 몬스터가 하나이상 있는지
             // 확인하려는 용도로 사용했습니다. 즉 살아남은 몬스터가 하나이상 존재한다면 true를 다 죽었다면 false를 반환합니다.
-
             if (monsters.Any(monsters => monsters.IsDead))
             {
+                if (_player.MaxExpCount <= _player.ExpCount)
+                {
+                    Console.WriteLine("레벨이 올랐습니다.");
+                    _player.Level++;
+                    _player.ExpCount -= _player.MaxExpCount;
+                    _player.MaxExpCount *= _player.Level;
+                }
+
+                _player.ExpCount += stageExp;
+                _player.Gold += stageGold;
+
+                Console.WriteLine("");
                 if (minStage == 7)
                 {
                     stageNum++;
