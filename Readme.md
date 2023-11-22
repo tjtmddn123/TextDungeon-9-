@@ -79,7 +79,7 @@
 
 ## 시연 영상
 
-[프로젝트 시연영상] https://www.
+[프로젝트 시연영상] https://www.youtube.com/watch?v=Z1o6cnVp-N4
 
 ## 구현한 기능
 
