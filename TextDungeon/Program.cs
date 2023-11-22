@@ -12,22 +12,23 @@ namespace TextDungeon
     {
         public string Name { get; }
         public string Job { get; }
-        public int Level { get; }
-        public int Atk { get; }
-        public int Def { get; }
+        public int Level { get; set; }
+        public int Atk { get; set; }
+        public int Def { get; set; }
         public int Hp { get; set; }
         public int Mp { get; set; } // MP 변수 추가
         public int Gold { get; set; }
         public bool IsDead { get; set; }
-        public double CritChance { get; }  //치확
-        public double CritiDamage { get; }  //크댐
-        public double Evasion { get; } // 회피율 
+        public double CritChance { get; set; }  //치확
+        public double CritiDamage { get; set; }  //크댐
+        public double Evasion { get; set; } // 회피율 
+        public int MaxHp {  get; set; } // 최대 체력 - 회복샘에서 회복되는 최대 hp값
 
         //캐릭터 클래스에 치명타 확률 및 치명타 공격력의 정보를 추가하고,
         //전투 시에 이를 고려하여 확률에 따라 치명타가 발생
         //캐릭터 클래스에 Evasion 변수를 추가하고 매개변수로 전달
 
-        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold, double critChance, double critiDamage, double evasion)
+        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold, double critChance, double critiDamage, double evasion, int maxHp)
         {
             Name = name;
             Job = job;
@@ -40,6 +41,7 @@ namespace TextDungeon
             CritChance = critChance;
             CritiDamage = critiDamage;
             Evasion = evasion;
+            MaxHp = maxHp;
         }
     }
 
@@ -53,9 +55,22 @@ namespace TextDungeon
         public int Atk { get; set; }
         public bool IsDead { get; set; }
     }
+
+    //1스테이지
+    public class Slime : Monster
+    {
+        public Slime()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "슬라임";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
     public class Goblin : Monster
     {
-        
         public Goblin()
         {
             int randomMonsterHp = new Random().Next(20, 25);
@@ -66,9 +81,114 @@ namespace TextDungeon
         }
     }
 
+    public class Orc : Monster
+    {
+        public Orc()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "오크";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
+    public class GoblinLord : Monster
+    {
+        public GoblinLord()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "고블린로드";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+    //2스테이지
+    public class SkeletonWarrior : Monster
+    {
+        public SkeletonWarrior()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "해골병사";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
+    public class SkeletonArcher : Monster
+    {
+        public SkeletonArcher()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "해골궁수";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
+    public class Dullahan : Monster
+    {
+        public Dullahan()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "듀라한";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
+    public class Lich : Monster
+    {
+        public Lich()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "리치";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+
+    //3스테이지
+    public class Drake : Monster
+    {
+        public Drake()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "드레이크";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+    public class Wyvern : Monster
+    {
+        public Wyvern()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "와이번";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
+    public class Griffin : Monster
+    {
+        public Griffin()
+        {
+            int randomMonsterHp = new Random().Next(20, 25);
+            int randomMonsterAtk = new Random().Next(2, 5);
+            Name = "그리핀";
+            Hp = randomMonsterHp;
+            Atk = randomMonsterAtk;
+        }
+    }
     public class Dragon : Monster
     {
-
         public Dragon()
         {
             int randomMonsterHp = new Random().Next(20, 25);
@@ -185,9 +305,6 @@ namespace TextDungeon
         public static List<Item> Inventory =  new List<Item>();
         public static List<Monster> monsters = new List<Monster>();
         public static JsonManager jsonManager = new JsonManager();
-        //public static Goblin _goblin;  몬스터 는 리스트 monsters에 생성시켜준다.
-        //public static Dragon _dragon;
-
         public bool IsDead = false;
         public static int stageNum = 1;
         public static int minStage = 1;
@@ -269,15 +386,16 @@ namespace TextDungeon
                     switch (input)
                     //여기에도 크확 크댐 추가.
                     //회피율도 추가
+                    // MaxHp값 추가 함. 
                     {
                         case 1:
-                            _player = new Character($"{playerName}", "전사", 1, 100, 10, 150, 10, 1500, 0.5, 2, 0.5);
+                            _player = new Character($"{playerName}", "전사", 1, 100, 10, 150, 10, 1500, 0.5, 2, 0.5, 150);
                             break;
                         case 2:
-                            _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5);
+                            _player = new Character($"{playerName}", "궁수", 1, 10, 5, 80, 10, 1500, 0.5, 2, 0.5, 80);
                             break;
                         case 3:
-                            _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5);
+                            _player = new Character($"{playerName}", "도적", 1, 10, 7, 77, 10, 7777, 0.5, 2, 0.5, 77);
                             break;
                         default:
                             Console.WriteLine("잘못된 선택입니다.");
@@ -289,6 +407,7 @@ namespace TextDungeon
                 case 2:
                     _player = jsonManager.LoadCharacterData();
                     jsonManager.StageLoad(out stageNum, out minStage);
+
                     break;
             }
 
@@ -355,14 +474,17 @@ namespace TextDungeon
             Console.WriteLine("{0} ( {1} )", _player.Name, _player.Job);
 
             int bonusAtk = getSumBonusAtk();
-            PrintTextWithHighlights("공격력 : ", (_player.Atk + bonusAtk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
+            PrintTextWithHighlights("공격력 : ", (_player.Atk += bonusAtk).ToString(), bonusAtk > 0 ? string.Format(" (+{0})", bonusAtk) : "");
 
             int bonusDef = getSumBonusDef();
-            PrintTextWithHighlights("방어력 : ", (_player.Def + bonusDef).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
+            PrintTextWithHighlights("방어력 : ", (_player.Def += bonusDef).ToString(), bonusDef > 0 ? string.Format(" (+{0})", bonusDef) : "");
 
             int bonusHp = getSumBonusHp();
-            PrintTextWithHighlights("체 력 : ", (_player.Hp + bonusHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
-
+            PrintTextWithHighlights("체 력 : ", (_player.Hp += bonusHp).ToString(), bonusHp > 0 ? string.Format(" (+{0})", bonusHp) : "");
+            Console.Write("마나 : ");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"{_player.Mp}");
+            Console.ResetColor();
             PrintTextWithHighlights("Gold : ", _player.Gold.ToString(), "  G");
             Console.WriteLine("");
             Console.WriteLine("0. 뒤로가기\n");
