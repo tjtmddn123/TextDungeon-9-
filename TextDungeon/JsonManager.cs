@@ -109,8 +109,6 @@ namespace TextDungeon
             {
                 return false;
             }
-            
         }
-
     }
 }
