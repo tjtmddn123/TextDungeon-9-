@@ -32,7 +32,7 @@ namespace TextDungeon
         public void PlayOne()
         {
 
-            string mp3Path = @"celtic-7136.mp3";
+            string mp3Path = @"jangcungdong-wangjogbalbossam-remix.mp3";
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string relativePath = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", mp3Path));
             
@@ -43,7 +43,7 @@ namespace TextDungeon
                 wavePlayer.Init(reader);
 
                 wavePlayer.Play();
-                wavePlayer.Volume = 0.01f;
+                wavePlayer.Volume = 0.1f;
 
                while (true)
                 {
