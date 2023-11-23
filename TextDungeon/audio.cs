@@ -32,7 +32,7 @@ namespace TextDungeon
         public void PlayOne()
         {
 
-            string mp3Path = @"jangcungdong-wangjogbalbossam-remix.mp3";
+            string mp3Path = @"kingdom-of-fantasy-version-60s-10817.mp3";
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string relativePath = Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", mp3Path));
             
@@ -43,7 +43,7 @@ namespace TextDungeon
                 wavePlayer.Init(reader);
 
                 wavePlayer.Play();
-                wavePlayer.Volume = 0.1f;
+                wavePlayer.Volume = 0.05f;
 
                while (true)
                 {
